@@ -44,3 +44,6 @@ function spriteControl(dt)
 	end
 end
 
+function drawSprite()
+	love.graphics.circle("fill", sprite.posX, sprite.posY, sprite.size)
+end
