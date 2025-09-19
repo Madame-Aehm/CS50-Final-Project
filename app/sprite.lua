@@ -1,8 +1,13 @@
-sprite = {
+local posX = love.graphics.getWidth() / 2 - 20
+local posY = 100
+
+local SpriteUtils = {}
+
+SpriteUtils.sprite = {
 	speed = 400,
 	size = 20,
-	posX = love.graphics.getWidth() / 2 - 20,
-	posY = 100,
+	posX = posX,
+	posY = posY,
 
 	moveRight = function (self, dt)
 		if self.posX < love.graphics.getWidth() - self.size then
@@ -29,21 +34,23 @@ sprite = {
 	end
 }
 
-function spriteControl(dt) 
+function SpriteUtils.spriteControl(dt) 
 	if love.keyboard.isDown("right") then
-		sprite.moveRight(sprite, dt)
+		SpriteUtils.sprite.moveRight(SpriteUtils.sprite, dt)
 	end
 	if love.keyboard.isDown("left") then
-		sprite.moveLeft(sprite, dt)
+		SpriteUtils.sprite.moveLeft(SpriteUtils.sprite, dt)
 	end
 	if love.keyboard.isDown("down") then
-		sprite.moveDown(sprite, dt)
+		SpriteUtils.sprite.moveDown(SpriteUtils.sprite, dt)
 	end
 	if love.keyboard.isDown("up") then
-		sprite.moveUp(sprite, dt)
+		SpriteUtils.sprite.moveUp(SpriteUtils.sprite, dt)
 	end
 end
 
-function drawSprite()
-	love.graphics.circle("fill", sprite.posX, sprite.posY, sprite.size)
+function SpriteUtils.drawSprite()
+	love.graphics.circle("fill", SpriteUtils.sprite.posX, SpriteUtils.sprite.posY, SpriteUtils.sprite.size)
 end
+
+return SpriteUtils

@@ -6,6 +6,14 @@
 	"Lua.runtime.version": "LuaJIT",
 	"Lua.workspace.checkThirdParty": false,
 	"Lua.diagnostics.globals": [
-		"love"
+		"love",
+		"font"
+	],
+	"cSpell.words": [
+		"activeinput",
+		"byteoffset",
+		"keypressed",
+		"mousepressed",
+		"textinput"
 	],
 }
