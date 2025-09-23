@@ -3,6 +3,7 @@ io.stdout:setvbuf("no")
 local utils = require("utils")
 local PoliceStation = require("policestation")
 local SpriteUtils = require("sprite")
+-- require("/lib/sqlite3");
 
 function love.load()
 	font = love.graphics.newFont(20)
@@ -20,6 +21,8 @@ function love.draw()
 	else
 		utils.drawBuilding("Police Station", false)
 		utils.drawBuilding("Bakery", true)
+		utils.drawBuilding("Gym", false, 220)
+		utils.drawBuilding("University", true, 220)
 	end
 	
 end
