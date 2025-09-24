@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}{% endblock %}</title>
+    <link href="/static/assets/favicon.ico" rel="icon">
+    <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+    <h1>hello!!!</h1>
+    <a href="/police-station">
+        <img id="police-station-img" src="../static/assets/police-station.png" alt="">
+    </a>
+
+    <script src="../static/index.js"></script>
+    {% block body %}{% endblock %}
+</body>
+</html>
