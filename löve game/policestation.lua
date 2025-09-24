@@ -4,8 +4,11 @@ local PoliceStation = {}
 
 local activeinput = ""
 local inputs = {
-    {label = "Date (DDMMYYYY):", yStart = 10, value = "", activeKey = "date"},
-    {label = "Location:", yStart = 100, value = "", activeKey = "location"}
+    -- {label = "Date (DDMMYYYY):", value = "", activeKey = "date"},
+	{label = "Day (1-31):", value = "", activeKey = "day"},
+	{label = "Month (1-12):", value = "", activeKey = "month"},
+	{label = "Year (YYYY):", value = "", activeKey = "year"},
+    {label = "Location:", value = "", activeKey = "location"}
 }
 
 local function handleSubmit()
@@ -14,15 +17,21 @@ local function handleSubmit()
 		print(v["label"], v["value"])
 	end
 
-	local year = string.sub(inputs[1].value, 5, 8)
-	local month = string.sub(inputs[1].value, 3, 4)
-	local day = string.sub(inputs[1].value, 1, 2)
-	local location = inputs[2].value
+	local day = tonumber(inputs[1].value)
+	local month = tonumber(inputs[2].value)
+	local year = tonumber(inputs[3].value)
+	local street = inputs[4].value
 
-	query = [=[
+	local query = [=[
 		SELECT * FROM crime_scene_reports
-		WHERE street = ']=] .. location .. [=[';
-	]=]
+		WHERE ]=]
+			..  [=[ street = ']=] .. street .. [=[']=]
+			..  [=[ AND year = ]=] .. year
+			..  [=[ AND month = ]=] .. month
+			..  [=[ AND day = ]=] .. day
+			.. [=[;]=]
+
+	print("Executing query:", query)
 
 	local results = utils.queryDB(query)
 	if #results > 0 then
@@ -94,9 +103,13 @@ function PoliceStation.inPoliceStation()
 
     utils.drawBuilding("Police Station", false)
 
+	local inputYStart = 10
     for i, v in ipairs(inputs) do
+		inputs[i]["yStart"] = inputYStart
         utils.makeInput(inputs[i], activeinput == v["activeKey"])
+		inputYStart = inputYStart + 90
     end
+
 	utils.makeSubmitButton(
 		"Submit", 
 		inputs,
