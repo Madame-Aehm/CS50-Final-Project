@@ -1,0 +1,38 @@
+.find-list {
+    text-align: left;
+}
+
+.spacing {
+    width: 80%;
+    max-width: 800px;
+    padding: 5em 5em;
+}
+
+img {
+    max-width: 100px;
+}
+
+.link-container {
+    padding: 2em;
+}
+
+.link-container:hover {
+    padding: -2em;
+}
+
+@media (max-width: 600px) {
+    .spacing {
+        width: 90%;
+        padding: 2em 2em;
+    }
+
+    img {
+        max-width: 75px;
+    }
+}
+
+@media (hover: hover) {
+    a:hover {
+        font-weight: bold;
+    }
+}

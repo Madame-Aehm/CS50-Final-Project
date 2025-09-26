@@ -5,15 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}{% endblock %}</title>
     <link href="/static/assets/favicon.ico" rel="icon">
-    <link rel="stylesheet" href="/static/styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Jersey+15&display=swap" rel="stylesheet">
+    <!-- <link rel="stylesheet" href="/static/styles.css"> -->
+    <link rel="stylesheet" href="{{ url_for('static',filename='style/global.css') }}">
+    {% block stylesheet %}{% endblock %}
 </head>
 <body>
-    <h1>hello!!!</h1>
-    <a href="/police-station">
-        <img id="police-station-img" src="../static/assets/police-station.png" alt="">
-    </a>
-
-    <script src="../static/index.js"></script>
     {% block body %}{% endblock %}
+    <script src="../static/index.js"></script>
 </body>
 </html>
