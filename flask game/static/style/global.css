@@ -50,9 +50,46 @@ body {
 }
 
 .clue-control {
-    border: solid black 1px;
-    padding: 1em;
+    cursor: pointer;
     position: fixed;
     bottom: 1em;
     right: 1em;
+}
+
+.model-container {
+    background-color: rgba(255, 255, 255, 0.8);
+    position: fixed;
+    top: 0;
+    left: 0;
+    min-width: 100vw;
+}
+
+.model-body {
+    min-width: 80vw;
+    height: 90dvh;
+    padding: 1em;
+    display: flex;
+    flex-direction: column;
+}
+
+.close-model {
+    cursor: pointer;
+    align-self: flex-end;
+}
+
+.model-content {
+    overflow-y: auto;
+    flex-grow: 1;
+    text-align: left;
+    margin-top: 1em;
+}
+
+.hidden {
+    display: none;
+}
+
+@media (hover: hover) {
+    .clue-control:hover {
+        font-weight: bold;
+    }
 }

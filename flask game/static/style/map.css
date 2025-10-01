@@ -7,9 +7,10 @@
 
 .road {
     grid-area: road;
-    background-color: #A9A9A9;
-    border-left: 2px solid black;
-    border-right: 2px solid black;
+    background-image: url('../assets/road.png');
+    background-position: center center;
+    background-repeat: repeat;
+    background-size: 100%;
     height: 100vh;
 }
 

@@ -2,6 +2,13 @@
 
 {% block body %}
     {% block content %}{% endblock %}
-    <div class="clue-control">clues</div>
-    <div class="clue-model"></div>
+    <div class="clue-control pixel-box" id="clue-control">clues</div>
+    <div class="model-container fullscreen-center hidden" id="clue-model">
+        <div class="pixel-box model-body">
+            <div class="material-icons close-model" id="close-model">close</div>
+            <div class="model-content">
+                
+            </div>
+        </div>
+    </div>
 {% endblock %}
