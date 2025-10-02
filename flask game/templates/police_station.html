@@ -1,11 +1,27 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    <h1>inside police station</h1>
-</body>
-</html>
+{% extends "clues-wrapper.html" %}
+
+{% block title %}
+    Police Station
+{% endblock %}
+
+{% block stylesheet %}
+    <link rel="stylesheet" href="{{ url_for('static',filename='style/police-station.css') }}">
+{% endblock %}
+
+{% block content %}
+    <h1>Police Station</h1>
+    <div class="page-container">
+        <div>
+            <h2>Search reports:</h2>
+            <form action="" method="POST">
+                <input type="number" placeholder="Day" max="31" min="1">
+                <input type="number" placeholder="Month" max="12" min="1">
+                <input type="number" placeholder="Year" max="2025" min="2000">
+                <input type="text" placeholder="Street">
+            </form>
+        </div>
+        <div>
+            <h3>Search interviews:</h3>
+        </div>
+    </div>
+{% endblock %}

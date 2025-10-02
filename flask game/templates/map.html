@@ -11,9 +11,11 @@
 {% block content %}
     <div class="map-grid">
         <div class="left">
-            <img 
-                src="{{url_for('static', filename='/assets/police-station.png')}}" 
-                alt="A pixel-art police station building">
+            <a href="/police-station">
+                <img 
+                    src="{{url_for('static', filename='/assets/police-station.png')}}" 
+                    alt="A pixel-art police station building">
+            </a>
         </div>
         <div class="road"></div>
         <div class="right">

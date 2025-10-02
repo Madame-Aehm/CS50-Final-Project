@@ -66,6 +66,7 @@ body {
 
 .model-body {
     min-width: 80vw;
+    max-width: 90vw;
     height: 90dvh;
     padding: 1em;
     display: flex;
@@ -88,8 +89,30 @@ body {
     display: none;
 }
 
+.spacing {
+    width: 90%;
+    max-width: 800px;
+    padding: 5em 5em;
+}
+
+@media (max-width: 600px) {
+    .model-body {
+        min-width: 90vw;
+        padding: 0.5em;
+    }
+    
+    ul {
+        padding-inline-start: 20px;
+    }
+}
+
 @media (hover: hover) {
+    .clue-control {
+        transition: transform 0.3s;
+    }
+
     .clue-control:hover {
-        font-weight: bold;
+        transform: scale(1.05);
+        transition: transform 0.3s;
     }
 }

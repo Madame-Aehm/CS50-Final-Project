@@ -27,3 +27,19 @@
 .right img {
     max-width: 80%;
 }
+
+a {
+    text-align: center;
+}
+
+@media (hover: hover) {
+    img {
+        transition: transform 0.3s;
+    }
+
+    img:hover {
+        transform: scale(1.05);
+        transition: transform 0.3s;
+        cursor: pointer;
+    }
+}
