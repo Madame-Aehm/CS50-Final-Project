@@ -14,10 +14,12 @@
         <div>
             <h2>Search reports:</h2>
             <form action="" method="POST">
-                <input type="number" placeholder="Day" max="31" min="1">
-                <input type="number" placeholder="Month" max="12" min="1">
-                <input type="number" placeholder="Year" max="2025" min="2000">
-                <input type="text" placeholder="Street">
+                <input name="id" type="hidden" value="reports" >
+                <input name="day" type="number" placeholder="Day" max="31" min="1">
+                <input name="month" type="number" placeholder="Month" max="12" min="1">
+                <input name="year" type="number" placeholder="Year" max="2025" min="2000">
+                <input name="street" type="text" placeholder="Street">
+                <button type="submit">search</button>
             </form>
         </div>
         <div>
