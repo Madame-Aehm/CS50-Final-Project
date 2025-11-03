@@ -1,0 +1,18 @@
+{% extends "layout.html" %}
+
+{% block stylesheet %}
+    <link rel="stylesheet" href="{{ url_for('static',filename='style/error.css') }}">
+{% endblock %}
+
+{% block body %}
+
+    <div class="fullscreen-center">
+        <div class="spacing">
+            <h1>Error</h1>
+            <h3>Something went wrong 🫠</h3>
+            <p>{{ message }}</p>
+            <button onclick="history.back()">Go Back</button>
+        </div>
+    </div>
+
+{% endblock %}
