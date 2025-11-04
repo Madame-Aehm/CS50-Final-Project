@@ -43,11 +43,11 @@ def police_station():
     
 @app.route("/get-reports", methods=["POST"])
 def get_reports():
-    day = request.form.get("day")
-    month = request.form.get("month")
-    year = request.form.get("year")
+    date = request.form.get("date")
     street = request.form.get("street")
-    if day and month and year and street:
+    print("THIS IS DATE", date)
+    if date and street:
+        year, month, day = date.split("-")
         supabase = create_client(
             os.getenv("SUPABASE_URL"), 
             os.getenv("SUPABASE_KEY"))
@@ -61,15 +61,13 @@ def get_reports():
         )
         print("RESPONSE", response.data)
         return render_template("police_station.html",
-                        prev_values={"day": day, "month": month, "year": year, "street": street},
+                        prev_values={"date": date, "street": street},
                         data=response.data)
     else: 
         message = f"""
             All values are required.
             {validate_values([
-                ("day", day), 
-                ("month", month), 
-                ("year", year), 
+                ("date", date), 
                 ("street", street)])}
         """
         return render_template("error.html", message=message)

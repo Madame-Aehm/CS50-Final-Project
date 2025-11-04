@@ -16,6 +16,11 @@ h1 {
     padding: 1em;
 }
 
+form {
+    display: flex;
+    justify-content: space-evenly;
+}
+
 .input-group {
     display: flex;
     flex-direction: column;
