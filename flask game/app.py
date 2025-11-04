@@ -41,33 +41,35 @@ def police_station():
     if request.method == "GET":
         return render_template("police_station.html")
     
-    if request.method == "POST":
-        if (request.form.get("id") == "reports"):
-            day = request.form.get("day")
-            month = request.form.get("month")
-            year = request.form.get("year")
-            street = request.form.get("street")
-            if day and month and year and street:
-                supabase = create_client(
-                    os.getenv("SUPABASE_URL"), 
-                    os.getenv("SUPABASE_KEY"))
-                response = (supabase.table("crime_scene_reports")
-                    .select()
-                    .eq("street", street)  
-                    .eq("day", int(day))
-                    .eq("month", int(month))
-                    .eq("year", int(year))
-                    .execute()
-                )
-            else: 
-                message = f"""
-                All values are required.
-                {validate_values([
-                    ("day", day), 
-                    ("month", month), 
-                    ("year", year), 
-                    ("street", street)])}
-                """
-                return render_template("error.html", message=message)
-        return redirect("/police-station")
-    
+@app.route("/get-reports", methods=["POST"])
+def get_reports():
+    day = request.form.get("day")
+    month = request.form.get("month")
+    year = request.form.get("year")
+    street = request.form.get("street")
+    if day and month and year and street:
+        supabase = create_client(
+            os.getenv("SUPABASE_URL"), 
+            os.getenv("SUPABASE_KEY"))
+        response = (supabase.table("crime_scene_reports")
+            .select()
+            .eq("street", street)  
+            .eq("day", int(day))
+            .eq("month", int(month))
+            .eq("year", int(year))
+            .execute()
+        )
+        print("RESPONSE", response.data)
+        return render_template("police_station.html",
+                        prev_values={"day": day, "month": month, "year": year, "street": street},
+                        data=response.data)
+    else: 
+        message = f"""
+            All values are required.
+            {validate_values([
+                ("day", day), 
+                ("month", month), 
+                ("year", year), 
+                ("street", street)])}
+        """
+        return render_template("error.html", message=message)

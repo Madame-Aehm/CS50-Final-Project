@@ -13,17 +13,52 @@
     <div class="page-container">
         <div>
             <h2>Search reports:</h2>
-            <form action="" method="POST">
-                <input name="id" type="hidden" value="reports" >
-                <input name="day" type="number" placeholder="Day" max="31" min="1">
-                <input name="month" type="number" placeholder="Month" max="12" min="1">
-                <input name="year" type="number" placeholder="Year" max="2025" min="2000">
-                <input name="street" type="text" placeholder="Street">
+            <form action="/get-reports" method="POST">
+                <div class="input-group">
+                    <label for="report-year">Year:</label>
+                    <input id="report-year" name="year" type="number" placeholder="Year" max="2025" min="2000" value="{{ prev_values['year'] if prev_values else '' }}">
+                </div>
+                <div class="input-group">
+                    <label for="report-month">Month:</label>
+                    <input name="month" type="number" placeholder="Month" max="12" min="1" value="{{ prev_values['month'] if prev_values else '' }}">
+                </div>
+                
+                <input name="day" type="number" placeholder="Day" max="31" min="1" value="{{ prev_values['day'] if prev_values else '' }}">
+                <input name="street" type="text" placeholder="Street" value="{{ prev_values['street'] if prev_values else '' }}">
                 <button type="submit">search</button>
             </form>
         </div>
         <div>
             <h3>Search interviews:</h3>
         </div>
+        <div>
+            {% if data != None %}
+                <table>
+                    <thead>
+                        <tr>
+                            <th>date</th>
+                            <th>street</th>
+                            <th>description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% if data|count > 0 %}
+                            {% for row in data %}
+                                <tr>
+                                    <td>{{ row.year }}-{{ row.month }}-{{ row.day }}</td>
+                                    <td>{{ row.street }}</td>
+                                    <td>{{ row.description }}</td>
+                                </tr>
+                            {% endfor %}
+                        {% else %}
+                            <tr>
+                                <td align="center" colspan="3">No results, try again!</td>
+                            </tr>
+                        {% endif %}
+                    </tbody>
+                </table>
+            {% endif %}
+        </div>
+        <div></div>
     </div>
 {% endblock %}
