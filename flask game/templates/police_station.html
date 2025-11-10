@@ -44,7 +44,10 @@
                                 <tr>
                                     <td>{{ row.year }}-{{ row.month }}-{{ row.day }}</td>
                                     <td>{{ row.street }}</td>
-                                    <td>{{ row.description }}</td>
+                                    <td>
+                                        {{ row.description }}
+                                        <button onclick="addToClues('crime scene reports', '{{ row.description }}')">Add to clues</button>
+                                    </td>
                                 </tr>
                             {% endfor %}
                         {% else %}
