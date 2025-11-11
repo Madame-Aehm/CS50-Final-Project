@@ -1,4 +1,7 @@
 # python -m flask --app app run
+
+# .venv/Scripts/activate
+# cd "flask game"
 # python -m flask --app app run --debug
 
 from flask import Flask, render_template, request, redirect
