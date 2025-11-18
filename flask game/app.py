@@ -46,14 +46,14 @@ def police_station():
     
 @app.route("/get-reports", methods=["POST"])
 def get_reports():
-    date = request.form.get("date")
-    street = request.form.get("street")
-    print("THIS IS DATE", date)
-    if date and street:
+    date = request.form.get("report-date")
+    if date: 
         year, month, day = date.split("-")
-        supabase = create_client(
+    street = request.form.get("street")
+    supabase = create_client(
             os.getenv("SUPABASE_URL"), 
             os.getenv("SUPABASE_KEY"))
+    if date and street:
         response = (supabase.table("crime_scene_reports")
             .select()
             .eq("street", street)  
@@ -62,15 +62,65 @@ def get_reports():
             .eq("year", int(year))
             .execute()
         )
-        print("RESPONSE", response.data)
-        return render_template("police_station.html",
-                        prev_values={"date": date, "street": street},
-                        data=response.data)
-    else: 
-        message = f"""
-            All values are required.
-            {validate_values([
-                ("date", date), 
-                ("street", street)])}
-        """
-        return render_template("error.html", message=message)
+    elif date:
+        response = (supabase.table("crime_scene_reports")
+            .select()  
+            .eq("day", int(day))
+            .eq("month", int(month))
+            .eq("year", int(year))
+            .execute()
+        )
+    elif street:
+        response = (supabase.table("crime_scene_reports")
+            .select().eq("street", street).execute()
+        )
+    else:
+        response = (supabase.table("crime_scene_reports").select().execute())
+    return render_template("police_station.html",
+        prev_values={"report-date": date, "street": street},
+        reportData=response.data)
+    # else: 
+    #     message = f"""
+    #         All values are required.
+    #         {validate_values([
+    #             ("date", date), 
+    #             ("street", street)])}
+    #     """
+    #     return render_template("error.html", message=message)
+
+@app.route("/get-interviews", methods=["POST"])
+def get_interviews():
+    date = request.form.get("date")
+    if date: 
+        year, month, day = date.split("-")
+    keyword = request.form.get("keyword")
+    supabase = create_client(
+        os.getenv("SUPABASE_URL"), 
+        os.getenv("SUPABASE_KEY"))
+    if date and keyword:
+        response = (supabase.table("interviews")
+            .select() 
+            .eq("day", int(day))
+            .eq("month", int(month))
+            .eq("year", int(year))
+            .like("transcript", f"%{keyword}%")
+            .execute()
+        )
+    elif date:
+        response = (supabase.table("interviews")
+            .select()  
+            .eq("day", int(day))
+            .eq("month", int(month))
+            .eq("year", int(year))
+            .execute()
+        )
+    elif keyword:
+        response = (supabase.table("interviews")
+            .select() 
+            .like("transcript", f"%{keyword}%")
+            .execute())
+    else:
+        response = (supabase.table("interviews").select().execute())
+    return render_template("police_station.html",
+        prev_values={"interviews-date": date, "keyword": keyword},
+        interviewsData=response.data)

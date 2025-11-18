@@ -22,7 +22,7 @@ function addEventControllers () {
     modelBody.addEventListener("click", (e) => e.stopPropagation())
 }
 
-function addToClues (category, clue) {
+function addToClues(category, clue) {
     let list = localStorage.getItem(category);
     if (list) {
         list = JSON.parse(list);
@@ -31,10 +31,18 @@ function addToClues (category, clue) {
         localStorage.setItem(category, JSON.stringify(list));
     } else {
         localStorage.setItem(category, JSON.stringify([clue]));
-        
     }
     buildClueList();
     alert("clue added");
+}
+
+function removeFromClues(category, clue) {
+    let list = localStorage.getItem(category);
+    if (list) {
+        list = JSON.parse(list).filter(e => e !== clue);
+        localStorage.setItem(category, JSON.stringify(list));
+        buildClueList();
+    } else alert("Problem removing clue..");
 }
 
 function buildClueList() {
@@ -53,7 +61,13 @@ function buildClueList() {
         const items = JSON.parse(localStorage.getItem(cat));
         items.forEach(i => {
             const li = document.createElement("li");
-            li.innerHTML = i;
+            const clue = document.createElement("span");
+            clue.innerHTML = i + "   ";
+            const button = document.createElement("button");
+            button.innerHTML = "x";
+            button.title = "Remove from clues";
+            button.addEventListener("click", () => removeFromClues(cat, i));
+            li.append(clue, button);
             ul.appendChild(li);
         })
         modelContent.append(title, ul);

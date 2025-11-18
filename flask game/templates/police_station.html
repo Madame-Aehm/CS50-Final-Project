@@ -16,49 +16,102 @@
             <form action="/get-reports" method="POST">
                 <div class="input-group">
                     <label for="report-date">Date:</label>
-                    <input id="report-date" name="date" type="date" max="2024-08-01" min="2024-01-01" value="{{ prev_values['date'] if prev_values else '' }}">
+                    <input 
+                        id="report-date" 
+                        name="date" 
+                        type="date" 
+                        max="2024-08-01" 
+                        min="2024-01-01" 
+                        value="{{ prev_values['report-date'] if prev_values else '' }}">
                 </div>
                 <div class="input-group">
                     <label for="report-street">Street:</label>
-                    <input name="street" type="text" placeholder="Street" value="{{ prev_values['street'] if prev_values else '' }}">
+                    <input 
+                        id="report-street"
+                        name="street" 
+                        type="text" 
+                        placeholder="Street" 
+                        value="{{ prev_values['street'] if prev_values else '' }}">
                 </div>
                 <button type="submit">search</button>
             </form>
+            <div>
+            {% if reportData != None %}
+                {% if reportData|count > 0 %}
+                    <ul>
+                        {% for row in reportData %}
+                            <li>
+                                <i>{{ row.day }}-{{ row.month }}-{{ row.year }} on {{ row.street }}</i>
+                                <p>
+                                    {{ row.description }} 
+                                    <button 
+                                            title="Add to clues"
+                                            onclick="addToClues(
+                                                'crime scene reports', 
+                                                '{{ row.day }}-{{ row.month }}-{{ row.year }} on {{ row.street }}: {{ row.description }}'
+                                            )"
+                                    >+</button>
+                                </p>
+                                <hr>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                {% else %}
+                    <p>No results - try again!</p>
+                {% endif %}
+            {% endif %}
+        </div>
         </div>
         <div>
             <h2>Search interviews:</h2>
-        </div>
-        <div>
-            {% if data != None %}
-                <table>
-                    <thead>
-                        <tr>
-                            <th>date</th>
-                            <th>street</th>
-                            <th>description</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% if data|count > 0 %}
-                            {% for row in data %}
-                                <tr>
-                                    <td>{{ row.year }}-{{ row.month }}-{{ row.day }}</td>
-                                    <td>{{ row.street }}</td>
-                                    <td>
-                                        {{ row.description }}
-                                        <button onclick="addToClues('crime scene reports', '{{ row.description }}')">Add to clues</button>
-                                    </td>
-                                </tr>
+            <form action="/get-interviews" method="POST">
+                <div class="input-group">
+                    <label for="interviews-date">Date:</label>
+                    <input 
+                        id="interviews-date" 
+                        name="date" 
+                        type="date" 
+                        max="2024-08-01" 
+                        min="2024-01-01" 
+                        value="{{ prev_values['interviews-date'] if prev_values else '' }}">
+                </div>
+                <div class="input-group">
+                    <label for="keyword">Street:</label>
+                    <input 
+                        id="keyword"
+                        name="keyword" 
+                        type="text" 
+                        placeholder="Search by keyword" 
+                        value="{{ prev_values['keyword'] if prev_values else '' }}">
+                </div>
+                <button type="submit">search</button>
+            </form>
+            <div>
+                {% if interviewsData != None %}
+                    {% if interviewsData|count > 0 %}
+                        <ul>
+                            {% for row in interviewsData %}
+                                <li>
+                                    <i>{{ row.day }}-{{ row.month }}-{{ row.year }}</i>
+                                    <p>
+                                        {{ row.transcript }} 
+                                        <button 
+                                                title="Add to clues"
+                                                onclick="addToClues(
+                                                    'interviews', 
+                                                    '{{ row.day }}-{{ row.month }}-{{ row.year }}: {{ row.description }}'
+                                                )"
+                                        >+</button>
+                                    </p>
+                                    <hr>
+                                </li>
                             {% endfor %}
-                        {% else %}
-                            <tr>
-                                <td align="center" colspan="3">No results, try again!</td>
-                            </tr>
-                        {% endif %}
-                    </tbody>
-                </table>
-            {% endif %}
+                        </ul>
+                    {% else %}
+                        <p>No results - try again!</p>
+                    {% endif %}
+                {% endif %}
+            </div>
         </div>
-        <div></div>
     </div>
 {% endblock %}
