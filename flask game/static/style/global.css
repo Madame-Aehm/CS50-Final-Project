@@ -62,6 +62,7 @@ body {
     top: 0;
     left: 0;
     min-width: 100vw;
+    z-index: 3;
 }
 
 .model-body {

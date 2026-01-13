@@ -40,7 +40,8 @@ function removeFromClues(category, clue) {
     let list = localStorage.getItem(category);
     if (list) {
         list = JSON.parse(list).filter(e => e !== clue);
-        localStorage.setItem(category, JSON.stringify(list));
+        if (list.length === 0) localStorage.removeItem(category);
+        else localStorage.setItem(category, JSON.stringify(list));
         buildClueList();
     } else alert("Problem removing clue..");
 }

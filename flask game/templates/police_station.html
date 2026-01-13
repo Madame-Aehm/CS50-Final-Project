@@ -1,4 +1,4 @@
-{% extends "clues-wrapper.html" %}
+{% extends "clues_wrapper.html" %}
 
 {% block title %}
     Police Station
@@ -11,32 +11,39 @@
 {% block content %}
     <h1>Police Station</h1>
     <div class="page-container">
-        <div>
-            <h2>Search reports:</h2>
-            <form action="/get-reports" method="POST">
-                <div class="input-group">
-                    <label for="report-date">Date:</label>
-                    <input 
-                        id="report-date" 
-                        name="date" 
-                        type="date" 
-                        max="2024-08-01" 
-                        min="2024-01-01" 
-                        value="{{ prev_values['report-date'] if prev_values else '' }}">
-                </div>
-                <div class="input-group">
-                    <label for="report-street">Street:</label>
-                    <input 
-                        id="report-street"
-                        name="street" 
-                        type="text" 
-                        placeholder="Street" 
-                        value="{{ prev_values['street'] if prev_values else '' }}">
-                </div>
-                <button type="submit">search</button>
-            </form>
+        <h2>How can we help you today? 👮‍♀️</h2>
+        <form action="/police-station" method="POST">
+            <div class="input-group">
+                <label for="table">Search:</label>
+                <select name="table" id="table">
+                    <option value="reports">Police Reports</option>
+                    <option value="interviews">Police interviews</option>
+                </select>
+            </div>
+            <div class="input-group">
+                <label for="date">Date:</label>
+                <input 
+                    id="date" 
+                    name="date" 
+                    type="date" 
+                    max="2024-08-01" 
+                    min="2024-01-01" 
+                    value="{{ prev_values['date'] if prev_values else '' }}">
+            </div>
+            <div class="input-group">
+                <label for="string">Street:</label>
+                <input 
+                    id="string"
+                    name="string" 
+                    type="text" 
+                    placeholder="Street" 
+                    value="{{ prev_values['string'] if prev_values else '' }}">
+            </div>
+            <button class="pixel-box" type="submit">search</button>
+        </form>
+        {% if reportData != None or interviewsData != None %}
             <div>
-            {% if reportData != None %}
+                <h2>Results:</h2>
                 {% if reportData|count > 0 %}
                     <ul>
                         {% for row in reportData %}
@@ -56,62 +63,56 @@
                             </li>
                         {% endfor %}
                     </ul>
+                {% elif interviewsData|count > 0 %}
+                    <ul>
+                        {% for row in interviewsData %}
+                            <li>
+                                <i>{{ row.day }}-{{ row.month }}-{{ row.year }}, {{ row.name }}:</i>
+                                <p>
+                                    {{ row.transcript }} 
+                                    <button 
+                                            title="Add to clues"
+                                            onclick="addToClues(
+                                                'interviews', 
+                                                '{{ row.day }}-{{ row.month }}-{{ row.year }}, {{ row.name }}: {{ row.transcript }}'
+                                            )"
+                                    >+</button>
+                                </p>
+                                <hr>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                {% else %}
+                    <p>No results - try again!</p>
+                {% endif %}
+                </div>
+            {% endif %}
+        <!-- <div>
+            {% if interviewsData != None %}
+                {% if interviewsData|count > 0 %}
+                    <ul>
+                        {% for row in interviewsData %}
+                            <li>
+                                <i>{{ row.day }}-{{ row.month }}-{{ row.year }}</i>
+                                <p>
+                                    {{ row.transcript }} 
+                                    <button 
+                                            title="Add to clues"
+                                            onclick="addToClues(
+                                                'interviews', 
+                                                '{{ row.day }}-{{ row.month }}-{{ row.year }}: {{ row.description }}'
+                                            )"
+                                    >+</button>
+                                </p>
+                                <hr>
+                            </li>
+                        {% endfor %}
+                    </ul>
                 {% else %}
                     <p>No results - try again!</p>
                 {% endif %}
             {% endif %}
-        </div>
-        </div>
-        <div>
-            <h2>Search interviews:</h2>
-            <form action="/get-interviews" method="POST">
-                <div class="input-group">
-                    <label for="interviews-date">Date:</label>
-                    <input 
-                        id="interviews-date" 
-                        name="date" 
-                        type="date" 
-                        max="2024-08-01" 
-                        min="2024-01-01" 
-                        value="{{ prev_values['interviews-date'] if prev_values else '' }}">
-                </div>
-                <div class="input-group">
-                    <label for="keyword">Street:</label>
-                    <input 
-                        id="keyword"
-                        name="keyword" 
-                        type="text" 
-                        placeholder="Search by keyword" 
-                        value="{{ prev_values['keyword'] if prev_values else '' }}">
-                </div>
-                <button type="submit">search</button>
-            </form>
-            <div>
-                {% if interviewsData != None %}
-                    {% if interviewsData|count > 0 %}
-                        <ul>
-                            {% for row in interviewsData %}
-                                <li>
-                                    <i>{{ row.day }}-{{ row.month }}-{{ row.year }}</i>
-                                    <p>
-                                        {{ row.transcript }} 
-                                        <button 
-                                                title="Add to clues"
-                                                onclick="addToClues(
-                                                    'interviews', 
-                                                    '{{ row.day }}-{{ row.month }}-{{ row.year }}: {{ row.description }}'
-                                                )"
-                                        >+</button>
-                                    </p>
-                                    <hr>
-                                </li>
-                            {% endfor %}
-                        </ul>
-                    {% else %}
-                        <p>No results - try again!</p>
-                    {% endif %}
-                {% endif %}
-            </div>
-        </div>
+        </div> -->
     </div>
+    <script src="../static/js/police_station.js"></script>
 {% endblock %}
