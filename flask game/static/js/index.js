@@ -49,9 +49,11 @@ function removeFromClues(category, clue) {
 function buildClueList() {
     const modelContent = document.querySelector(".model-content");
     modelContent.innerHTML = `<ul id="clue-list">
-                        <li>
-                            The theft took place on July 28, 2024 and that it took place on Humphrey Street.
-                            Maybe start by checking for reports in the police station?
+                        <li class="pixel-box list-item">
+                            <p>
+                                The theft took place on July 28, 2024 and that it took place on Humphrey Street.
+                                Maybe start by checking for reports in the police station?
+                            </p>
                         </li>
                     </ul>`;
     const categories = Object.keys(localStorage);
@@ -61,15 +63,18 @@ function buildClueList() {
         title.innerHTML = cat;
         const items = JSON.parse(localStorage.getItem(cat));
         items.forEach(i => {
+            console.log("i is", i)
             const li = document.createElement("li");
-            const clue = document.createElement("span");
-            clue.innerHTML = i + "   ";
-            const button = document.createElement("button");
-            button.innerHTML = "x";
-            button.title = "Remove from clues";
-            button.addEventListener("click", () => removeFromClues(cat, i));
-            li.append(clue, button);
+            li.classList.add("pixel-box", "list-item");
             ul.appendChild(li);
+            const p = document.createElement("p");
+            p.innerHTML = i;
+            const button = document.createElement("button");
+            button.classList.add("pixel-box", "icon-button")
+            button.innerHTML = "x";
+            button.title = "Forget clue";
+            button.addEventListener("click", () => removeFromClues(cat, i));
+            li.append(button, p);
         })
         modelContent.append(title, ul);
     })

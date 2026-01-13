@@ -17,13 +17,8 @@ def validate_values(values):
 
 
 def escape_strings(list, pos):
-    print("BEFORE", list)
     for i in range(0, len(list)):
-        # print("BEFORE IN LOOP", list[i][pos])
-        list[i][pos] = list[i][pos].replace("'", "&apos;")
-        # list[i][pos].replace('"', '\"')
-        # print("AFTER IN LOOP", list[i][pos])
-    print("AFTER", list)
+        list[i][pos] = list[i][pos].replace("'", "’")
     return list
 
 
@@ -37,8 +32,8 @@ def get_police_reports(form):
             os.getenv("SUPABASE_KEY"))
         if date and street:
             response = (supabase.table("crime_scene_reports")
-                .select()
-                .eq("street", street)  
+                .select("*")
+                .eq("street", street)
                 .eq("day", int(day))
                 .eq("month", int(month))
                 .eq("year", int(year))

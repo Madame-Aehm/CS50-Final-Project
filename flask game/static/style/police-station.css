@@ -28,13 +28,6 @@ form {
     margin-bottom: 1em;
 }
 
-button {
-    cursor: pointer;
-    font-family: "Jersey 15", sans-serif;
-    font-weight: 400;
-    font-style: normal;
-}
-
 ul, h3 {
     margin: 0;
 }
@@ -43,21 +36,6 @@ ul, h3 {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-}
-
-.list-item {
-    display: flex;
-    flex-direction: column;
-    margin-bottom: 1em;
-}
-
-.list-item button {
-    align-self: flex-end;
-}
-
-.list-item p {
-    text-align: left;
-    margin-top: 0;
 }
 
 table, th, td {
@@ -80,17 +58,5 @@ td {
     form {
         display: grid;
         grid-template-columns: auto;
-    }
-}
-
-
-@media (hover: hover) {
-    button {
-        transition: transform 0.3s;
-    }
-
-    button:hover {
-        transform: scale(1.05);
-        transition: transform 0.3s;
     }
 }

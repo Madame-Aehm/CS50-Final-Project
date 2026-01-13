@@ -5,6 +5,13 @@ body {
     margin: 0;
 }
 
+button {
+    cursor: pointer;
+    font-family: "Jersey 15", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+}
+
 .pixel-box {
     color: black;
     text-align: center;
@@ -64,7 +71,7 @@ body {
 }
 
 .model-container {
-    background-color: rgba(255, 255, 255, 0.8);
+    background-color: rgba(255, 255, 255, 0.9);
     position: fixed;
     top: 0;
     left: 0;
@@ -89,9 +96,33 @@ body {
 
 .model-content {
     overflow-y: auto;
+    overscroll-behavior-y: contain;
     flex-grow: 1;
     text-align: left;
     margin-top: 1em;
+}
+
+.model-content ul {
+    padding: 0;
+}
+
+.model-content li {
+    list-style: none;
+}
+
+.list-item {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 1em;
+}
+
+.list-item button {
+    align-self: flex-end;
+}
+
+.list-item p {
+    text-align: left;
+    margin: 0;
 }
 
 .hidden {
@@ -121,11 +152,11 @@ body {
 }
 
 @media (hover: hover) {
-    .clue-control, .link-container {
+    .clue-control, .link-container, button {
         transition: transform 0.3s;
     }
 
-    .clue-control:hover, .link-container:hover {
+    .clue-control:hover, .link-container:hover, button:hover {
         transform: scale(1.05);
         transition: transform 0.3s;
     }
