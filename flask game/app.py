@@ -45,10 +45,10 @@ def police_station():
         try:
             prev_values = {
                 "date": request.form.get("date"), 
-                "string": request.form.get("string")
+                "string": request.form.get("string"),
+                "table": request.form.get("table")
             }
-            table = request.form.get("table")
-            if table == "reports":
+            if prev_values["table"] == "reports":
                 data = get_police_reports(prev_values)
                 return render_template("police_station.html",
                     prev_values=prev_values,

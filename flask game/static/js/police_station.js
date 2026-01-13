@@ -5,10 +5,10 @@ select.addEventListener("change", (e) => {
   const label = document.querySelector("label[for='string']");
   const input = document.querySelector("#string");
   if (e.target.value === "interviews") {
-    label.innerHTML = "Keyword";
+    label.innerHTML = "Keyword:";
     input.setAttribute("placeholder", "Keyword");
   } else {
-    label.innerHTML = "Street";
+    label.innerHTML = "Street:";
     input.setAttribute("placeholder", "Street");
   }
 })

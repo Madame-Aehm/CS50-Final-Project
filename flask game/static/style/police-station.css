@@ -13,9 +13,12 @@ h1 {
     display: flex;
     flex-direction: column;
     gap: 1em;
-    border: solid black 1px;
     margin: 0 1em;
     padding: 1em;
+}
+
+.page-container li {
+    list-style: none;
 }
 
 form {
@@ -30,13 +33,31 @@ button {
     font-family: "Jersey 15", sans-serif;
     font-weight: 400;
     font-style: normal;
-    z-index: -1;
+}
+
+ul, h3 {
+    margin: 0;
 }
 
 .input-group {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
+}
+
+.list-item {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 1em;
+}
+
+.list-item button {
+    align-self: flex-end;
+}
+
+.list-item p {
+    text-align: left;
+    margin-top: 0;
 }
 
 table, th, td {

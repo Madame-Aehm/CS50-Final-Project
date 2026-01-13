@@ -49,6 +49,13 @@ body {
     align-items: center;
 }
 
+.link-container {
+    padding-bottom: 2em;
+    padding-top: 1em;
+    display: flex;
+    justify-content: center;
+}
+
 .clue-control {
     cursor: pointer;
     position: fixed;
@@ -97,6 +104,10 @@ body {
     padding: 5em 5em;
 }
 
+.icon-button {
+    width: 1.5rem;
+}
+
 @media (max-width: 600px) {
     .model-body {
         /* max-width: 90vw; */
@@ -110,11 +121,11 @@ body {
 }
 
 @media (hover: hover) {
-    .clue-control {
+    .clue-control, .link-container {
         transition: transform 0.3s;
     }
 
-    .clue-control:hover {
+    .clue-control:hover, .link-container:hover {
         transform: scale(1.05);
         transition: transform 0.3s;
     }

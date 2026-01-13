@@ -15,9 +15,14 @@
         <form action="/police-station" method="POST">
             <div class="input-group">
                 <label for="table">Search:</label>
-                <select name="table" id="table">
-                    <option value="reports">Police Reports</option>
-                    <option value="interviews">Police interviews</option>
+                <select name="table" id="table" value="{{ prev_values['table'] if prev_values else 'reports' }}">
+                    {% if prev_values and prev_values.table == "interviews" %}
+                        <option value="interviews">Police Interviews</option>
+                        <option value="reports">Police Reports</option>
+                    {% else %}
+                        <option value="reports">Police Reports</option>
+                        <option value="interviews">Police Interviews</option>
+                    {% endif %}
                 </select>
             </div>
             <div class="input-group">
@@ -31,88 +36,69 @@
                     value="{{ prev_values['date'] if prev_values else '' }}">
             </div>
             <div class="input-group">
-                <label for="string">Street:</label>
+                <label for="string">
+                    {% if prev_values and prev_values.table == "interviews" %}
+                        Keyword:
+                    {% else %}
+                        Street:
+                    {% endif %}
+                </label>
                 <input 
                     id="string"
                     name="string" 
                     type="text" 
-                    placeholder="Street" 
+                    placeholder="{{ 'Keyword' if prev_values.table == 'interviews' else 'Street' }}" 
                     value="{{ prev_values['string'] if prev_values else '' }}">
             </div>
             <button class="pixel-box" type="submit">search</button>
         </form>
+        <div class="link-container">
+            <a class="pixel-box" href="/map">Back to the map</a>
+        </div>
         {% if reportData != None or interviewsData != None %}
             <div>
-                <h2>Results:</h2>
+                <h3>Results:</h3>
                 {% if reportData|count > 0 %}
                     <ul>
                         {% for row in reportData %}
-                            <li>
-                                <i>{{ row.day }}-{{ row.month }}-{{ row.year }} on {{ row.street }}</i>
-                                <p>
-                                    {{ row.description }} 
-                                    <button 
-                                            title="Add to clues"
-                                            onclick="addToClues(
-                                                'crime scene reports', 
-                                                '{{ row.day }}-{{ row.month }}-{{ row.year }} on {{ row.street }}: {{ row.description }}'
-                                            )"
-                                    >+</button>
-                                </p>
-                                <hr>
+                            <li class="pixel-box list-item">
+                                <button 
+                                    class="pixel-box icon-button"
+                                    title="Save clue"
+                                    onclick="addToClues(
+                                        'crime scene reports', 
+                                        '{{ row.day }}-{{ row.month }}-{{ row.year }} on {{ row.street }}: {{ row.description }}'
+                                    )"
+                                >+</button>
+                                <p>When: {{ row.day }}-{{ row.month }}-{{ row.year }}</p>
+                                <p>Where: {{ row.street }}</p>
+                                <p>{{ row.description }}</p>
                             </li>
                         {% endfor %}
                     </ul>
                 {% elif interviewsData|count > 0 %}
                     <ul>
                         {% for row in interviewsData %}
-                            <li>
-                                <i>{{ row.day }}-{{ row.month }}-{{ row.year }}, {{ row.name }}:</i>
-                                <p>
-                                    {{ row.transcript }} 
-                                    <button 
-                                            title="Add to clues"
-                                            onclick="addToClues(
-                                                'interviews', 
-                                                '{{ row.day }}-{{ row.month }}-{{ row.year }}, {{ row.name }}: {{ row.transcript }}'
-                                            )"
-                                    >+</button>
-                                </p>
-                                <hr>
+                            <li class="pixel-box list-item">
+                                <button 
+                                    class="pixel-box icon-button"
+                                    title="Add to clues"
+                                    onclick="addToClues(
+                                        'interviews', 
+                                        '{{ row.day }}-{{ row.month }}-{{ row.year }}, {{ row.name }}: {{ row.transcript }}'
+                                    )"
+                                >+</button>
+                                <p>When: {{ row.day }}-{{ row.month }}-{{ row.year }}</p>
+                                <p>Who: {{ row.name }}</p>
+                                <p>{{ row.transcript }}</p>
                             </li>
                         {% endfor %}
                     </ul>
                 {% else %}
                     <p>No results - try again!</p>
                 {% endif %}
-                </div>
-            {% endif %}
-        <!-- <div>
-            {% if interviewsData != None %}
-                {% if interviewsData|count > 0 %}
-                    <ul>
-                        {% for row in interviewsData %}
-                            <li>
-                                <i>{{ row.day }}-{{ row.month }}-{{ row.year }}</i>
-                                <p>
-                                    {{ row.transcript }} 
-                                    <button 
-                                            title="Add to clues"
-                                            onclick="addToClues(
-                                                'interviews', 
-                                                '{{ row.day }}-{{ row.month }}-{{ row.year }}: {{ row.description }}'
-                                            )"
-                                    >+</button>
-                                </p>
-                                <hr>
-                            </li>
-                        {% endfor %}
-                    </ul>
-                {% else %}
-                    <p>No results - try again!</p>
-                {% endif %}
-            {% endif %}
-        </div> -->
+            </div>
+        {% endif %}
     </div>
     <script src="../static/js/police_station.js"></script>
 {% endblock %}
