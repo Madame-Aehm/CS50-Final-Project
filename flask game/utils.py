@@ -31,9 +31,10 @@ def get_police_reports(form):
             os.getenv("SUPABASE_URL"), 
             os.getenv("SUPABASE_KEY"))
         if date and street:
+            
             response = (supabase.table("crime_scene_reports")
                 .select("*")
-                .eq("street", street)
+                .ilike("street", f"%{street}%")
                 .eq("day", int(day))
                 .eq("month", int(month))
                 .eq("year", int(year))
@@ -47,7 +48,7 @@ def get_police_reports(form):
                 .execute())
         elif street:
             response = (supabase.table("crime_scene_reports")
-                .select().eq("street", street).execute())
+                .select().ilike("street", f"%{street}%").execute())
         else:
             response = (supabase.table("crime_scene_reports").select().execute())
         return escape_strings(response.data, "description")
@@ -64,10 +65,10 @@ def get_police_interviews(form):
     if date and keyword:
         response = (supabase.table("interviews")
             .select() 
+            .ilike("transcript", f"%{keyword}%")
             .eq("day", int(day))
             .eq("month", int(month))
             .eq("year", int(year))
-            .like("transcript", f"%{keyword}%")
             .execute()
         )
     elif date:
@@ -81,7 +82,7 @@ def get_police_interviews(form):
     elif keyword:
         response = (supabase.table("interviews")
             .select() 
-            .like("transcript", f"%{keyword}%")
+            .ilike("transcript", f"%{keyword}%")
             .execute())
     else:
         response = (supabase.table("interviews").select().execute())
