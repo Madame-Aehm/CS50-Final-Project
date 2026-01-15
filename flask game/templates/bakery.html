@@ -1,0 +1,66 @@
+{% extends "clues_wrapper.html" %}
+
+{% block title %}
+    Emma's Bakery
+{% endblock %}
+
+{% block stylesheet %}
+    <link rel="stylesheet" href="{{ url_for('static',filename='style/bakery.css') }}">
+{% endblock %}
+
+{% block content %}
+  <h1>Emma's Bakery</h1>
+
+  <div class="page-container">
+    <h2>What can we get for you today? 🥐☕</h2>
+    <p>Oh, our security tapes are over there. Please, search for what you need.</p>
+    <form action="/bakery" method="POST">
+      <div class="input-group">
+        <label for="date">Date:</label>
+        <input 
+          id="date" 
+          name="date" 
+          type="date" 
+          min="2024-07-25" 
+          max="2024-07-31" 
+          value="{{ prev_values['date'] if prev_values else '' }}">
+      </div>
+      <div class="input-group">
+        <label for="from">From:</label>
+        <input id="from" name="from" type="time" value="{{ prev_values['from'] if prev_values else '' }}">
+      </div>
+      <div class="input-group">
+        <label for="to">To:</label>
+        <input id="to" name="to" type="time" value="{{ prev_values['to'] if prev_values else '' }}">
+      </div>
+      <button class="pixel-box" type="submit">Search</button>
+    </form>
+    {% if data %}
+      <table>
+        <thead>
+          <tr>
+            <th>Date/Time</th>
+            <th>Activity</th>
+            <th>License Plate</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% if data|count > 0 %}
+            {% for row in data %}
+              <tr>
+                <td>
+                  {{ row.year }}-{{ row.month }}-{{ row.day }}/{{ row.hour }}:{{ row.minute }}
+                </td>
+                <td>{{ row.activity }}</td>
+                <td>{{ row.license_plate }}</td>
+                <td><button class="pixel-box icon-button">+</button></td>
+              </tr>
+            {% endfor %}
+          {% else %}
+            <tr colspan="3"> No results found - try again!</tr>
+          {% endif %}
+        </tbody>
+      </table>
+    {% endif %}
+  </div>
+{% endblock %}

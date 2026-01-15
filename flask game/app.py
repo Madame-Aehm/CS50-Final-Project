@@ -5,7 +5,7 @@
 # python -m flask --app app run --debug
 
 from flask import Flask, render_template, request, redirect
-from utils import get_police_reports, get_police_interviews
+from utils import get_police_reports, get_police_interviews, get_security_logs
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -64,84 +64,17 @@ def police_station():
                 prev_values=prev_values)
 
 
-
-# @app.route("/get-reports", methods=["POST"])
-# def get_reports():
-#     date = request.form.get("report-date")
-#     if date: 
-#         year, month, day = date.split("-")
-#     street = request.form.get("street")
-#     supabase = create_client(
-#             os.getenv("SUPABASE_URL"), 
-#             os.getenv("SUPABASE_KEY"))
-#     if date and street:
-#         response = (supabase.table("crime_scene_reports")
-#             .select()
-#             .eq("street", street)  
-#             .eq("day", int(day))
-#             .eq("month", int(month))
-#             .eq("year", int(year))
-#             .execute()
-#         )
-#     elif date:
-#         response = (supabase.table("crime_scene_reports")
-#             .select()  
-#             .eq("day", int(day))
-#             .eq("month", int(month))
-#             .eq("year", int(year))
-#             .execute()
-#         )
-#     elif street:
-#         response = (supabase.table("crime_scene_reports")
-#             .select().eq("street", street).execute()
-#         )
-#     else:
-#         response = (supabase.table("crime_scene_reports").select().execute())
-#     return render_template("police_station.html",
-#         prev_values={"report-date": date, "street": street},
-#         reportData=response.data)
-    # else: 
-    #     message = f"""
-    #         All values are required.
-    #         {validate_values([
-    #             ("date", date), 
-    #             ("street", street)])}
-    #     """
-    #     return render_template("error.html", message=message)
-
-# @app.route("/get-interviews", methods=["POST"])
-# def get_interviews():
-#     date = request.form.get("date")
-#     if date: 
-#         year, month, day = date.split("-")
-#     keyword = request.form.get("keyword")
-#     supabase = create_client(
-#         os.getenv("SUPABASE_URL"), 
-#         os.getenv("SUPABASE_KEY"))
-#     if date and keyword:
-#         response = (supabase.table("interviews")
-#             .select() 
-#             .eq("day", int(day))
-#             .eq("month", int(month))
-#             .eq("year", int(year))
-#             .like("transcript", f"%{keyword}%")
-#             .execute()
-#         )
-#     elif date:
-#         response = (supabase.table("interviews")
-#             .select()  
-#             .eq("day", int(day))
-#             .eq("month", int(month))
-#             .eq("year", int(year))
-#             .execute()
-#         )
-#     elif keyword:
-#         response = (supabase.table("interviews")
-#             .select() 
-#             .like("transcript", f"%{keyword}%")
-#             .execute())
-#     else:
-#         response = (supabase.table("interviews").select().execute())
-#     return render_template("police_station.html",
-#         prev_values={"interviews-date": date, "keyword": keyword},
-#         interviewsData=response.data)
+@app.route("/bakery", methods=["GET", "POST"])
+def bakery():
+    if request.method == "GET":
+        return render_template("bakery.html")
+    if request.method == "POST":
+        prev_values = {
+            "from": request.form.get("from"),
+            "to": request.form.get("to"),
+            "date": request.form.get("date")
+        }
+        print(prev_values)
+        data = get_security_logs(prev_values)
+        print("DATA", data)
+        return render_template("bakery.html", prev_values=prev_values, data=data)

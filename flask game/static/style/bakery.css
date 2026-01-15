@@ -9,18 +9,6 @@ h1 {
     align-items: center;
 }
 
-.page-container > div {
-    display: flex;
-    flex-direction: column;
-    gap: 1em;
-    margin: 0 1em;
-    padding: 1em;
-}
-
-.page-container li {
-    list-style: none;
-}
-
 form {
     display: flex;
     align-items: flex-end;
@@ -28,14 +16,23 @@ form {
     margin-bottom: 1em;
 }
 
-ul, h3 {
-    margin: 0;
-}
-
 .input-group {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
+}
+
+table, th, td {
+    border: 1px solid black;
+    border-collapse: collapse;
+}
+
+table {
+  margin-bottom: 4em;
+}
+
+td {
+    padding: 0.5em;
 }
 
 @media screen and (max-width: 800px) {
@@ -49,5 +46,8 @@ ul, h3 {
     form {
         display: grid;
         grid-template-columns: auto;
+    }
+    td {
+        padding: 0.2em;
     }
 }

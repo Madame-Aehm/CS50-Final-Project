@@ -63,7 +63,6 @@ function buildClueList() {
         title.innerHTML = cat;
         const items = JSON.parse(localStorage.getItem(cat));
         items.forEach(i => {
-            console.log("i is", i)
             const li = document.createElement("li");
             li.classList.add("pixel-box", "list-item");
             ul.appendChild(li);
