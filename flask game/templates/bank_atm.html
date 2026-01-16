@@ -63,10 +63,21 @@
               <td>{{ row.transaction_type }}</td>
               <td>{{ row.atm_location }}</td>
               <td>{{ row.amount }}</td>
+              <td>
+                <button 
+                  class="pixel-box icon-button"
+                  title="Save clue"
+                  onclick="addToClues(
+                      'atm transactions', 
+                      '{{ row.date }} on {{ row.atm_location }}: {{ row.transaction_type }}' 
+                      + ' of {{ row.amount }} by {{ row.account_number }}'
+                  )">
+                +</button>
+              </td>
             </tr>
           {% endfor %}
         {% else %}
-          <tr colspan="3"> No results found - try again!</tr>
+          <tr colspan="5"> No results found - try again!</tr>
         {% endif %}
       </tbody>
     </table>
