@@ -28,28 +28,16 @@ def get_police_reports(form):
         supabase = create_client(
             os.getenv("SUPABASE_URL"), 
             os.getenv("SUPABASE_KEY"))
-        if date and street:
-            
-            response = (supabase.table("crime_scene_reports")
-                .select("*")
-                .ilike("street", f"%{street}%")
-                .eq("day", int(day))
+        query = supabase.table("crime_scene_reports").select()
+        if date:
+            (query.eq("day", int(day))
                 .eq("month", int(month))
-                .eq("year", int(year))
-                .execute())
-        elif date:
-            response = (supabase.table("crime_scene_reports")
-                .select()  
-                .eq("day", int(day))
-                .eq("month", int(month))
-                .eq("year", int(year))
-                .execute())
-        elif street:
-            response = (supabase.table("crime_scene_reports")
-                .select().ilike("street", f"%{street}%").execute())
-        else:
-            response = (supabase.table("crime_scene_reports").select().execute())
-        return escape_strings(response.data, "description")
+                .eq("year", int(year)))
+        if street:
+            query.ilike("street", f"%{street}%").execute()
+        response = query.execute()
+        # return escape_strings(response.data, "description")
+        return response.data
 
 
 def get_police_interviews(form):
@@ -60,60 +48,32 @@ def get_police_interviews(form):
     supabase = create_client(
         os.getenv("SUPABASE_URL"), 
         os.getenv("SUPABASE_KEY"))
-    if date and keyword:
-        response = (supabase.table("interviews")
-            .select() 
-            .ilike("transcript", f"%{keyword}%")
-            .eq("day", int(day))
+    query = supabase.table("interviews").select()
+    if date:
+        (query.eq("day", int(day))
             .eq("month", int(month))
-            .eq("year", int(year))
-            .execute()
-        )
-    elif date:
-        response = (supabase.table("interviews")
-            .select()  
-            .eq("day", int(day))
-            .eq("month", int(month))
-            .eq("year", int(year))
-            .execute()
-        )
-    elif keyword:
-        response = (supabase.table("interviews")
-            .select() 
-            .ilike("transcript", f"%{keyword}%")
-            .execute())
-    else:
-        response = (supabase.table("interviews").select().execute())
-    return escape_strings(response.data, "transcript")
+            .eq("year", int(year)))
+    if keyword:
+        query.ilike("transcript", f"%{keyword}%")
+    response = query.execute()
+    # return escape_strings(response.data, "transcript")
+    return response.data
 
 
 def get_security_logs(form):
-    # filter_values = {}
+    print("THIS IS FORM", form)
     date = form["date"]
-    if date: 
-        year, month, day = date.split("-")
-        # for i in enumerate(date.split("-")):
-        #     filter
     from_time = form["from"]
-    if from_time:
-        from_time_hour, from_time_min = from_time.split(":")
     to_time = form["to"]
-    if to_time:
-        to_time_hour, to_time_min = to_time.split(":")
     supabase = create_client(
         os.getenv("SUPABASE_URL"), 
         os.getenv("SUPABASE_KEY"))
-    if date and from_time and to_time:
-        response = (supabase.table("bakery_security_logs")
-            .select() 
-            .eq("day", int(day))
-            .eq("month", int(month))
-            .eq("year", int(year))
-            .lte("hour", to_time_hour)
-            .lte("minute", to_time_min)
-            .gte("hour", from_time_hour)
-            .gte("minute", from_time_min)
-            .execute()
-        )
-    else: response = None
+    query = supabase.table("bakery_security_logs").select()
+    if date:
+        query.eq("date", date)
+    if from_time:
+        query.gte("time", from_time)
+    if to_time:
+        query.lte("time", to_time)
+    response = query.execute()
     return response.data

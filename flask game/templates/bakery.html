@@ -35,6 +35,9 @@
       </div>
       <button class="pixel-box" type="submit">Search</button>
     </form>
+    <div class="link-container">
+        <a class="pixel-box" href="/map">Back to the map</a>
+    </div>
     {% if data %}
       <table>
         <thead>
@@ -49,11 +52,20 @@
             {% for row in data %}
               <tr>
                 <td>
-                  {{ row.year }}-{{ row.month }}-{{ row.day }}/{{ row.hour }}:{{ row.minute }}
+                  {{ row.date }} @ {{ row.time }}
                 </td>
                 <td>{{ row.activity }}</td>
                 <td>{{ row.license_plate }}</td>
-                <td><button class="pixel-box icon-button">+</button></td>
+                <td>
+                  <button 
+                    class="pixel-box icon-button"
+                    title="Save clue"
+                    onclick="addToClues(
+                        'bakery security logs', 
+                        '{{ row.date }} @ {{ row.time }}: {{ row.activity }} by {{ row.license_plate }}'
+                    )">
+                  +</button>
+                </td>
               </tr>
             {% endfor %}
           {% else %}

@@ -13,7 +13,8 @@ h1 {
     display: flex;
     flex-direction: column;
     gap: 1em;
-    margin: 0 1em;
+    margin-left: 1em;
+    margin-right: 1em;
     padding: 1em;
 }
 
@@ -36,6 +37,10 @@ ul, h3 {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
+}
+
+.extend-bottom {
+    margin-bottom: 2em;
 }
 
 @media screen and (max-width: 800px) {

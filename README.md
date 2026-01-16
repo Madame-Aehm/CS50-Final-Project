@@ -14,6 +14,8 @@ Ultimately, I found myself wanting HTML elements. Building the inputs from scrat
 
 I already have some experience in web development, but CS50 was my first time using Flask. After using JavaScript frameworks like React and Next.js, I found the different approach of handling all rendering server-side to be challenging, but I've always found the surest way to learn a new framework is to create a little project, so I've used this as an opportunity to kill 2 birds! 
 
+Rather than continuing to use the SQLite database, I also decided to move everything into an PostgreSQL database hosted on Supabase, with the eventual intention of being able to deploy the Flask app to be playable online.
+
 It is a very bare-bones design in terms of style, using font and basic CSS to create something of an old-school 8-bit look. The available pages include:
   - Landing page
   - Map 
@@ -34,11 +36,13 @@ There is a button on the bottom right side of the page that will open a modal wi
 
 ### Police Station
 
-The police station is the first stop for the user, as the first clue suggests they start their investigation here to learn more information about the crime. There is a single form that has been customized to make queries to two separate tables, based on the user's selections. I used JavaScript to change the visual cues on the form to represent the appropriate labels. The trickiest part was syntax related, when I discovered some of the strings in the interviews table had apostrophes that would break the string in the Jinja template. In the end my solution was to write a function to replace all of those symbols. 
+The police station is the first stop for the user, as the first clue suggests they start their investigation here to learn more information about the crime. There is a single form that has been customized to make queries to two separate tables, based on the user's selections. I used JavaScript to change the visual cues on the form to represent the appropriate labels. 
+
+The trickiest part was syntax related, when I discovered one of the of the strings in the interviews table had apostrophes that would break the string in the Jinja template, but others used a curly apostrophe that didn't cause a problem. I started by writing a function that would replace all instances of "'" with "’", but after looking at how often this occurred, it was only one string that was clearly added by the CS50 team to be the clue, so I simply updated this manually in the Supabase database.
 
 ### Bakery
 
-
+Writing the filter query for the bakery is when I decided that it was also time to reformat the way dates and times are saved in the table. So consolidated the date and time columns into single timestamps. I've added this value to the police interviews and reports, however I've left that code to use as proof that this step was necessary.
 
 
 resources:

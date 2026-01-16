@@ -74,7 +74,9 @@ def bakery():
             "to": request.form.get("to"),
             "date": request.form.get("date")
         }
-        print(prev_values)
+        if prev_values["from"] and prev_values["to"]:
+            if prev_values["from"] > prev_values["to"]:
+                return render_template("error.html", message='"To" value must be less than "From"')
         data = get_security_logs(prev_values)
         print("DATA", data)
         return render_template("bakery.html", prev_values=prev_values, data=data)
