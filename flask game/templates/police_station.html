@@ -15,14 +15,13 @@
         <form action="/police-station" method="POST">
             <div class="input-group">
                 <label for="table">Search:</label>
-                <select name="table" id="table" value="{{ prev_values['table'] if prev_values else 'reports' }}">
-                    {% if prev_values and prev_values.table == "interviews" %}
-                        <option value="interviews">Police Interviews</option>
-                        <option value="reports">Police Reports</option>
-                    {% else %}
-                        <option value="reports">Police Reports</option>
-                        <option value="interviews">Police Interviews</option>
-                    {% endif %}
+                <select name="table" id="table">
+                    <option value="reports">Police Reports</option>
+                    <option value="interviews"
+                        {% if prev_values and prev_values.table == 'interviews' %} 
+                            selected="selected"
+                        {% endif %}
+                    >Police Interviews</option>
                 </select>
             </div>
             <div class="input-group">

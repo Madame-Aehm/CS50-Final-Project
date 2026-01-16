@@ -9,6 +9,10 @@ h1 {
     align-items: center;
 }
 
+.page-container > p {
+    margin: 1em;
+}
+
 form {
     display: flex;
     align-items: flex-end;

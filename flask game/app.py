@@ -5,7 +5,7 @@
 # python -m flask --app app run --debug
 
 from flask import Flask, render_template, request, redirect
-from utils import get_police_reports, get_police_interviews, get_security_logs
+from utils import get_police_data, get_security_logs, get_atm_transactions
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -49,12 +49,12 @@ def police_station():
                 "table": request.form.get("table")
             }
             if prev_values["table"] == "reports":
-                data = get_police_reports(prev_values)
+                data = get_police_data("crime_scene_reports", prev_values)
                 return render_template("police_station.html",
                     prev_values=prev_values,
                     reportData=data)
             else:
-                data = get_police_interviews(prev_values)
+                data = get_police_data("interviews", prev_values)
                 return render_template("police_station.html",
                     prev_values=prev_values,
                     interviewsData=data)
@@ -78,5 +78,25 @@ def bakery():
             if prev_values["from"] > prev_values["to"]:
                 return render_template("error.html", message='"To" value must be less than "From"')
         data = get_security_logs(prev_values)
-        print("DATA", data)
         return render_template("bakery.html", prev_values=prev_values, data=data)
+    
+
+@app.route("/bank", methods=["GET", "POST"])
+def bank():
+    if request.method == "GET":
+        return render_template("bank_atm.html")
+    if request.method == "POST":
+        prev_values = {
+            "date": request.form.get("date"),
+            "location": request.form.get("location"),
+            "transaction": request.form.get("transaction")
+        }
+        data = get_atm_transactions(prev_values)
+        print("DATA", data)
+    return render_template("bank_atm.html", prev_values=prev_values, data=data)
+
+
+@app.route("/bank/accounts", methods=["GET", "POST"])
+def bank_accounts():
+    if request.method == "GET":
+        return render_template("bank_account.html")

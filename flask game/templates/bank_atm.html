@@ -1,0 +1,74 @@
+{% extends "bank.html" %}
+
+{% block bank_form %}
+  <form action="/bank" method="POST">
+    <div class="input-group">
+      <label for="date">Date:</label>
+      <input
+        type="date" 
+        id="date" 
+        name="date"
+        min="2024-07-26" 
+        max="2024-08-01"
+        value="{{ prev_values['date'] if prev_values else '' }}">
+    </div>
+    <div class="input-group">
+      <label for="location">Location:</label>
+      <input 
+        type="text" 
+        id="location" 
+        name="location"
+        value="{{ prev_values['location'] if prev_values else '' }}">
+    </div>
+    <div class="input-group">
+      <label for="transaction">Transaction type:</label>
+      <select 
+      name="transaction" 
+      id="transaction">
+          <option value="">Select</option>
+          <option value="deposit"
+            {% if prev_values and prev_values.transaction == 'deposit' %} 
+              selected="selected"
+            {% endif %}
+          >Deposit</option>
+          <option value="withdraw"
+            {% if prev_values and prev_values.transaction == 'withdraw' %} 
+              selected="selected"
+            {% endif %}
+          >Withdraw</option>
+      </select>
+    </div>
+    <button class="pixel-box" type="submit">Search</button>
+  </form>
+  <div class="link-container">
+      <a class="pixel-box" href="/map">Back to the map</a>
+  </div>
+  {% if data %}
+    <table>
+      <thead>
+        <tr>
+          <th>Date</th>
+          <th>Account</th>
+          <th>Type</th>
+          <th>Location</th>
+          <th>Amount</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% if data|count > 0 %}
+          {% for row in data %}
+            <tr>
+              <td>{{ row.date }}</td>
+              <td>{{ row.account_number }}</td>
+              <td>{{ row.transaction_type }}</td>
+              <td>{{ row.atm_location }}</td>
+              <td>{{ row.amount }}</td>
+            </tr>
+          {% endfor %}
+        {% else %}
+          <tr colspan="3"> No results found - try again!</tr>
+        {% endif %}
+      </tbody>
+    </table>
+  {% endif %}
+{% endblock %}

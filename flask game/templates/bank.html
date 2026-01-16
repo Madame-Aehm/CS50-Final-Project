@@ -1,0 +1,22 @@
+{% extends "clues_wrapper.html" %}
+
+{% block title %}
+    Bank
+{% endblock %}
+
+{% block stylesheet %}
+    <link rel="stylesheet" href="{{ url_for('static',filename='style/bank.css') }}">
+{% endblock %}
+
+{% block content %}
+  <h1>Bank</h1>
+
+  <div class="page-container">
+    <h2>💲💲💲</h2>
+    <p>
+      As members of an investigation team, you have access to <a href="/bank">ATM transaction histories</a>. 
+      Let us know if you need to perform an <a href="/bank/accounts">account search</a>!
+    </p>
+    {% block bank_form %}{% endblock %}
+  </div>
+{% endblock %}
