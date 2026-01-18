@@ -5,7 +5,7 @@
 # python -m flask --app app run --debug
 
 from flask import Flask, render_template, request, redirect
-from utils import get_police_data, get_security_logs, get_atm_transactions
+from utils import get_police_data, get_security_logs, get_atm_transactions, get_bank_accounts, get_license_data
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -50,24 +50,33 @@ def police_station():
             }
             if prev_values["table"] == "reports":
                 data = get_police_data("crime_scene_reports", prev_values)
-                return render_template("police_station.html",
+                print("DATA", data)
+                return render_template("police_results_reports.html",
                     prev_values=prev_values,
-                    reportData=data)
-            else:
+                    data=data)
+            elif prev_values["table"] == "interviews":
                 data = get_police_data("interviews", prev_values)
-                return render_template("police_station.html",
+                print("DATA", data)
+                return render_template("police_results_interviews.html",
                     prev_values=prev_values,
-                    interviewsData=data)
-        except:
-            print("exception")
-            return render_template("police_station.html",
-                prev_values=prev_values)
+                    data=data)
+            else:
+                if not prev_values["string"]:
+                    return render_template("error.html", message="License plate number is required")
+                data = get_license_data(prev_values)
+                print("DATA", data)
+                return render_template("police_results_lp.html", 
+                    prev_values=prev_values,
+                    data=data[0] if data else None)
+        except Exception as e:
+            print("error occurred: ", e)
+            return render_template("error.html", message=e)
 
 
 @app.route("/bakery", methods=["GET", "POST"])
 def bakery():
     if request.method == "GET":
-        return render_template("bakery.html")
+        return render_template("bakery.html", data=None)
     if request.method == "POST":
         prev_values = {
             "from": request.form.get("from"),
@@ -85,7 +94,7 @@ def bakery():
 @app.route("/bank", methods=["GET", "POST"])
 def bank():
     if request.method == "GET":
-        return render_template("bank_atm.html")
+        return render_template("bank_atm.html", data=None)
     if request.method == "POST":
         prev_values = {
             "date": request.form.get("date"),
@@ -101,3 +110,12 @@ def bank():
 def bank_accounts():
     if request.method == "GET":
         return render_template("bank_account.html")
+    if request.method == "POST":
+        prev_values = {
+            "account_number": request.form.get("account_number")
+        }
+        if not prev_values["account_number"]:
+            return render_template("error.html", message="Account number is required")
+        data = get_bank_accounts(prev_values)
+        print("DATA", data)
+        return render_template("bank_account.html", prev_values=prev_values, data=data[0] if data else None)

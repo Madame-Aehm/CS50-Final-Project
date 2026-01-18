@@ -39,16 +39,16 @@
         <a class="pixel-box" href="/map">Back to the map</a>
     </div>
     {% if data != None %}
-      <table>
-        <thead>
-          <tr>
-            <th>Date/Time</th>
-            <th>Activity</th>
-            <th>License Plate</th>
-          </tr>
-        </thead>
-        <tbody>
-          {% if data|count > 0 %}
+      {% if data|count > 0 %}
+        <table>
+          <thead>
+            <tr>
+              <th>Date/Time</th>
+              <th>Activity</th>
+              <th>License Plate</th>
+            </tr>
+          </thead>
+          <tbody>
             {% for row in data %}
               <tr>
                 <td>
@@ -68,13 +68,11 @@
                 </td>
               </tr>
             {% endfor %}
-          {% else %}
-            <tr >
-              <td colspan="3">No results found - try again!</td>
-            </tr>
-          {% endif %}
-        </tbody>
-      </table>
+          </tbody>
+        </table>
+      {% else %}
+        <p>No results found - try again!</p>
+      {% endif %}
     {% endif %}
   </div>
 {% endblock %}

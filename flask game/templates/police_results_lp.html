@@ -1,0 +1,36 @@
+{% extends "police_station.html" %}
+
+{% block police_station_results %}
+  {% if data != None %}
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Name</th>
+          <th>Phone Number</th>
+          <th>License Plate</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>{{ data.id }}</td>
+          <td>{{ data.name }}</td>
+          <td>{{ data.phone_number }}</td>
+          <td>{{ data.license_plate }}</td>
+          <td>
+            <button 
+              class="pixel-box icon-button"
+              title="Add Person of Interest"
+              onclick="addToClues(
+                  'People of Interest: id | name | phone number | license plate', 
+                  '{{ data.id }} | {{ data.name }} | {{ data.phone_number }} | {{ data.license_plate }}'
+              )">
+            +</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  {% else %}
+    <p>No results found - try again!</p>
+  {% endif %}
+{% endblock %}

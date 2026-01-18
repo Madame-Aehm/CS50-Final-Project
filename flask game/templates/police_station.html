@@ -22,9 +22,16 @@
                             selected="selected"
                         {% endif %}
                     >Police Interviews</option>
+                    <option value="lp_lookup"
+                        {% if prev_values and prev_values.table == 'lp_lookup' %} 
+                            selected="selected"
+                        {% endif %}
+                    >License Plate Lookup</option>
                 </select>
             </div>
-            <div class="input-group">
+            <div 
+                id="date-input" 
+                class="input-group {{ 'hidden' if prev_values.table == 'lp_lookup' else '' }}">
                 <label for="date">Date:</label>
                 <input 
                     id="date" 
@@ -38,6 +45,8 @@
                 <label for="string">
                     {% if prev_values and prev_values.table == "interviews" %}
                         Keyword:
+                    {% elif prev_values and prev_values.table == "lp_lookup" %}
+                        License Plate:
                     {% else %}
                         Street:
                     {% endif %}
@@ -54,50 +63,7 @@
         <div class="link-container">
             <a class="pixel-box" href="/map">Back to the map</a>
         </div>
-        {% if reportData != None or interviewsData != None %}
-            <div class="extend-bottom">
-                <h3>Results:</h3>
-                {% if reportData|count > 0 %}
-                    <ul>
-                        {% for row in reportData %}
-                            <li class="pixel-box list-item">
-                                <button 
-                                    class="pixel-box icon-button"
-                                    title="Save clue"
-                                    onclick="addToClues(
-                                        'crime scene reports', 
-                                        '{{ row.day }}-{{ row.month }}-{{ row.year }} on {{ row.street }}: {{ row.description }}'
-                                    )"
-                                >+</button>
-                                <p>When: {{ row.day }}-{{ row.month }}-{{ row.year }}</p>
-                                <p>Where: {{ row.street }}</p>
-                                <p>{{ row.description }}</p>
-                            </li>
-                        {% endfor %}
-                    </ul>
-                {% elif interviewsData|count > 0 %}
-                    <ul>
-                        {% for row in interviewsData %}
-                            <li class="pixel-box list-item">
-                                <button 
-                                    class="pixel-box icon-button"
-                                    title="Add to clues"
-                                    onclick="addToClues(
-                                        'interviews', 
-                                        '{{ row.day }}-{{ row.month }}-{{ row.year }}, {{ row.name }}: {{ row.transcript }}'
-                                    )"
-                                >+</button>
-                                <p>When: {{ row.day }}-{{ row.month }}-{{ row.year }}</p>
-                                <p>Who: {{ row.name }}</p>
-                                <p>{{ row.transcript }}</p>
-                            </li>
-                        {% endfor %}
-                    </ul>
-                {% else %}
-                    <p>No results - try again!</p>
-                {% endif %}
-            </div>
-        {% endif %}
+        {% block police_station_results %}{% endblock %}
     </div>
     <script src="../static/js/police_station.js"></script>
 {% endblock %}

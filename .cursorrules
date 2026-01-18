@@ -1,0 +1,320 @@
+# Cursor Rules for Flask Game Architecture
+
+This file defines coding standards and architectural patterns for the Flask game codebase. All AI-generated code MUST adhere to these rules to maintain consistency with the existing codebase.
+
+## Project Structure
+
+The project follows a Flask application structure:
+- `app.py` - Main Flask application with route handlers
+- `utils.py` - Utility functions for database queries (Supabase)
+- `templates/` - Jinja2 templates with inheritance hierarchy
+- `static/style/` - CSS files (global.css as base + per-page stylesheets)
+- `static/js/` - JavaScript files (per-page where needed)
+- `static/assets/` - Image assets (pixel art style)
+
+## Template Inheritance Hierarchy
+
+Templates MUST follow this inheritance chain:
+1. Base: `layout.html` - Contains HTML structure, head, fonts, global CSS
+2. Intermediate: `clues_wrapper.html` - Adds clue modal system (extends layout.html)
+3. Specific pages: Extend either `clues_wrapper.html` (for pages with clues) or `layout.html` (for standalone pages)
+
+Template structure:
+```
+layout.html
+├── clues_wrapper.html (extends layout.html)
+│   ├── map.html
+│   ├── police_station.html
+│   ├── bakery.html
+│   └── bank.html (intermediate for bank pages)
+│       ├── bank_atm.html
+│       └── bank_account.html
+├── index.html (extends layout.html directly)
+└── error.html (extends layout.html directly)
+```
+
+## Python/Flask Standards
+
+### Route Handlers
+- Use lowercase with hyphens for route paths: `/police-station`, `/bank/accounts`
+- Separate GET and POST logic with `if request.method == "GET"` and `if request.method == "POST"`
+- Always pass form values back via `prev_values` dictionary in template context to preserve form state
+- Use `render_template()` with explicit keyword arguments for data passing
+- Handle errors with try/except blocks, fallback to rendering template with previous values
+
+Example pattern:
+```python
+@app.route("/route-name", methods=["GET", "POST"])
+def route_name():
+    if request.method == "GET":
+        return render_template("template.html", prev_values=None, data=None)
+    if request.method == "POST":
+        prev_values = {
+            "field1": request.form.get("field1"),
+            "field2": request.form.get("field2")
+        }
+        # Validation logic here
+        data = utility_function(prev_values)
+        return render_template("template.html", prev_values=prev_values, data=data)
+```
+
+### Utility Functions (utils.py)
+- All database queries MUST use Supabase client created via `create_client(os.getenv("SUPABASE_URL"), os.getenv("SUPABASE_KEY"))`
+- Functions should accept a `form` dictionary parameter containing form values
+- Build queries conditionally: check if form values exist before adding filters
+- Use `.ilike()` for case-insensitive text searches, `.eq()` for exact matches
+- Return query results via `.execute().data`
+- Use snake_case for function names: `get_police_data()`, `get_security_logs()`, `get_atm_transactions()`
+- Helper functions like `validate_values()` and `escape_strings()` should be kept in utils.py
+
+### Error Handling
+- Use Flask's `@app.errorhandler(404)` for 404 errors
+- Custom errors should render `error.html` template with `message` parameter
+- Always include `@app.after_request` hook to disable caching:
+```python
+@app.after_request
+def after_request(response):
+    """Ensure responses aren't cached"""
+    response.headers["Cache-Control"] = "no-cache, no-store, must-revalidate"
+    response.headers["Expires"] = 0
+    response.headers["Pragma"] = "no-cache"
+    return response
+```
+
+## Jinja2 Template Standards
+
+### Template Blocks
+- Use `{% extends "parent_template.html" %}` at the top
+- Define `{% block title %}` for page titles
+- Define `{% block stylesheet %}` for page-specific CSS links using `url_for('static', filename='style/filename.css')`
+- Use `{% block content %}` or `{% block body %}` as appropriate
+- Use `{% block bank_form %}` or similar named blocks for component inheritance (see bank.html pattern)
+
+### Form Handling
+- All form inputs MUST preserve values using `value="{{ prev_values['field'] if prev_values else '' }}"`
+- Select dropdowns MUST preserve selected state: `{% if prev_values and prev_values.field == 'value' %} selected="selected" {% endif %}`
+- Dynamic labels/placeholders should check `prev_values` state (see police_station.html pattern)
+- Forms should use `method="POST"` and `action="/route-path"`
+
+### Data Display
+- Check for data existence with `{% if data != None %}` before rendering results
+- Use `{% if data|count > 0 %}` to check for empty lists
+- Always show "No results found - try again!" message when data is empty
+- Results should be in `<ul>` lists or `<table>` structures
+- List items MUST have class `pixel-box list-item` for consistent styling
+
+### Clue System Integration
+- Clue buttons MUST use `onclick="addToClues('category', 'formatted string')"` pattern
+- Format clue strings consistently: `'{{ row.date }} @ {{ row.time }}: {{ row.activity }} by {{ row.license_plate }}'`
+- Clue buttons MUST have classes `pixel-box icon-button` and `title="Save clue"` or `title="Add to clues"`
+- Clue button text is "+" for adding, "x" for removing (handled in JavaScript)
+
+### Image Tags
+- ALL images MUST include `alt` text describing the pixel art
+- Use `{{url_for('static', filename='/assets/image.png')}}` for image sources
+- Format: `alt="A pixel-art [description]"` or descriptive alt text
+
+### Navigation Links
+- "Back to the map" links MUST be wrapped in `<div class="link-container">` with class `pixel-box`
+- Link structure: `<a class="pixel-box" href="/map">Back to the map</a>`
+
+## CSS Architecture
+
+### File Organization
+- `global.css` - Base styles applied to all pages (fonts, pixel-box class, common utilities)
+- Page-specific CSS files: `index.css`, `map.css`, `police-station.css`, `bakery.css`, `bank.css`, `error.css`
+- Page-specific CSS extends global.css via template blocks
+
+### Core CSS Classes (in global.css)
+- `.pixel-box` - Pixel-art styled borders using pseudo-elements (`:before` and `:after`)
+- `.fullscreen-center` - Flexbox centering for full viewport height
+- `.page-container` - Main content wrapper (flex column, centered, padding)
+- `.link-container` - Navigation link wrapper (centered, padding)
+- `.input-group` - Form input wrapper (flex column, aligned left)
+- `.list-item` - List item styling (flex column, margin-bottom)
+- `.icon-button` - Small icon buttons (width: 1.5rem)
+- `.hidden` - Display none utility
+- `.spacing` - Content spacing wrapper (width: 80-90%, max-width: 800px, padding)
+
+### Typography
+- Font family: `"Jersey 15", sans-serif` on body and buttons
+- Font weight: 400 (normal)
+- Font style: normal
+
+### Pixel-Box Implementation
+The `.pixel-box` class uses pseudo-elements to create a pixel-art border effect:
+- Main element has `border-style: solid; border-width: .125em 0`
+- `:before` pseudo-element creates vertical borders (position: absolute, z-index: -1)
+- `:after` pseudo-element creates outer border effect (z-index: -2)
+- Colors: white background with black borders
+
+### Responsive Design
+- Breakpoints: 800px, 600px, 400px
+- Forms switch from flex to grid at 800px: `grid-template-columns: 1fr 1fr`
+- Forms become single column at 400px: `grid-template-columns: auto`
+- Use `@media screen and (max-width: Xpx)` for screen-based queries
+- Use `@media (max-width: Xpx)` for general queries
+- Use `@media (hover: hover)` for hover effects (prevents mobile tap issues)
+
+### Common Patterns
+- Headers: `h1 { text-align: center; }` in page-specific CSS
+- Tables: `border: 1px solid black; border-collapse: collapse;` with `padding: 0.5em` on cells
+- Hover effects: `transform: scale(1.05); transition: transform 0.3s;` on interactive elements
+- Use `em` units for spacing (not px or rem)
+
+### CSS Nesting
+- Use `&` for pseudo-classes and nested selectors
+- Example: `.clue-control, .link-container, button { ... &:hover { ... } }`
+
+## JavaScript Standards
+
+### File Organization
+- `index.js` - Global clue management system (loaded in clues_wrapper.html)
+- Page-specific JS files (e.g., `police_station.js`) - Page-specific interactions
+
+### Clue System Functions (index.js)
+- `addEventControllers()` - Sets up clue modal open/close events
+- `addToClues(category, clue)` - Adds clue to localStorage, alerts user, rebuilds list
+- `removeFromClues(category, clue)` - Removes clue from localStorage, rebuilds list
+- `buildClueList()` - Rebuilds clue display from localStorage, includes default starter clue
+
+### localStorage Structure
+- Keys are category strings (e.g., "crime scene reports", "interviews", "bakery security logs")
+- Values are JSON arrays of clue strings
+- Check for duplicates before adding: `if (list.find(c => c === clue)) return alert("clue already saved");`
+
+### Event Handling
+- Use `addEventListener()` not inline handlers (except for clue buttons in templates)
+- Use `querySelector()` and `querySelectorAll()` for DOM access
+- Handle modal backdrop clicks to close modals
+- Use `e.stopPropagation()` to prevent event bubbling on modal body
+
+### Naming Conventions
+- camelCase for variables and functions: `addEventControllers`, `clueModel`, `closeModelButton`
+- Use descriptive variable names: `clueControl`, `modelBody`, `closeModelButton`
+
+### Common Patterns
+- Function declarations (not arrow functions for top-level functions)
+- Arrow functions for event handlers and callbacks
+- Check element existence before adding event listeners
+- Use `classList.add()` and `classList.remove()` for toggling classes
+
+## Naming Conventions
+
+### Python
+- Functions: `snake_case` - `get_police_data()`, `validate_values()`
+- Variables: `snake_case` - `prev_values`, `report_data`, `form`
+- Constants: Uppercase with underscores (if used)
+
+### HTML/Classes
+- CSS classes: `kebab-case` - `pixel-box`, `link-container`, `input-group`, `page-container`
+- IDs: `kebab-case` - `clue-control`, `clue-model`, `close-model`
+
+### JavaScript
+- Variables: `camelCase` - `clueControl`, `closeModelButton`, `modelBody`
+- Functions: `camelCase` - `addToClues()`, `buildClueList()`
+
+### Routes/URLs
+- Use hyphens: `/police-station`, `/bank/accounts` (not underscores)
+
+## Data Flow Pattern
+
+1. User submits form (POST request)
+2. Route handler extracts form values into `prev_values` dictionary
+3. Route handler calls utility function from `utils.py` with `prev_values`
+4. Utility function creates Supabase client and builds query conditionally
+5. Query results returned as list of dictionaries
+6. Route handler passes `prev_values` and `data` to template
+7. Template displays results and preserves form values
+8. User can save clues via JavaScript `addToClues()` function
+9. Clues stored in localStorage and displayed in modal
+
+## Error Handling Patterns
+
+- Form validation should happen in route handlers before calling utils
+- Validation errors should render error template with descriptive message
+- Missing values should be handled gracefully (show empty results rather than crash)
+- Try/except blocks should fall back to rendering template with previous values
+- Use `print("exception")` for debugging (not proper error logging, but matches existing pattern)
+
+## Asset References
+
+- Images: `/static/assets/` directory
+- CSS: `/static/style/` directory (use `url_for('static', filename='style/filename.css')`)
+- JavaScript: `/static/js/` directory (use relative paths like `../static/js/filename.js` in templates)
+- Favicon: `/static/assets/cs50-duck.png`
+
+## Code Style Examples
+
+### Adding a New Route
+```python
+@app.route("/new-location", methods=["GET", "POST"])
+def new_location():
+    if request.method == "GET":
+        return render_template("new_location.html", prev_values=None, data=None)
+    if request.method == "POST":
+        prev_values = {
+            "field1": request.form.get("field1"),
+            "field2": request.form.get("field2")
+        }
+        data = get_new_data(prev_values)
+        return render_template("new_location.html", prev_values=prev_values, data=data)
+```
+
+### Adding a New Utility Function
+```python
+def get_new_data(form):
+    supabase = create_client(
+        os.getenv("SUPABASE_URL"), 
+        os.getenv("SUPABASE_KEY"))
+    query = supabase.table("table_name").select()
+    if form["field1"]:
+        query.eq("column", form["field1"])
+    if form["field2"]:
+        query.ilike("column", f"%{form['field2']}%")
+    return query.execute().data
+```
+
+### Adding a New Template (with clues)
+```jinja2
+{% extends "clues_wrapper.html" %}
+
+{% block title %}
+    Page Title
+{% endblock %}
+
+{% block stylesheet %}
+    <link rel="stylesheet" href="{{ url_for('static',filename='style/page-name.css') }}">
+{% endblock %}
+
+{% block content %}
+    <h1>Page Heading</h1>
+    <div class="page-container">
+        <form action="/route" method="POST">
+            <div class="input-group">
+                <label for="field">Label:</label>
+                <input id="field" name="field" type="text" value="{{ prev_values['field'] if prev_values else '' }}">
+            </div>
+            <button class="pixel-box" type="submit">Search</button>
+        </form>
+        <div class="link-container">
+            <a class="pixel-box" href="/map">Back to the map</a>
+        </div>
+        {% if data != None %}
+            <!-- Display results -->
+        {% endif %}
+    </div>
+{% endblock %}
+```
+
+## Important Notes
+
+- NEVER use async/await in JavaScript - use callbacks and promises
+- NEVER use TypeScript - this is plain JavaScript
+- NEVER use CSS preprocessors (SASS/SCSS) - use CSS with nesting support
+- NEVER use modern Python features beyond what's in existing code (no type hints, dataclasses, etc.)
+- ALWAYS preserve form values when re-rendering after POST
+- ALWAYS use Supabase for database queries (no direct SQL)
+- ALWAYS include alt text on images
+- ALWAYS use `url_for()` for static file references in templates
+- ALWAYS maintain the pixel-art aesthetic with `.pixel-box` class

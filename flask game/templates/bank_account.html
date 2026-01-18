@@ -1,38 +1,54 @@
 {% extends "bank.html" %}
 
 {% block bank_form %}
-  <form action="/bank/account" method="POST">
-    form here
+  <form action="/bank/accounts" method="POST">
+    <div class="input-group">
+      <label for="account_number">Account Number:</label>
+      <input 
+        type="text" 
+        name="account_number" 
+        placeholder="Account Number" 
+        value="{{ prev_values.account_number if prev_values else '' }}">
+    </div>
+    <button class="pixel-box" type="submit">Search</button>
   </form>
   <div class="link-container">
       <a class="pixel-box" href="/map">Back to the map</a>
   </div>
-  <!-- {% if data %}
+  {% if data != None %}
     <table>
       <thead>
         <tr>
-          <th>Date</th>
           <th>Account</th>
-          <th>Type</th>
-          <th>Location</th>
-          <th>Amount</th>
+          <th>Created</th>
+          <th>Owner</th>
+          <th>Name</th>
+          <th>Phone Number</th>
+          <th>License Plate</th>
         </tr>
       </thead>
       <tbody>
-        {% if data|count > 0 %}
-          {% for row in data %}
-            <tr>
-              <td>{{ row.date }}</td>
-              <td>{{ row.account_number }}</td>
-              <td>{{ row.transaction_type }}</td>
-              <td>{{ row.atm_location }}</td>
-              <td>{{ row.amount }}</td>
-            </tr>
-          {% endfor %}
-        {% else %}
-          <tr colspan="3"> No results found - try again!</tr>
-        {% endif %}
+        <tr>
+          <td>{{ data.account_number }}</td>
+          <td>{{ data.creation_year }}</td>
+          <td>{{ data.person_id }}</td>
+          <td>{{ data.people.name }}</td>
+          <td>{{ data.people.phone_number }}</td>
+          <td>{{ data.people.license_plate }}</td>
+          <td>
+            <button 
+              class="pixel-box icon-button"
+              title="Add Person of Interest"
+              onclick="addToClues(
+                  'People of Interest: id | name | phone number | license plate', 
+                  '{{ data.person_id }} | {{ data.people.name }} | {{ data.people.phone_number }} | {{ data.people.license_plate }}'
+              )">
+            +</button>
+          </td>
+        </tr>
       </tbody>
     </table>
-  {% endif %} -->
+  {% else %}
+    <p>No results found - try again!</p>
+  {% endif %}
 {% endblock %}

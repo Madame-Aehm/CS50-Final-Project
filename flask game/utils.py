@@ -65,3 +65,21 @@ def get_atm_transactions(form):
     if form["transaction"]:
         query.eq("transaction_type", form["transaction"])
     return query.execute().data
+
+
+def get_bank_accounts(form):
+    supabase = create_client(
+        os.getenv("SUPABASE_URL"), 
+        os.getenv("SUPABASE_KEY"))
+    query = (supabase.table('bank_accounts')
+        .select('*, people(*)')
+        .eq('account_number', form['account_number']))
+    return query.execute().data
+
+
+def get_license_data(form):
+    supabase = create_client(
+        os.getenv("SUPABASE_URL"), 
+        os.getenv("SUPABASE_KEY"))
+    query = supabase.table("people").select().eq("license_plate", form["string"])
+    return query.execute().data

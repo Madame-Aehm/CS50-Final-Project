@@ -44,6 +44,7 @@
       <a class="pixel-box" href="/map">Back to the map</a>
   </div>
   {% if data != None %}
+    {% if data|count > 0 %}
     <table>
       <thead>
         <tr>
@@ -55,7 +56,6 @@
         </tr>
       </thead>
       <tbody>
-        {% if data|count > 0 %}
           {% for row in data %}
             <tr>
               <td>{{ row.date }}</td>
@@ -76,12 +76,10 @@
               </td>
             </tr>
           {% endfor %}
-        {% else %}
-          <tr>
-            <td colspan="5">No results found - try again!</td>
-          </tr>
-        {% endif %}
-      </tbody>
-    </table>
-  {% endif %}
+        </tbody>
+      </table>
+      {% else %}
+        <p>No results found - try again!</p>
+      {% endif %}
+    {% endif %}
 {% endblock %}
