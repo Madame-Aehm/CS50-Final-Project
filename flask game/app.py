@@ -78,6 +78,7 @@ def bakery():
             if prev_values["from"] > prev_values["to"]:
                 return render_template("error.html", message='"To" value must be less than "From"')
         data = get_security_logs(prev_values)
+        print("DATA", data)
         return render_template("bakery.html", prev_values=prev_values, data=data)
     
 
@@ -93,7 +94,7 @@ def bank():
         }
         data = get_atm_transactions(prev_values)
         print("DATA", data)
-    return render_template("bank_atm.html", prev_values=prev_values, data=data)
+        return render_template("bank_atm.html", prev_values=prev_values, data=data)
 
 
 @app.route("/bank/accounts", methods=["GET", "POST"])

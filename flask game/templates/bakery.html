@@ -38,7 +38,7 @@
     <div class="link-container">
         <a class="pixel-box" href="/map">Back to the map</a>
     </div>
-    {% if data %}
+    {% if data != None %}
       <table>
         <thead>
           <tr>
@@ -69,7 +69,9 @@
               </tr>
             {% endfor %}
           {% else %}
-            <tr colspan="3"> No results found - try again!</tr>
+            <tr >
+              <td colspan="3">No results found - try again!</td>
+            </tr>
           {% endif %}
         </tbody>
       </table>
