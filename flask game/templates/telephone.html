@@ -1,0 +1,22 @@
+{% extends "clues_wrapper.html" %}
+
+{% block title %}
+    Phone Company
+{% endblock %}
+
+{% block stylesheet %}
+    <link rel="stylesheet" href="{{ url_for('static',filename='style/page.css') }}">
+{% endblock %}
+
+{% block content %}
+  <h1>Phone Company</h1>
+
+  <div class="page-container">
+    <h2>How can we assist you today? ☎️</h2>
+    <p>
+      All of our <a href="/telephone">phone records</a> are available for your investigation, 
+      and there's a <a href="/telephone/book">phone book over there</a> if you need to look up a registered number.
+    </p>
+    {% block telephone_form %}{% endblock %}
+  </div>
+{% endblock %}

@@ -3,10 +3,11 @@ h1 {
 }
 
 .page-container {
-    width: 100%;
+    /* width: 100%; */
     display: flex;
     flex-direction: column;
     align-items: center;
+    padding: 0 1em;
 }
 
 form {
@@ -14,6 +15,14 @@ form {
     align-items: flex-end;
     gap: 1em;
     margin-bottom: 1em;
+}
+
+input {
+    width: 12em;
+}
+
+select {
+    width: 12em;
 }
 
 .input-group {

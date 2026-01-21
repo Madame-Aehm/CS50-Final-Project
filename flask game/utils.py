@@ -83,3 +83,26 @@ def get_license_data(form):
         os.getenv("SUPABASE_KEY"))
     query = supabase.table("people").select().eq("license_plate", form["string"])
     return query.execute().data
+
+
+def get_call_history(form):
+    supabase = create_client(
+        os.getenv("SUPABASE_URL"), 
+        os.getenv("SUPABASE_KEY"))
+    query = supabase.table("phone_calls").select()
+    if form["date"]:
+        query.eq("date", form["date"])
+    if form["caller"]:
+        query.eq("caller", form["caller"])
+    if form["receiver"]:
+        query.eq("receiver", form["receiver"])
+    return query.execute().data
+
+
+def phonebook_search(form):
+    supabase = create_client(
+        os.getenv("SUPABASE_URL"), 
+        os.getenv("SUPABASE_KEY"))
+    query = (supabase.table("people").select()
+        .ilike(form["search"], f"%{form["query"]}%"))
+    return query.execute().data

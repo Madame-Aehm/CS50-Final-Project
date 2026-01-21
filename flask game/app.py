@@ -5,7 +5,8 @@
 # python -m flask --app app run --debug
 
 from flask import Flask, render_template, request, redirect
-from utils import get_police_data, get_security_logs, get_atm_transactions, get_bank_accounts, get_license_data
+from utils import (get_police_data, get_security_logs, get_atm_transactions, 
+get_bank_accounts, get_license_data, get_call_history, phonebook_search)
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -51,13 +52,13 @@ def police_station():
             if prev_values["table"] == "reports":
                 data = get_police_data("crime_scene_reports", prev_values)
                 print("DATA", data)
-                return render_template("police_results_reports.html",
+                return render_template("police/police_results_reports.html",
                     prev_values=prev_values,
                     data=data)
             elif prev_values["table"] == "interviews":
                 data = get_police_data("interviews", prev_values)
                 print("DATA", data)
-                return render_template("police_results_interviews.html",
+                return render_template("police/police_results_interviews.html",
                     prev_values=prev_values,
                     data=data)
             else:
@@ -65,7 +66,7 @@ def police_station():
                     return render_template("error.html", message="License plate number is required")
                 data = get_license_data(prev_values)
                 print("DATA", data)
-                return render_template("police_results_lp.html", 
+                return render_template("police/police_results_lp.html", 
                     prev_values=prev_values,
                     data=data[0] if data else None)
         except Exception as e:
@@ -94,7 +95,7 @@ def bakery():
 @app.route("/bank", methods=["GET", "POST"])
 def bank():
     if request.method == "GET":
-        return render_template("bank_atm.html", data=None)
+        return render_template("bank/bank_atm.html", data=None)
     if request.method == "POST":
         prev_values = {
             "date": request.form.get("date"),
@@ -103,13 +104,13 @@ def bank():
         }
         data = get_atm_transactions(prev_values)
         print("DATA", data)
-        return render_template("bank_atm.html", prev_values=prev_values, data=data)
+        return render_template("bank/bank_atm.html", prev_values=prev_values, data=data)
 
 
 @app.route("/bank/accounts", methods=["GET", "POST"])
 def bank_accounts():
     if request.method == "GET":
-        return render_template("bank_account.html")
+        return render_template("bank/bank_account.html", data=None)
     if request.method == "POST":
         prev_values = {
             "account_number": request.form.get("account_number")
@@ -118,4 +119,33 @@ def bank_accounts():
             return render_template("error.html", message="Account number is required")
         data = get_bank_accounts(prev_values)
         print("DATA", data)
-        return render_template("bank_account.html", prev_values=prev_values, data=data[0] if data else None)
+        return render_template("bank/bank_account.html", prev_values=prev_values, data=data[0] if data else None)
+
+
+@app.route("/telephone", methods=["GET", "POST"])
+def telephone():
+    if request.method == "GET":
+        return render_template("phone/phone_records.html", data=None)
+    if request.method == "POST":
+        prev_values = {
+            "date": request.form.get("date"),
+            "caller": request.form.get("caller"),
+            "receiver": request.form.get("receiver")
+        }
+        data = get_call_history(prev_values)
+        print("DATA", data)
+        return render_template("phone/phone_records.html", prev_values=prev_values, data=data)
+
+
+@app.route("/telephone/book", methods=["GET", "POST"])
+def telephone_book():
+    if request.method == "GET":
+        return render_template("phone/phone_book.html", data=None)
+    if request.method == "POST":
+        prev_values = {
+            "search": request.form.get("search"),
+            "query": request.form.get("query")
+        }
+        data = phonebook_search(prev_values)
+        print("DATA", data)
+        return render_template("phone/phone_book.html", prev_values=prev_values, data=data)

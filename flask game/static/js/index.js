@@ -1,7 +1,8 @@
-addEventControllers();
+addModelControllers();
 buildClueList();
+noteController();
 
-function addEventControllers () {
+function addModelControllers () {
     const clueControl = document.querySelector("#clue-control");
     const closeModelButton = document.querySelector("#close-model");
     const clueModel = document.querySelector("#clue-model");
@@ -47,7 +48,7 @@ function removeFromClues(category, clue) {
 }
 
 function buildClueList() {
-    const modelContent = document.querySelector(".model-content");
+    const modelContent = document.querySelector("#db-clues");
     modelContent.innerHTML = `<ul id="clue-list">
                         <li class="pixel-box list-item">
                             <p>
@@ -56,7 +57,7 @@ function buildClueList() {
                             </p>
                         </li>
                     </ul>`;
-    const categories = Object.keys(localStorage);
+    const categories = Object.keys(localStorage).filter(key => key !== "user-notes");
     categories.forEach(cat => {
         const ul = document.createElement("ul");
         const title = document.createElement("h3");
@@ -77,4 +78,17 @@ function buildClueList() {
         })
         modelContent.append(title, ul);
     })
+}
+
+
+function noteController() {
+    const notes = document.querySelector("#user-notes");
+    const savedNotes = localStorage.getItem("user-notes");
+    console.log("SAVED NOTES", savedNotes);
+    if (savedNotes) {
+        notes.value = savedNotes;
+    }
+    notes.addEventListener("keyup", () => {
+        localStorage.setItem("user-notes", notes.value);
+    });
 }

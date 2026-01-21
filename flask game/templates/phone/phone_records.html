@@ -1,0 +1,61 @@
+{% extends "telephone.html" %}
+
+{% block telephone_form %}
+  <form action="/telephone" method="POST">
+    <div class="input-group">
+      <label for="date">Date:</label>
+      <input type="date" id="date" name="date"
+          min="2024-07-25" max="2024-07-31"
+          value="{{ prev_values.date if prev_values else '' }}"  >
+    </div>
+    <div class="input-group">
+      <label for="caller">Caller:</label>
+      <input type="tel" id="caller" name="caller"
+        pattern="[(][0-9]{3}[)] [0-9]{3}-[0-9]{4}"
+        value="{{ prev_values.caller if prev_values else '' }}" >
+    </div>
+    <div class="input-group">
+      <label for="receiver">Receiver:</label>
+      <input type="text" id="receiver" name="receiver"
+          value="{{ prev_values.receiver if prev_values else '' }}" >
+    </div>
+    <button class="pixel-box" type="submit">View Phone Records</button>
+  </form>
+  <div class="link-container">
+    <a class="pixel-box" href="/map">Back to the map</a>
+  </div>
+  {% if data != None %}
+    {% if data|count > 0 %}
+      <h2>Call Records:</h2>
+      <table>
+        <tr>
+          <th>Date</th>
+          <th>Caller</th>
+          <th>Receiver</th>
+          <th>Duration (seconds)</th>
+        </tr>
+        {% for row in data %}
+        <tr>
+          <td>{{ row.date }}</td>
+          <td>{{ row.caller }}</td>
+          <td>{{ row.receiver }}</td>
+          <td>{{ row.duration }}</td>
+          <td>
+            <button 
+              class="pixel-box icon-button"
+              title="Save clue"
+              onclick="addToClues(
+                  'phone calls', 
+                  '{{ row.caller }} called {{ row.receiver }} on {{ row.date }} for {{ row.duration }} seconds'
+              )">
+            +</button>
+          </td>
+        </tr>
+        {% endfor %}
+      </table>
+    {% else %}
+      <p>No call records found.</p>
+    {% endif %}
+  {% endif %}
+
+{% endblock %}
