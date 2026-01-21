@@ -6,7 +6,8 @@
 
 from flask import Flask, render_template, request, redirect
 from utils import (get_police_data, get_security_logs, get_atm_transactions, 
-get_bank_accounts, get_license_data, get_call_history, phonebook_search)
+get_bank_accounts, get_license_data, get_call_history, phonebook_search, get_airports,
+get_flights, get_flight_data, get_passport_data)
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -149,3 +150,38 @@ def telephone_book():
         data = phonebook_search(prev_values)
         print("DATA", data)
         return render_template("phone/phone_book.html", prev_values=prev_values, data=data)
+
+@app.route("/airport", methods=["GET", "POST"])
+def airport():
+    airports = get_airports()
+    if request.method == "GET":
+        return render_template("airport/flights.html", data=None, airports=airports)
+    if request.method == "POST":
+        prev_values = {
+            "origin": int(request.form.get("origin")) 
+                if request.form.get("origin") else None,
+            "destination": int(request.form.get("destination")) 
+                if request.form.get("destination") else None,
+            "date": request.form.get("date")
+        }
+        data = get_flights(prev_values)
+        print("DATA", data)
+        return render_template("airport/flights.html", prev_values=prev_values, data=data, airports=airports)
+
+
+@app.route("/airport/lookup", methods=["GET", "POST"])
+def airport_lookup():
+    if request.method == "GET":
+        return render_template("airport/airport_lookup.html", data=None)
+    if request.method == "POST":
+        prev_values = {
+            "table": request.form.get("table"),
+            "string": int(request.form.get("string"))
+        }
+        if prev_values["table"] == "flight":
+            data = get_flight_data(prev_values)
+            return render_template("airport/lookup_flight_results.html", 
+                prev_values=prev_values, data=data)
+        else:
+            data = get_passport_data(prev_values)
+        print("DATA", data)

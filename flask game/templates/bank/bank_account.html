@@ -25,6 +25,7 @@
           <th>Name</th>
           <th>Phone Number</th>
           <th>License Plate</th>
+          <th>Passport Number</th>
         </tr>
       </thead>
       <tbody>
@@ -35,13 +36,15 @@
           <td>{{ data.people.name }}</td>
           <td>{{ data.people.phone_number }}</td>
           <td>{{ data.people.license_plate }}</td>
+          <td>{{ data.people.passport_number }}</td>
           <td>
             <button 
               class="pixel-box icon-button"
               title="Add Person of Interest"
               onclick="addToClues(
-                  'People of Interest: id | name | phone number | license plate', 
-                  '{{ data.person_id }} | {{ data.people.name }} | {{ data.people.phone_number }} | {{ data.people.license_plate }}'
+                  'People of Interest: id | name | phone number | license plate | passport number',
+                  '{{ data.person_id }} | {{ data.people.name }} | {{ data.people.phone_number }} | ' + 
+                  '{{ data.people.license_plate }} | {{ data.people.passport_number }}'
               )">
             +</button>
           </td>

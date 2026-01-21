@@ -1,0 +1,91 @@
+{% extends "airport.html" %}
+
+
+{% block airport_form %}
+  <form action="/airport" method="POST">
+    <div class="input-group">
+      <label for="date">Date:</label>
+      <input type="date" id="date" name="date" 
+        min="2024-07-26" max="2024-07-30"
+        value="{{ prev_values.date if prev_values else '' }}">
+    </div>
+    <div class="input-group">
+      <label for="origin">Origin:</label>
+      <select name="origin" id="origin">
+        <option value="">Select</option>
+        {% for airport in airports %}
+          <option value="{{ airport.id }}"
+            {% if prev_values and prev_values.origin == airport.id %}
+              selected
+            {% endif %}
+          >
+            {{ airport.city }} ({{ airport.abbreviation }})
+          </option>
+        {% endfor %}
+      </select>
+    </div>
+    <div class="input-group">
+      <label for="destination">Destination:</label>
+      <select name="destination" id="destination">
+        <option value="">Select</option>
+        {% for airport in airports %}
+          <option value="{{ airport.id }}"
+            {% if prev_values and prev_values.destination == airport.id %}
+              selected
+            {% endif %}
+          >
+            {{ airport.city }} ({{ airport.abbreviation }})
+          </option>
+        {% endfor %}
+      </select>
+    </div>
+    <button type="submit" class="pixel-box">Search</button>
+  </form>
+  <div class="link-container">
+    <a class="pixel-box" href="/map">Back to the map</a>
+  </div>
+  {% if data != None %}
+    {% if data|length != 0 %}
+    <div class="results">
+      <h2>Flights</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Flight ID</th>
+            <th>Date</th>
+            <th>Time</th>
+            <th>Origin Airport</th>
+            <th>Destination Airport</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for flight in data %}
+            <tr>
+              <td>{{ flight.id }}</td>
+              <td>{{ flight.date }}</td>
+              <td>{{ flight.time }}</td>
+              <td>{{ flight.origin_airport_id.city }} ({{ flight.origin_airport_id.abbreviation }})</td>
+              <td>{{ flight.destination_airport_id.city }} ({{ flight.destination_airport_id.abbreviation }})</td>
+              <td>
+                <button class="pixel-box icon-button"
+                  title="Save clue"
+                  onclick="addToClues(
+                      'flights', 
+                      '{{ flight.date }} @ {{ flight.time }}: {{ flight.id }} from ' +
+                      '{{ flight.origin_airport_id.abbreviation }} to ' +
+                      '{{ flight.destination_airport_id.abbreviation }}'
+                  )">
+                +</button>
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  {% else %}
+    <div class="results">
+      <h2>No flights found matching your criteria.</h2>
+    </div>
+    {% endif %}
+  {% endif %}
+{% endblock %}

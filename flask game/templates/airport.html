@@ -1,0 +1,22 @@
+{% extends "clues_wrapper.html" %}
+
+{% block title %}
+    Airport
+{% endblock %}
+
+{% block stylesheet %}
+    <link rel="stylesheet" href="{{ url_for('static',filename='style/page.css') }}">
+{% endblock %}
+
+{% block content %}
+  <h1>Airport</h1>
+
+  <div class="page-container">
+    <h2>Welcome to the City Airport! ✈️</h2>
+    <p>
+      All of our <a href="/airport">flight logs</a> are publicly available. Further information (such as passenger information for a specific flight, 
+      or passport lookup), has been made available for your investigation <a href="/airport/lookup">here</a>.
+    </p>
+    {% block airport_form %}{% endblock %}
+  </div>
+{% endblock %}

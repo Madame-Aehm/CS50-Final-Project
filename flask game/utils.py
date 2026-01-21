@@ -33,8 +33,7 @@ def get_police_data(table, form):
             .eq("month", int(month))
             .eq("year", int(year)))
     if form["string"]:
-        string_val = ("transcript" if table == "interviews" 
-                      else "street")
+        string_val = ("transcript" if table == "interviews" else "street")
         query.ilike(string_val, f"%{form["string"]}%")
     return query.execute().data
 
@@ -105,4 +104,45 @@ def phonebook_search(form):
         os.getenv("SUPABASE_KEY"))
     query = (supabase.table("people").select()
         .ilike(form["search"], f"%{form["query"]}%"))
+    return query.execute().data
+
+
+def get_airports():
+    supabase = create_client(
+        os.getenv("SUPABASE_URL"), 
+        os.getenv("SUPABASE_KEY"))
+    query = supabase.table("airports").select()
+    return query.execute().data
+
+
+def get_flights(form):
+    supabase = create_client(
+        os.getenv("SUPABASE_URL"), 
+        os.getenv("SUPABASE_KEY"))
+    query = (supabase.table("flights")
+        .select('*, origin_airport_id(*), destination_airport_id(*)'))
+    if form["date"]:
+        query.eq("date", form["date"])
+    if form["origin"]:
+        query.eq("origin_airport_id", form["origin"])
+    if form["destination"]:
+        query.eq("destination_airport_id", form["destination"])
+    return query.execute().data
+
+
+def get_flight_data(form):
+    supabase = create_client(
+        os.getenv("SUPABASE_URL"), 
+        os.getenv("SUPABASE_KEY"))
+    query = (supabase.table("passengers").select()
+        .eq("flight_id", form["string"]))
+    return query.execute().data
+
+
+def get_passport_data(form):
+    supabase = create_client(
+        os.getenv("SUPABASE_URL"), 
+        os.getenv("SUPABASE_KEY"))
+    query = (supabase.table("people").select()
+        .eq("passport_number", form["string"]))
     return query.execute().data

@@ -1,0 +1,26 @@
+{% extends "airport.html" %}
+
+
+{% block airport_form %}
+  <form action="/airport/lookup" method="POST">
+    <div class="input-group">
+      <label for="table">Search:</label>
+      <select name="table" id="table">
+        <option value="flight">Flight</option>
+        <option value="passport">Passport</option>
+      </select>
+    </div>
+    <div class="input-group">
+      <label for="string">Flight Number:</label>
+      <input type="text" id="string" name="string" 
+        placeholder="Flight Number" required
+        value="{{ prev_values.string if prev_values else '' }}">
+    </div>
+    <button type="submit" class="pixel-box">Search</button>
+  </form>
+  <div class="link-container">
+    <a class="pixel-box" href="/map">Back to the map</a>
+  </div>
+  {% block airport_lookup_result %}{% endblock %}
+  <script src="/static/js/airport.js"></script>
+{% endblock %}
