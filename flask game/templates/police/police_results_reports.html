@@ -1,30 +1,29 @@
 {% extends "police_station.html" %}
 
 {% block police_station_results %}
-  {% if data != None %}
-    <div class="extend-bottom">
-    {% if data|count > 0 %}
-    <h3>Results:</h3>
-        <ul>
-            {% for row in data %}
-                <li class="pixel-box list-item">
-                    <button 
-                        class="pixel-box icon-button"
-                        title="Save clue"
-                        onclick="addToClues(
-                            'crime scene reports', 
-                            '{{ row.day }}-{{ row.month }}-{{ row.year }} on {{ row.street }}: {{ row.description }}'
-                        )"
-                    >+</button>
-                    <p>When: {{ row.day }}-{{ row.month }}-{{ row.year }}</p>
-                    <p>Where: {{ row.street }}</p>
-                    <p>{{ row.description }}</p>
-                </li>
-            {% endfor %}
-        </ul>
-    {% else %}
-        <p>No results found - try again!</p>
+    {% if data != None %}
+        <div class="extend-bottom">
+        {% if data|count > 0 %}
+        <h3>Results:</h3>
+            <ul>
+                {% for row in data %}
+                    <li class="pixel-box list-item">
+                        <button 
+                            class="pixel-box icon-button"
+                            title="Save clue"
+                            data-category="crime scene reports"
+                            data-clue="{{ row.day }}-{{ row.month }}-{{ row.year }} on {{ row.street }}: {{ row.description }}"
+                            onclick="addToClues(this)"
+                        >+</button>
+                        <p>When: {{ row.day }}-{{ row.month }}-{{ row.year }}</p>
+                        <p>Where: {{ row.street }}</p>
+                        <p>{{ row.description }}</p>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>No results found - try again!</p>
+        {% endif %}
+        </div>
     {% endif %}
-    </div>
-  {% endif %}
 {% endblock %}

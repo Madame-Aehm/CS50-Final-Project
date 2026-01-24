@@ -44,10 +44,9 @@
             <button 
               class="pixel-box icon-button"
               title="Save clue"
-              onclick="addToClues(
-                  'phone calls', 
-                  '{{ row.caller }} called {{ row.receiver }} on {{ row.date }} for {{ row.duration }} seconds'
-              )">
+              data-category="phone calls"
+              data-clue="{{ row.caller }} called {{ row.receiver }} on {{ row.date }} for {{ row.duration }} seconds"
+              onclick="addToClues(this)">
             +</button>
           </td>
         </tr>

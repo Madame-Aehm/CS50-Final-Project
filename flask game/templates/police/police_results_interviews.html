@@ -2,19 +2,17 @@
 
 {% block police_station_results %}
   {% if data != None %}
-    <div class="extend-bottom">
       {% if data|count > 0 %}
       <h3>Results:</h3>
-        <ul>
+        <ul class="extend-bottom">
           {% for row in data %}
             <li class="pixel-box list-item">
               <button 
                   class="pixel-box icon-button"
                   title="Add to clues"
-                  onclick="addToClues(
-                      'interviews', 
-                      '{{ row.day }}-{{ row.month }}-{{ row.year }}, {{ row.name }}: {{ row.transcript }}'
-                  )"
+                  data-category="interviews"
+                  data-clue="{{ row.day }}-{{ row.month }}-{{ row.year }}, {{ row.name }}: {{ row.transcript }}"
+                  onclick="addToClues(this)"
               >+</button>
               <p>When: {{ row.day }}-{{ row.month }}-{{ row.year }}</p>
               <p>Who: {{ row.name }}</p>
@@ -25,6 +23,5 @@
       {% else %}
           <p>No results found - try again!</p>
       {% endif %}
-    </div>
   {% endif %}
 {% endblock %}

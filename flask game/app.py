@@ -12,9 +12,6 @@ load_dotenv()
 
 app = Flask(__name__)
 
-# Register all feature blueprints
-register_blueprints(app)
-
 
 @app.after_request
 def after_request(response):
@@ -38,3 +35,6 @@ def hello_world():
 @app.route("/map")
 def map():
     return render_template("map.html")
+
+
+register_blueprints(app)

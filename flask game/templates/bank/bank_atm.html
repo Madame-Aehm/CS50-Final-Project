@@ -67,11 +67,9 @@
                 <button 
                   class="pixel-box icon-button"
                   title="Save clue"
-                  onclick="addToClues(
-                      'atm transactions', 
-                      '{{ row.date }} on {{ row.atm_location }}: {{ row.transaction_type }}' 
-                      + ' of {{ row.amount }} by {{ row.account_number }}'
-                  )">
+                  data-category="atm transactions"
+                  data-clue="{{ row.date }} on {{ row.atm_location }}: {{ row.transaction_type }} of {{ row.amount }} by {{ row.account_number }}"
+                  onclick="addToClues(this)">
                 +</button>
               </td>
             </tr>

@@ -60,10 +60,9 @@
                   <button 
                     class="pixel-box icon-button"
                     title="Save clue"
-                    onclick="addToClues(
-                        'bakery security logs', 
-                        '{{ row.date }} @ {{ row.time }}: {{ row.activity }} by {{ row.license_plate }}'
-                    )">
+                    data-category="bakery security logs"
+                    data-clue="{{ row.date }} @ {{ row.time }}: {{ row.activity }} by {{ row.license_plate }}"
+                    onclick="addToClues(this)">
                   +</button>
                 </td>
               </tr>

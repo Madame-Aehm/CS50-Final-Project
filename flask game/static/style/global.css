@@ -139,6 +139,14 @@ button {
     width: 1.5rem;
 }
 
+.clue-button-saved {
+    background-color: #d3d3d3;
+}
+
+.clue-button-saved::before {
+    background-color: #d3d3d3;
+}
+
 textarea {
     font-family: "Jersey 15", sans-serif;
     font-weight: 400;
