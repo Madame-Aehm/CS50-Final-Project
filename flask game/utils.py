@@ -1,5 +1,4 @@
-from supabase import create_client
-import os
+from database.supabase_client import get_supabase_client
 
 
 def validate_values(values):
@@ -24,9 +23,7 @@ def get_police_data(table, form):
     date = form["date"]
     if date: 
         year, month, day = date.split("-")
-    supabase = create_client(
-        os.getenv("SUPABASE_URL"), 
-        os.getenv("SUPABASE_KEY"))
+    supabase = get_supabase_client()
     query = supabase.table(table).select()
     if date:
         (query.eq("day", int(day))
@@ -39,9 +36,7 @@ def get_police_data(table, form):
 
 
 def get_security_logs(form):
-    supabase = create_client(
-        os.getenv("SUPABASE_URL"), 
-        os.getenv("SUPABASE_KEY"))
+    supabase = get_supabase_client()
     query = supabase.table("bakery_security_logs").select()
     if form["date"]:
         query.eq("date", form["date"])
@@ -53,9 +48,7 @@ def get_security_logs(form):
 
 
 def get_atm_transactions(form):
-    supabase = create_client(
-        os.getenv("SUPABASE_URL"), 
-        os.getenv("SUPABASE_KEY"))
+    supabase = get_supabase_client()
     query = supabase.table("atm_transactions").select()
     if form["date"]:
         query.eq("date", form["date"])
@@ -67,9 +60,7 @@ def get_atm_transactions(form):
 
 
 def get_bank_accounts(form):
-    supabase = create_client(
-        os.getenv("SUPABASE_URL"), 
-        os.getenv("SUPABASE_KEY"))
+    supabase = get_supabase_client()
     query = (supabase.table('bank_accounts')
         .select('*, people(*)')
         .eq('account_number', form['account_number']))
@@ -77,17 +68,13 @@ def get_bank_accounts(form):
 
 
 def get_license_data(form):
-    supabase = create_client(
-        os.getenv("SUPABASE_URL"), 
-        os.getenv("SUPABASE_KEY"))
+    supabase = get_supabase_client()
     query = supabase.table("people").select().eq("license_plate", form["string"])
     return query.execute().data
 
 
 def get_call_history(form):
-    supabase = create_client(
-        os.getenv("SUPABASE_URL"), 
-        os.getenv("SUPABASE_KEY"))
+    supabase = get_supabase_client()
     query = supabase.table("phone_calls").select()
     if form["date"]:
         query.eq("date", form["date"])
@@ -99,26 +86,20 @@ def get_call_history(form):
 
 
 def phonebook_search(form):
-    supabase = create_client(
-        os.getenv("SUPABASE_URL"), 
-        os.getenv("SUPABASE_KEY"))
+    supabase = get_supabase_client()
     query = (supabase.table("people").select()
         .ilike(form["search"], f"%{form["query"]}%"))
     return query.execute().data
 
 
 def get_airports():
-    supabase = create_client(
-        os.getenv("SUPABASE_URL"), 
-        os.getenv("SUPABASE_KEY"))
+    supabase = get_supabase_client()
     query = supabase.table("airports").select()
     return query.execute().data
 
 
 def get_flights(form):
-    supabase = create_client(
-        os.getenv("SUPABASE_URL"), 
-        os.getenv("SUPABASE_KEY"))
+    supabase = get_supabase_client()
     query = (supabase.table("flights")
         .select('*, origin_airport_id(*), destination_airport_id(*)'))
     if form["date"]:
@@ -131,18 +112,14 @@ def get_flights(form):
 
 
 def get_flight_data(form):
-    supabase = create_client(
-        os.getenv("SUPABASE_URL"), 
-        os.getenv("SUPABASE_KEY"))
+    supabase = get_supabase_client()
     query = (supabase.table("passengers").select()
         .eq("flight_id", form["string"]))
     return query.execute().data
 
 
 def get_passport_data(form):
-    supabase = create_client(
-        os.getenv("SUPABASE_URL"), 
-        os.getenv("SUPABASE_KEY"))
+    supabase = get_supabase_client()
     query = (supabase.table("people").select()
         .eq("passport_number", form["string"]))
     return query.execute().data
