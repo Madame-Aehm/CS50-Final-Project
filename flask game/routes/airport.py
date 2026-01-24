@@ -61,7 +61,6 @@ def airport_lookup():
         else:
             data = get_passport_data(prev_values)
             print("DATA", data)
-            # Re-render lookup page with results for passports
             return render_template(
                 "airport/airport_lookup.html",
                 prev_values=prev_values,

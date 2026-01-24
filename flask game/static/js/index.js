@@ -27,7 +27,6 @@ function addModelControllers () {
 function addToClues(button) {
     const category = button.getAttribute("data-category")
     const clue = button.getAttribute("data-clue")
-    console.log(category, clue)
     let list = localStorage.getItem(category);
     if (list) {
         list = JSON.parse(list);
@@ -61,7 +60,7 @@ function buildClueList() {
     modelContent.innerHTML = `<ul id="clue-list">
                         <li class="pixel-box list-item">
                             <p>
-                                The theft took place on July 28, 2024 and that it took place on Humphrey Street.
+                                The theft took place on July 28, 2024 on Humphrey Street.
                                 Maybe start by checking for reports in the police station?
                             </p>
                         </li>
@@ -93,7 +92,6 @@ function buildClueList() {
 function noteController() {
     const notes = document.querySelector("#user-notes");
     const savedNotes = localStorage.getItem("user-notes");
-    console.log("SAVED NOTES", savedNotes);
     if (savedNotes) {
         notes.value = savedNotes;
     }

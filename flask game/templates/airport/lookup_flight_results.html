@@ -18,6 +18,15 @@
               <td>{{ row.flight_id }}</td>
               <td>{{ row.passport_number }}</td>
               <td>{{ row.seat }}</td>
+              <td>
+                <button 
+                  class="pixel-box icon-button"
+                  title="Save clue"
+                  data-category="flights"
+                  data-clue="Flight {{ row.flight_id }}: {{ row.passport_number }} assigned seat {{ row.seat }}"
+                  onclick="addToClues(this)">
+                +</button>
+              </td>
             </tr>
           {% endfor %}
         </tbody>

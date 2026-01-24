@@ -41,8 +41,8 @@
             <button 
               class="pixel-box icon-button"
               title="Add Person of Interest"
-              data-category="People of Interest: id | name | phone number | license plate | passport number"
-              data-clue="{{ data.person_id }} | {{ data.people.name }} | {{ data.people.phone_number }} | {{ data.people.license_plate }} | {{ data.people.passport_number }}"
+              data-category="People of Interest"
+              data-clue="id: {{ data.person_id }} | name: {{ data.people.name }} | ph: {{ data.people.phone_number }} | license plate: {{ data.people.license_plate }} | passport: {{ data.people.passport_number }}"
               onclick="addToClues(this)">
             +</button>
           </td>

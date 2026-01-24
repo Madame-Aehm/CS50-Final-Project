@@ -11,7 +11,7 @@
     <div class="input-group">
       <label for="caller">Caller:</label>
       <input type="tel" id="caller" name="caller"
-        pattern="[(][0-9]{3}[)] [0-9]{3}-[0-9]{4}"
+        pattern="\([0-9]{3}\) [0-9]{3}-[0-9]{4}"
         value="{{ prev_values.caller if prev_values else '' }}" >
     </div>
     <div class="input-group">

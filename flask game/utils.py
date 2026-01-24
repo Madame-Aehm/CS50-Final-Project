@@ -69,6 +69,7 @@ def get_bank_accounts(form):
 
 def get_license_data(form):
     supabase = get_supabase_client()
+    print("THIS IS FORM", form)
     query = supabase.table("people").select().eq("license_plate", form["string"])
     return query.execute().data
 
