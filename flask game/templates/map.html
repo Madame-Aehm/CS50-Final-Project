@@ -13,7 +13,7 @@
         <h1>Time to start your investigation!</h1>
         <p>
             Visit locations to gather information. As you uncover clues, you can save them into your clue bank, accessible by
-            clicking the button at the bottom right of the page.
+            clicking the button at the bottom right of the page. When you think you have found the culprit, report them <a href="/report">here</a>!
         </p>
         <div class="map-container">
             <a href="/police-station">
@@ -44,10 +44,7 @@
                 <img 
                     src="{{url_for('static', filename='/assets/airport.png')}}" 
                     alt="A pixel-art airport building with a aeroplanes visible outside">
-
-            <img 
-                src="{{url_for('static', filename='/assets/gym.png')}}" 
-                alt="A pixel-art Gym with people working out visible through the windows">
+            </a>
         </div>
     </div>
 {% endblock %}

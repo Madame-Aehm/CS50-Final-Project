@@ -1,0 +1,63 @@
+{% extends "clues_wrapper.html" %}
+
+{% block title %}
+    Report
+{% endblock %}
+
+{% block stylesheet %}
+    <link rel="stylesheet" href="{{ url_for('static',filename='style/page.css') }}">
+{% endblock %}
+
+{% block content %}
+  <h1>Make your report</h1>
+
+  <div class="page-container">
+    <h2>🕵️🕵️‍♀️</h2>
+    <p>
+      You've found the culprit! We'll need to double check, so give us the thief's name, 
+      the city they escaped to, and the name of their accomplice.
+    </p>
+    <form action="/report" method="POST">
+      <div class="input-group">
+        <label for="thief_name">Thief Name:</label>
+        <input 
+          type="text" 
+          id="thief_name"
+          name="thief_name" 
+          placeholder="Thief Name" 
+          value="{{ prev_values.thief_name if prev_values else '' }}">
+      </div>
+      <div class="input-group">
+        <label for="city">City the Thief Escaped To:</label>
+        <input 
+          type="text" 
+          id="city"
+          name="city" 
+          placeholder="City" 
+          value="{{ prev_values.city if prev_values else '' }}">
+      </div>
+      <div class="input-group">
+        <label for="accomplice">Thief's Accomplice:</label>
+        <input 
+          type="text" 
+          id="accomplice"
+          name="accomplice" 
+          placeholder="Accomplice Name" 
+          value="{{ prev_values.accomplice if prev_values else '' }}">
+      </div>
+      <button class="pixel-box" type="submit">Submit Report</button>
+    </form>
+    <div class="link-container">
+      <a class="pixel-box" href="/map">Back to the map</a>
+    </div>
+    {% if data != None %}
+      <h1>{{ data.message }}</h1>
+      {% if data.won %}
+        <script>
+          localStorage.setItem("won", "true")
+        </script>
+      {% endif %}
+    {% endif %}
+  </div>
+  <script src="{{ url_for('static', filename='js/report.js') }}"></script>
+{% endblock %}

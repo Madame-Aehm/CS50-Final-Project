@@ -22,5 +22,5 @@
     <a class="pixel-box" href="/map">Back to the map</a>
   </div>
   {% block airport_lookup_result %}{% endblock %}
-  <script src="/static/js/airport.js"></script>
+  <script src="{{ url_for('static', filename='js/airport.js') }}"></script>
 {% endblock %}

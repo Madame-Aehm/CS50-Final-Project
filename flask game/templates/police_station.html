@@ -66,5 +66,5 @@
         </div>
         {% block police_station_results %}{% endblock %}
     </div>
-    <script src="../static/js/police_station.js"></script>
+    <script src="{{ url_for('static', filename='js/police_station.js') }}"></script>
 {% endblock %}

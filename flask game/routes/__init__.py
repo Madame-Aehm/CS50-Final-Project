@@ -10,10 +10,12 @@ def register_blueprints(app: Flask) -> None:
     from routes.bank import bank_bp
     from routes.phone import phone_bp
     from routes.airport import airport_bp
+    from routes.report import report_bp
 
     app.register_blueprint(police_bp)
     app.register_blueprint(bakery_bp)
     app.register_blueprint(bank_bp)
     app.register_blueprint(phone_bp)
     app.register_blueprint(airport_bp)
+    app.register_blueprint(report_bp)
 
