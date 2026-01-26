@@ -3,41 +3,39 @@
 
 {% block airport_form %}
   <form action="/airport" method="POST">
+    {{ form.csrf_token }}
     <div class="input-group">
-      <label for="date">Date:</label>
-      <input type="date" id="date" name="date" 
-        min="2024-07-26" max="2024-07-30"
-        value="{{ prev_values.date if prev_values else '' }}">
+      {{ form.date.label }}
+      {{ form.date(min="2024-07-26", max="2024-07-30") }}
+      {% if form.date.errors %}
+          <ul class="errors">
+              {% for error in form.date.errors %}
+                  <li>{{ error }}</li>
+              {% endfor %}
+          </ul>
+      {% endif %}
     </div>
     <div class="input-group">
-      <label for="origin">Origin:</label>
-      <select name="origin" id="origin">
-        <option value="">Select</option>
-        {% for airport in airports %}
-          <option value="{{ airport.id }}"
-            {% if prev_values and prev_values.origin == airport.id %}
-              selected
-            {% endif %}
-          >
-            {{ airport.city }} ({{ airport.abbreviation }})
-          </option>
-        {% endfor %}
-      </select>
+      {{ form.origin.label }}
+      {{ form.origin }}
+      {% if form.origin.errors %}
+          <ul class="errors">
+              {% for error in form.origin.errors %}
+                  <li>{{ error }}</li>
+              {% endfor %}
+          </ul>
+      {% endif %}
     </div>
     <div class="input-group">
-      <label for="destination">Destination:</label>
-      <select name="destination" id="destination">
-        <option value="">Select</option>
-        {% for airport in airports %}
-          <option value="{{ airport.id }}"
-            {% if prev_values and prev_values.destination == airport.id %}
-              selected
-            {% endif %}
-          >
-            {{ airport.city }} ({{ airport.abbreviation }})
-          </option>
-        {% endfor %}
-      </select>
+      {{ form.destination.label }}
+      {{ form.destination }}
+      {% if form.destination.errors %}
+          <ul class="errors">
+              {% for error in form.destination.errors %}
+                  <li>{{ error }}</li>
+              {% endfor %}
+          </ul>
+      {% endif %}
     </div>
     <button type="submit" class="pixel-box">Search</button>
   </form>

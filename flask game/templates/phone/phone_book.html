@@ -2,23 +2,29 @@
 
 {% block telephone_form %}
   <form action="/telephone/book" method="POST">
+    {{ form.csrf_token }}
     <div class="input-group">
-      <label for="search">Search:</label>
-      <select name="search" id="search">
-        <option value="name" 
-          {% if prev_values and prev_values.search == 'name' %}
-            selected
-          {% endif %}
-        >Name</option>
-        <option value="phone_number" 
-          {% if prev_values and prev_values.search == 'phone_number' %}
-            selected
-          {% endif %}
-        >Phone Number</option>
-      </select>
+      {{ form.search.label }}
+      {{ form.search }}
+      {% if form.search.errors %}
+          <ul class="errors">
+              {% for error in form.search.errors %}
+                  <li>{{ error }}</li>
+              {% endfor %}
+          </ul>
+      {% endif %}
     </div>
-    <input type="text" id="query" name="query" required
-      value="{{ prev_values.query if prev_values else '' }}" >
+    <div class="input-group">
+      {{ form.query.label }}
+      {{ form.query }}
+      {% if form.query.errors %}
+          <ul class="errors">
+              {% for error in form.query.errors %}
+                  <li>{{ error }}</li>
+              {% endfor %}
+          </ul>
+      {% endif %}
+    </div>
     <button class="pixel-box" type="submit">Search Phone Book</button>
   </form>
   <div class="link-container">
@@ -29,7 +35,6 @@
     <table>
       <thead>
         <tr>
-          <th>ID</th>
           <th>Name</th>
           <th>Phone Number</th>
           <th>License Plate</th>
@@ -39,7 +44,6 @@
       <tbody>
         {% for row in data %}
           <tr>
-            <td>{{ row.id }}</td>
             <td>{{ row.name }}</td>
             <td>{{ row.phone_number }}</td>
             <td>{{ row.license_plate }}</td>
@@ -49,7 +53,7 @@
                 class="pixel-box icon-button"
                 title="Add Person of Interest"
                 data-category="People of Interest"
-                data-clue="id: {{ row.id }} | name: {{ row.name }} | ph: {{ row.phone_number }} | license plate: {{ row.license_plate }} | passport: {{ row.passport_number }}"
+                data-clue="name: {{ row.name }} | ph: {{ row.phone_number }} | license plate: {{ row.license_plate }} | passport: {{ row.passport_number }}"
                 onclick="addToClues(this)">
               +</button>
             </td>

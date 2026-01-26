@@ -2,13 +2,17 @@
 
 {% block bank_form %}
   <form action="/bank/accounts" method="POST">
+    {{ form.csrf_token }}
     <div class="input-group">
-      <label for="account_number">Account Number:</label>
-      <input 
-        type="text" 
-        name="account_number" 
-        placeholder="Account Number" 
-        value="{{ prev_values.account_number if prev_values else '' }}">
+      {{ form.account_number.label }}
+      {{ form.account_number(placeholder="Account Number") }}
+      {% if form.account_number.errors %}
+          <ul class="errors">
+              {% for error in form.account_number.errors %}
+                  <li>{{ error }}</li>
+              {% endfor %}
+          </ul>
+      {% endif %}
     </div>
     <button class="pixel-box" type="submit">Search</button>
   </form>
@@ -16,40 +20,42 @@
       <a class="pixel-box" href="/map">Back to the map</a>
   </div>
   {% if data != None %}
-    <table>
-      <thead>
-        <tr>
-          <th>Account</th>
-          <th>Created</th>
-          <th>Owner</th>
-          <th>Name</th>
-          <th>Phone Number</th>
-          <th>License Plate</th>
-          <th>Passport Number</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>{{ data.account_number }}</td>
-          <td>{{ data.creation_year }}</td>
-          <td>{{ data.person_id }}</td>
-          <td>{{ data.people.name }}</td>
-          <td>{{ data.people.phone_number }}</td>
-          <td>{{ data.people.license_plate }}</td>
-          <td>{{ data.people.passport_number }}</td>
-          <td>
-            <button 
-              class="pixel-box icon-button"
-              title="Add Person of Interest"
-              data-category="People of Interest"
-              data-clue="id: {{ data.person_id }} | name: {{ data.people.name }} | ph: {{ data.people.phone_number }} | license plate: {{ data.people.license_plate }} | passport: {{ data.people.passport_number }}"
-              onclick="addToClues(this)">
-            +</button>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  {% else %}
-    <p>No results found - try again!</p>
+    {% if data|count > 0 %}
+      <table>
+        <thead>
+          <tr>
+            <th>Account</th>
+            <th>Created</th>
+            <th>Name</th>
+            <th>Phone Number</th>
+            <th>License Plate</th>
+            <th>Passport Number</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for row in data %}
+            <tr>
+              <td>{{ row.account_number }}</td>
+              <td>{{ row.creation_year }}</td>
+              <td>{{ row.people.name }}</td>
+              <td>{{ row.people.phone_number }}</td>
+              <td>{{ row.people.license_plate }}</td>
+              <td>{{ row.people.passport_number }}</td>
+              <td>
+                <button 
+                  class="pixel-box icon-button"
+                  title="Add Person of Interest"
+                  data-category="People of Interest"
+                  data-clue="name: {{ row.people.name }} | ph: {{ row.people.phone_number }} | license plate: {{ row.people.license_plate }} | passport: {{ row.people.passport_number }}"
+                  onclick="addToClues(this)">
+                +</button>
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    {% else %}
+      <p>No results found - try again!</p>
+    {% endif %}
   {% endif %}
 {% endblock %}

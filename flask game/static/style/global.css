@@ -147,6 +147,18 @@ button {
     background-color: #d3d3d3;
 }
 
+.errors {
+    list-style: none;
+    padding: 0;
+    margin: 0.5em 0;
+    color: red;
+}
+
+.errors li {
+    padding: 0.25em;
+    font-size: 0.9em;
+}
+
 textarea {
     font-family: "Jersey 15", sans-serif;
     font-weight: 400;

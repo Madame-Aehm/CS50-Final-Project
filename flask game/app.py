@@ -6,11 +6,15 @@
 
 from flask import Flask, render_template
 from dotenv import load_dotenv
+from flask_wtf.csrf import CSRFProtect
 from routes import register_blueprints
+import os
 
 load_dotenv()
 
 app = Flask(__name__)
+app.config["SECRET_KEY"] = os.getenv("SECRET_KEY")
+csrf = CSRFProtect(app)
 
 
 @app.after_request

@@ -129,25 +129,24 @@ def get_passport_data(form):
 def identify_culprit(form):
     print("THIS IS FORM", form)
     correct = {
-        "thief_name": "bruce",
-        "city": "new york city",
-        "accomplice": "robin"
+        "thief_name": ["bruce"],
+        "city": ["new york", "new york city", "lga"],
+        "accomplice": ["robin"]
     }
-    message = ""
+    message = "None of these are correct.. Try starting your investigation at the police station"
     found = 0
     for key, value in form.items():
-        if value.strip().lower() and (value.strip().lower() in correct[key]):
+        if value.lower() and (value.lower() in correct[key]):
             if not message:
                 message = "You correctly identified the "
             else:
                 message += " and "
             message += key.replace("_", " ")
             found += 1
-    if not message:
-        message = "None of these are correct.. Try starting your investigation at the police station."
     if found == 3:
-        message = "🎉🎊 Congratulations, you solved the mystery! " + message
-    message += "."
+        message = "You did it!"
+    else:
+        message += "."
     return {
         "won": found == 3,
         "message": message

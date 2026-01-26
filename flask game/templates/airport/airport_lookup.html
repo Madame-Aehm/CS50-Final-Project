@@ -3,18 +3,34 @@
 
 {% block airport_form %}
   <form action="/airport/lookup" method="POST">
+    {{ form.csrf_token }}
     <div class="input-group">
-      <label for="table">Search:</label>
-      <select name="table" id="table">
-        <option value="flight">Flight</option>
-        <option value="passport">Passport</option>
-      </select>
+      {{ form.table.label }}
+      {{ form.table }}
+      {% if form.table.errors %}
+          <ul class="errors">
+              {% for error in form.table.errors %}
+                  <li>{{ error }}</li>
+              {% endfor %}
+          </ul>
+      {% endif %}
     </div>
     <div class="input-group">
-      <label for="string">Flight Number:</label>
-      <input type="text" id="string" name="string" 
-        placeholder="Flight Number" required
-        value="{{ prev_values.string if prev_values else '' }}">
+      <label for="string">
+        {% if form.table.data == "passport" %}
+          Passport Number:
+        {% else %}
+          Flight Number:
+        {% endif %}
+      </label>
+      {{ form.string(placeholder=("Passport Number" if form.table.data == "passport" else "Flight Number")) }}
+      {% if form.string.errors %}
+          <ul class="errors">
+              {% for error in form.string.errors %}
+                  <li>{{ error }}</li>
+              {% endfor %}
+          </ul>
+      {% endif %}
     </div>
     <button type="submit" class="pixel-box">Search</button>
   </form>

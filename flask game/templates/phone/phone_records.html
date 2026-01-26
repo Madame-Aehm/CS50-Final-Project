@@ -2,22 +2,39 @@
 
 {% block telephone_form %}
   <form action="/telephone" method="POST">
+    {{ form.csrf_token }}
     <div class="input-group">
-      <label for="date">Date:</label>
-      <input type="date" id="date" name="date"
-          min="2024-07-25" max="2024-07-31"
-          value="{{ prev_values.date if prev_values else '' }}"  >
+      {{ form.date.label }}
+      {{ form.date(min="2024-07-25", max="2024-07-31") }}
+      {% if form.date.errors %}
+          <ul class="errors">
+              {% for error in form.date.errors %}
+                  <li>{{ error }}</li>
+              {% endfor %}
+          </ul>
+      {% endif %}
     </div>
     <div class="input-group">
-      <label for="caller">Caller:</label>
-      <input type="tel" id="caller" name="caller"
-        pattern="\([0-9]{3}\) [0-9]{3}-[0-9]{4}"
-        value="{{ prev_values.caller if prev_values else '' }}" >
+      {{ form.caller.label }}
+      {{ form.caller(pattern="\\([0-9]{3}\\) [0-9]{3}-[0-9]{4}") }}
+      {% if form.caller.errors %}
+          <ul class="errors">
+              {% for error in form.caller.errors %}
+                  <li>{{ error }}</li>
+              {% endfor %}
+          </ul>
+      {% endif %}
     </div>
     <div class="input-group">
-      <label for="receiver">Receiver:</label>
-      <input type="text" id="receiver" name="receiver"
-          value="{{ prev_values.receiver if prev_values else '' }}" >
+      {{ form.receiver.label }}
+      {{ form.receiver(pattern="\\([0-9]{3}\\) [0-9]{3}-[0-9]{4}") }}
+      {% if form.receiver.errors %}
+          <ul class="errors">
+              {% for error in form.receiver.errors %}
+                  <li>{{ error }}</li>
+              {% endfor %}
+          </ul>
+      {% endif %}
     </div>
     <button class="pixel-box" type="submit">View Phone Records</button>
   </form>

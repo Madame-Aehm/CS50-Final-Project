@@ -1,0 +1,39 @@
+{% extends "airport/airport_lookup.html" %}
+
+{% block airport_lookup_result %}
+  {% if data != None %}
+    {% if data|count > 0 %}
+      <table>
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Phone Number</th>
+            <th>License Plate</th>
+            <th>Passport Number</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for row in data %}
+            <tr>
+              <td>{{ row.name }}</td>
+              <td>{{ row.phone_number }}</td>
+              <td>{{ row.license_plate }}</td>
+              <td>{{ row.passport_number }}</td>
+              <td>
+                <button 
+                  class="pixel-box icon-button"
+                  title="Add Person of Interest"
+                  data-category="People of Interest"
+                  data-clue="name: {{ row.name }} | ph: {{ row.phone_number }} | license plate: {{ row.license_plate }} | passport: {{ row.passport_number }}"
+                  onclick="addToClues(this)">
+                +</button>
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    {% else %}
+      <p>No results found - try again!</p>
+    {% endif %}
+  {% endif %}
+{% endblock %}

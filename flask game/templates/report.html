@@ -18,32 +18,39 @@
       the city they escaped to, and the name of their accomplice.
     </p>
     <form action="/report" method="POST">
+      {{ form.csrf_token }}
       <div class="input-group">
-        <label for="thief_name">Thief Name:</label>
-        <input 
-          type="text" 
-          id="thief_name"
-          name="thief_name" 
-          placeholder="Thief Name" 
-          value="{{ prev_values.thief_name if prev_values else '' }}">
+        {{ form.thief_name.label }}
+        {{ form.thief_name(placeholder="Thief Name") }}
+        {% if form.thief_name.errors %}
+            <ul class="errors">
+                {% for error in form.thief_name.errors %}
+                    <li>{{ error }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
       </div>
       <div class="input-group">
-        <label for="city">City the Thief Escaped To:</label>
-        <input 
-          type="text" 
-          id="city"
-          name="city" 
-          placeholder="City" 
-          value="{{ prev_values.city if prev_values else '' }}">
+        {{ form.city.label }}
+        {{ form.city(placeholder="City") }}
+        {% if form.city.errors %}
+            <ul class="errors">
+                {% for error in form.city.errors %}
+                    <li>{{ error }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
       </div>
       <div class="input-group">
-        <label for="accomplice">Thief's Accomplice:</label>
-        <input 
-          type="text" 
-          id="accomplice"
-          name="accomplice" 
-          placeholder="Accomplice Name" 
-          value="{{ prev_values.accomplice if prev_values else '' }}">
+        {{ form.accomplice.label }}
+        {{ form.accomplice(placeholder="Accomplice Name") }}
+        {% if form.accomplice.errors %}
+            <ul class="errors">
+                {% for error in form.accomplice.errors %}
+                    <li>{{ error }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
       </div>
       <button class="pixel-box" type="submit">Submit Report</button>
     </form>

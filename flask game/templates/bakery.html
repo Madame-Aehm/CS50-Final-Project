@@ -15,23 +15,39 @@
     <h2>What can we get for you today? 🥐☕</h2>
     <p>Oh, our security tapes are over there. Please, search for what you need.</p>
     <form action="/bakery" method="POST">
+      {{ form.csrf_token }}
       <div class="input-group">
-        <label for="date">Date:</label>
-        <input 
-          id="date" 
-          name="date" 
-          type="date" 
-          min="2024-07-25" 
-          max="2024-07-31" 
-          value="{{ prev_values['date'] if prev_values else '' }}">
+        {{ form.date.label }}
+        {{ form.date(min="2024-07-25", max="2024-07-31") }}
+        {% if form.date.errors %}
+            <ul class="errors">
+                {% for error in form.date.errors %}
+                    <li>{{ error }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
       </div>
       <div class="input-group">
-        <label for="from">From:</label>
-        <input id="from" name="from" type="time" value="{{ prev_values['from'] if prev_values else '' }}">
+        {{ form.from_field.label }}
+        {{ form.from_field }}
+        {% if form.from_field.errors %}
+            <ul class="errors">
+                {% for error in form.from_field.errors %}
+                    <li>{{ error }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
       </div>
       <div class="input-group">
-        <label for="to">To:</label>
-        <input id="to" name="to" type="time" value="{{ prev_values['to'] if prev_values else '' }}">
+        {{ form.to_field.label }}
+        {{ form.to_field }}
+        {% if form.to_field.errors %}
+            <ul class="errors">
+                {% for error in form.to_field.errors %}
+                    <li>{{ error }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
       </div>
       <button class="pixel-box" type="submit">Search</button>
     </form>

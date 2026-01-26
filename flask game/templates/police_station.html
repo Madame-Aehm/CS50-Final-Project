@@ -14,50 +14,49 @@
     <div class="page-container">
         <h2>How can we help you today? 👮‍♀️</h2>
         <form action="/police-station" method="POST">
+            {{ form.csrf_token }}
             <div class="input-group">
-                <label for="table">Search:</label>
-                <select name="table" id="table">
-                    <option value="reports">Police Reports</option>
-                    <option value="interviews"
-                        {% if prev_values and prev_values.table == 'interviews' %} 
-                            selected="selected"
-                        {% endif %}
-                    >Police Interviews</option>
-                    <option value="lp_lookup"
-                        {% if prev_values and prev_values.table == 'lp_lookup' %} 
-                            selected="selected"
-                        {% endif %}
-                    >License Plate Lookup</option>
-                </select>
+                {{ form.table.label }}
+                {{ form.table }}
+                {% if form.table.errors %}
+                    <ul class="errors">
+                        {% for error in form.table.errors %}
+                            <li>{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
             </div>
             <div 
                 id="date-input" 
-                class="input-group {{ 'hidden' if prev_values.table == 'lp_lookup' else '' }}">
-                <label for="date">Date:</label>
-                <input 
-                    id="date" 
-                    name="date" 
-                    type="date" 
-                    max="2024-08-01" 
-                    min="2024-01-01" 
-                    value="{{ prev_values['date'] if prev_values else '' }}">
+                class="input-group {{ 'hidden' if form.table.data and form.table.data == 'lp_lookup' else '' }}">
+                {{ form.date.label }}
+                {{ form.date(max="2024-08-01", min="2024-01-01") }}
+                {% if form.date.errors %}
+                    <ul class="errors">
+                        {% for error in form.date.errors %}
+                            <li>{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
             </div>
             <div class="input-group">
                 <label for="string">
-                    {% if prev_values and prev_values.table == "interviews" %}
+                    {% if form.table.data == "interviews" %}
                         Keyword:
-                    {% elif prev_values and prev_values.table == "lp_lookup" %}
+                    {% elif form.table.data == "lp_lookup" %}
                         License Plate:
                     {% else %}
                         Street:
                     {% endif %}
                 </label>
-                <input 
-                    id="string"
-                    name="string" 
-                    type="text" 
-                    placeholder="{{ 'Keyword' if prev_values.table == 'interviews' else 'Street' }}" 
-                    value="{{ prev_values['string'] if prev_values else '' }}">
+                {{ form.string(placeholder=('Keyword' if form.table.data == 'interviews' else ('License Plate' if form.table.data == 'lp_lookup' else 'Street'))) }}
+                {% if form.string.errors %}
+                    <ul class="errors">
+                        {% for error in form.string.errors %}
+                            <li>{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
             </div>
             <button class="pixel-box" type="submit">Search</button>
         </form>
