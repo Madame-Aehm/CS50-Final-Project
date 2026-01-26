@@ -18,6 +18,7 @@ def bakery():
             "accomplice": request.form.get("accomplice"),
         }
         data = identify_culprit(prev_values)
+        print("DATA", data)
         return render_template(
             "report.html",
             prev_values=prev_values,
