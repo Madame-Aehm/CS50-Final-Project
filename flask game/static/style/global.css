@@ -1,52 +1,120 @@
+:root {
+    --primary-bg-colour: #202020;
+    --secondary-bg-colour: #080808;
+    --primary-color: #F8F8F8;
+    --accent: #FED46F;
+    --accent-contrast: #080808;
+}
+
 body {
+    font-family: "Roboto", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 400;
+    font-style: normal;
+    font-variation-settings: "wdth" 100;
+    margin: 0;
+    background-color: var(--primary-bg-colour);
+    display: flex;
+    justify-content: center;
+    color: var(--primary-color);
+}
+
+main {
+    max-width: 800px;
+}
+
+h1, h2, h3, h4, h5, h6 {
     font-family: "Jersey 15", sans-serif;
     font-weight: 400;
     font-style: normal;
-    margin: 0;
 }
 
-button {
+p a {
+    color: var(--accent);
+    text-decoration: none;
+}
+
+textarea {
+    font-family: "Jersey 15", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+    width: 70vw;
+    height: 200px;
+}
+
+label {
+    font-family: "Jersey 15", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+    font-size: large;
+    color: var(--accent);
+}
+
+input, select {
+    /* font-family: "Jersey 15", sans-serif;
+    font-weight: 400;
+    font-style: normal; */
+    border: none;
+    height: 2.5em;
+    box-sizing: border-box;
+}
+
+input:focus, select:focus, input:active, select:active {
+    outline: var(--accent) 2px solid;
+}
+
+a.button-link:focus, button:focus {
+    outline: var(--primary-color) 2px solid;
+}
+
+.pixel-box {
+    position: relative;
+    background: var(--secondary-bg-colour);
+    text-align: center;
+    box-shadow:
+      /* Background color corners to cut out */
+        4px 0 var(--secondary-bg-colour),
+        -4px 0 var(--secondary-bg-colour),
+        0 -4px var(--secondary-bg-colour),
+        0 4px var(--secondary-bg-colour),
+        /* Border layer */
+        8px 0 var(--primary-color),
+        -8px 0 var(--primary-color),
+        0 -8px var(--primary-color),
+        0 8px var(--primary-color),
+        0 0 0 4px var(--primary-color);
+    margin: 8px;
+    padding: 0.5em;
+    color: var(--primary-color);
+}
+
+.link-container {
+    display: flex;
+    justify-content: center;
+    margin: 2em;
+}
+
+.button-link {
     cursor: pointer;
     font-family: "Jersey 15", sans-serif;
     font-weight: 400;
     font-style: normal;
+    font-size: large;
+    text-decoration: none;
+    background-color: var(--accent);
+    color: var(--accent-contrast);
+    transition: transform 0.3s;
+    border: none;
+    outline: inherit;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5em;
 }
 
-.pixel-box {
-    color: black;
-    text-align: center;
-    border-style: solid;
-    border-width: .125em 0;
-    margin: 0 .25em;
-    padding: .5em .375em;
-    position: relative;
-    z-index: 1;
-
-    &:before {
-        background-color: white;
-        border: black solid;
-        border-width: 0 .125em;
-        bottom: .125em;
-        content: '';
-        left: -.25em;
-        pointer-events: none;
-        position: absolute;
-        top: .125em;
-        right: -.25em;
-        z-index: -1;
-    }
-
-    &:after {
-        border: black solid;
-        border-width: 0 .125em;
-        bottom: 0;
-        content: '';
-        left: -.125em;
-        position: absolute;
-        top: 0;
-        right: -.125em;
-        z-index: -2;
-    }
+.button-link img {
+    max-width: 2em;
+    max-height: 2em;
 }
 
 .fullscreen-center {
@@ -54,13 +122,6 @@ button {
     display: flex;
     justify-content: center;
     align-items: center;
-}
-
-.link-container {
-    padding-bottom: 2em;
-    padding-top: 1em;
-    display: flex;
-    justify-content: center;
 }
 
 .clue-control {
@@ -71,7 +132,7 @@ button {
 }
 
 .model-container {
-    background-color: rgba(255, 255, 255, 0.9);
+    background-color: rgba(0,0,0, 0.9);
     position: fixed;
     top: 0;
     left: 0;
@@ -80,7 +141,7 @@ button {
 }
 
 .model-body {
-    min-width: 80vw;
+    max-width: 800px;
     width: 90vw;
     max-width: 1000px;
     height: 90dvh;
@@ -99,7 +160,6 @@ button {
     overscroll-behavior-y: contain;
     flex-grow: 1;
     text-align: left;
-    margin-top: 1em;
 }
 
 .model-content ul {
@@ -108,21 +168,6 @@ button {
 
 .model-content li {
     list-style: none;
-}
-
-.list-item {
-    display: flex;
-    flex-direction: column;
-    margin-bottom: 1em;
-}
-
-.list-item button {
-    align-self: flex-end;
-}
-
-.list-item p {
-    text-align: left;
-    margin: 0;
 }
 
 .hidden {
@@ -159,14 +204,6 @@ button {
     font-size: 0.9em;
 }
 
-textarea {
-    font-family: "Jersey 15", sans-serif;
-    font-weight: 400;
-    font-style: normal;
-    width: 70vw;
-    height: 200px;
-}
-
 @media (max-width: 600px) {
     .model-body {
         /* max-width: 90vw; */
@@ -184,8 +221,55 @@ textarea {
         transition: transform 0.3s;
     }
 
-    .clue-control:hover, .link-container:hover, button:hover {
+    .clue-control:hover, .button-link:hover, button:hover {
         transform: scale(1.05);
         transition: transform 0.3s;
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+/* .pixel-box {
+    color: var(--primary-color);
+    text-align: center;
+    border-style: solid;
+    border-width: .125em 0;
+    margin: 0 .25em;
+    padding: .5em .375em;
+    position: relative;
+    z-index: 1;
+
+    &:before {
+        background-color: var(--secondary-bg-colour);
+        border: var(--primary-color) solid;
+        border-width: 0 .125em;
+        bottom: .125em;
+        content: '';
+        left: -.25em;
+        pointer-events: none;
+        position: absolute;
+        top: .125em;
+        right: -.25em;
+        z-index: -1;
+    }
+
+    &:after {
+        border: var(--primary-color) solid;
+        border-width: 0 .125em;
+        bottom: 0;
+        content: '';
+        left: -.125em;
+        position: absolute;
+        top: 0;
+        right: -.125em;
+        z-index: -2;
+    }
+} */

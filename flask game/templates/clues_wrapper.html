@@ -2,7 +2,10 @@
 
 {% block body %}
     {% block content %}{% endblock %}
-    <div class="clue-control pixel-box" id="clue-control">clues</div>
+    <button class="clue-control pixel-box button-link" id="clue-control">
+        <img src="{{ url_for('static', filename='assets/search.png') }}" alt="A pixel magnifying glass icon">
+        clues
+    </button>
     <div class="model-container fullscreen-center hidden" id="clue-model">
         <div class="pixel-box model-body">
             <div class="material-icons close-model" id="close-model">close</div>

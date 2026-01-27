@@ -11,6 +11,21 @@
     list-style: none;
 }
 
+.list-item {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 1em;
+}
+
+.list-item button {
+    align-self: flex-end;
+}
+
+.list-item p {
+    text-align: left;
+    margin: 0;
+}
+
 .extend-bottom {
     padding-bottom: 2em;
 }

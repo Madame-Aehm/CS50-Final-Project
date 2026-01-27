@@ -5,7 +5,7 @@
     {{ form.csrf_token }}
     <div class="input-group">
       {{ form.search.label }}
-      {{ form.search }}
+      {{ form.search(class="pixel-box input-bg") }}
       {% if form.search.errors %}
           <ul class="errors">
               {% for error in form.search.errors %}
@@ -15,8 +15,17 @@
       {% endif %}
     </div>
     <div class="input-group">
-      {{ form.query.label }}
-      {{ form.query }}
+      <label for="query">
+        {% if form.search.data == "phone_number" %}
+          Phone Number:
+        {% else %}
+          Name:
+        {% endif %}
+      </label>
+      {{ form.query(
+          class="pixel-box input-bg", 
+          placeholder=("Phone Number" if form.search.data == "phone_number" else "Name"),
+          autocomplete="off") }}
       {% if form.query.errors %}
           <ul class="errors">
               {% for error in form.query.errors %}
@@ -25,10 +34,10 @@
           </ul>
       {% endif %}
     </div>
-    <button class="pixel-box" type="submit">Search Phone Book</button>
+    <button class="pixel-box button-link" type="submit">Search Phone Book</button>
   </form>
   <div class="link-container">
-    <a class="pixel-box" href="/map">Back to the map</a>
+    <a class="pixel-box button-link" href="/map">Back to the map</a>
   </div>
   {% if data != None %}
     {% if data|count > 0 %}
@@ -65,4 +74,5 @@
       <p>No results found - try again!</p>
     {% endif %}
   {% endif %}
+  <script src="{{ url_for('static', filename='js/phonebook.js') }}"></script>
 {% endblock %}
