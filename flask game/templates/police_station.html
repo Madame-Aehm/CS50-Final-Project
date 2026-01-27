@@ -49,7 +49,7 @@
                         Street:
                     {% endif %}
                 </label>
-                {{ form.string(placeholder=('Keyword' if form.table.data == 'interviews' else ('License Plate' if form.table.data == 'lp_lookup' else 'Street'))) }}
+                {{ form.string(placeholder=('Keyword' if form.table.data == 'interviews' else ('License Plate' if form.table.data == 'lp_lookup' else 'Street')), autocomplete="off") }}
                 {% if form.string.errors %}
                     <ul class="errors">
                         {% for error in form.string.errors %}

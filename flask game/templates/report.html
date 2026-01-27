@@ -21,7 +21,7 @@
       {{ form.csrf_token }}
       <div class="input-group">
         {{ form.thief_name.label }}
-        {{ form.thief_name(placeholder="Thief Name") }}
+        {{ form.thief_name(placeholder="Thief Name", autocomplete="off") }}
         {% if form.thief_name.errors %}
             <ul class="errors">
                 {% for error in form.thief_name.errors %}
@@ -32,7 +32,7 @@
       </div>
       <div class="input-group">
         {{ form.city.label }}
-        {{ form.city(placeholder="City") }}
+        {{ form.city(placeholder="City", autocomplete="off") }}
         {% if form.city.errors %}
             <ul class="errors">
                 {% for error in form.city.errors %}
@@ -43,7 +43,7 @@
       </div>
       <div class="input-group">
         {{ form.accomplice.label }}
-        {{ form.accomplice(placeholder="Accomplice Name") }}
+        {{ form.accomplice(placeholder="Accomplice Name", autocomplete="off") }}
         {% if form.accomplice.errors %}
             <ul class="errors">
                 {% for error in form.accomplice.errors %}

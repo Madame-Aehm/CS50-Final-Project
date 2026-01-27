@@ -16,7 +16,7 @@
     </div>
     <div class="input-group">
       {{ form.caller.label }}
-      {{ form.caller(pattern="\\([0-9]{3}\\) [0-9]{3}-[0-9]{4}") }}
+      {{ form.caller(pattern="\\([0-9]{3}\\) [0-9]{3}-[0-9]{4}", autocomplete="off") }}
       {% if form.caller.errors %}
           <ul class="errors">
               {% for error in form.caller.errors %}
@@ -27,7 +27,7 @@
     </div>
     <div class="input-group">
       {{ form.receiver.label }}
-      {{ form.receiver(pattern="\\([0-9]{3}\\) [0-9]{3}-[0-9]{4}") }}
+      {{ form.receiver(pattern="\\([0-9]{3}\\) [0-9]{3}-[0-9]{4}", autocomplete="off") }}
       {% if form.receiver.errors %}
           <ul class="errors">
               {% for error in form.receiver.errors %}

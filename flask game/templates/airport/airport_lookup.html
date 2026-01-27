@@ -23,7 +23,7 @@
           Flight Number:
         {% endif %}
       </label>
-      {{ form.string(placeholder=("Passport Number" if form.table.data == "passport" else "Flight Number")) }}
+      {{ form.string(placeholder=("Passport Number" if form.table.data == "passport" else "Flight Number"), autocomplete="off") }}
       {% if form.string.errors %}
           <ul class="errors">
               {% for error in form.string.errors %}

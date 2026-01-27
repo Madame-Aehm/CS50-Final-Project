@@ -5,7 +5,7 @@
     {{ form.csrf_token }}
     <div class="input-group">
       {{ form.account_number.label }}
-      {{ form.account_number(placeholder="Account Number") }}
+      {{ form.account_number(placeholder="Account Number", autocomplete="off") }}
       {% if form.account_number.errors %}
           <ul class="errors">
               {% for error in form.account_number.errors %}
