@@ -1,18 +1,18 @@
-{% extends "layout.html" %}
+{% extends "layout.html.j2" %}
 
 {% block body %}
     {% block content %}{% endblock %}
     <button class="clue-control pixel-box button-link" id="clue-control">
-        <img src="{{ url_for('static', filename='assets/search.png') }}" alt="A pixel magnifying glass icon">
+        <img src="{{ url_for('static', filename='assets/icon-search.png') }}" alt="A pixel magnifying glass icon">
         clues
     </button>
     <div class="model-container fullscreen-center hidden" id="clue-model">
         <div class="pixel-box model-body">
-            <div class="material-icons close-model" id="close-model">close</div>
+            <button class="material-icons close-model pixel-box button-icon" id="close-model">close</button>
             <h1>Clues 🔎</h1>
             <div class="model-content">
                 <div id="db-clues">
-                    <ul id="clue-list">
+                    <ul>
                         <li class="pixel-box">
                             <div class="text-left">
                                 The theft took place on July 28, 2024 on Humphrey Street.
@@ -22,8 +22,11 @@
                     </ul>
                 </div>
                 <div>
-                    <h3><label for="user-notes">Notes:</label></h3>
-                    <textarea id="user-notes" placeholder="Put any additional notes here...."></textarea>
+                    <h2><label for="user-notes">Notes:</label></h2>
+                    <textarea 
+                        id="user-notes" 
+                        placeholder="Put any additional notes here...."
+                        class="pixel-box"></textarea>
                 </div>
             </div>
         </div>

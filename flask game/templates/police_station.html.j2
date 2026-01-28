@@ -1,4 +1,5 @@
-{% extends "clues_wrapper.html" %}
+{% extends "clues_wrapper.html.j2" %}
+{% from "components/buttons.html.j2" import render_back_button %}
 
 {% block title %}
     Police Station
@@ -17,7 +18,7 @@
             {{ form.csrf_token }}
             <div class="input-group">
                 {{ form.table.label }}
-                {{ form.table }}
+                {{ form.table(class="pixel-box") }}
                 {% if form.table.errors %}
                     <ul class="errors">
                         {% for error in form.table.errors %}
@@ -30,7 +31,7 @@
                 id="date-input" 
                 class="input-group {{ 'hidden' if form.table.data and form.table.data == 'lp_lookup' else '' }}">
                 {{ form.date.label }}
-                {{ form.date(max="2024-08-01", min="2024-01-01") }}
+                {{ form.date(max="2024-08-01", min="2024-01-01", class="pixel-box") }}
                 {% if form.date.errors %}
                     <ul class="errors">
                         {% for error in form.date.errors %}
@@ -49,7 +50,7 @@
                         Street:
                     {% endif %}
                 </label>
-                {{ form.string(placeholder=('Keyword' if form.table.data == 'interviews' else ('License Plate' if form.table.data == 'lp_lookup' else 'Street')), autocomplete="off") }}
+                {{ form.string(placeholder=('Keyword' if form.table.data == 'interviews' else ('License Plate' if form.table.data == 'lp_lookup' else 'Street')), autocomplete="off", class="pixel-box") }}
                 {% if form.string.errors %}
                     <ul class="errors">
                         {% for error in form.string.errors %}
@@ -60,9 +61,7 @@
             </div>
             <button class="pixel-box button-link" type="submit">Search</button>
         </form>
-        <div class="link-container">
-            <a class="pixel-box button-link" href="/map">Back to the map</a>
-        </div>
+        {{render_back_button()}}
         {% block police_station_results %}{% endblock %}
     </div>
     <script src="{{ url_for('static', filename='js/police_station.js') }}"></script>

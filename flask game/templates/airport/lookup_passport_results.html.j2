@@ -1,4 +1,5 @@
-{% extends "airport/airport_lookup.html" %}
+{% extends "airport/airport_lookup.html.j2" %}
+{% from "components/buttons.html.j2" import render_add_clue_button %}
 
 {% block airport_lookup_result %}
   {% if data != None %}
@@ -20,13 +21,11 @@
               <td>{{ row.license_plate }}</td>
               <td>{{ row.passport_number }}</td>
               <td>
-                <button 
-                  class="pixel-box icon-button"
-                  title="Add Person of Interest"
-                  data-category="People of Interest"
-                  data-clue="name: {{ row.name }} | ph: {{ row.phone_number }} | license plate: {{ row.license_plate }} | passport: {{ row.passport_number }}"
-                  onclick="addToClues(this)">
-                +</button>
+                {{render_add_clue_button(
+                  "people of interest",
+                  "name: " ~ row.name ~ " | ph: " ~ row.phone_number ~ " | license plate: " ~ 
+                    row.license_plate ~ " | passport: " ~ row.passport_number
+                )}}
               </td>
             </tr>
           {% endfor %}

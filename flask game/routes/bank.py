@@ -12,7 +12,7 @@ def bank():
     form = BankATMForm()
     
     if request.method == "GET":
-        return render_template("bank/bank_atm.html", form=form, data=None)
+        return render_template("bank/bank_atm.html.j2", form=form, data=None)
 
     if request.method == "POST":
         if form.validate_on_submit():
@@ -24,10 +24,10 @@ def bank():
             data = get_atm_transactions(prev_values)
             print("DATA", data)
             return render_template(
-                "bank/bank_atm.html",
+                "bank/bank_atm.html.j2",
                 form=form, data=data)
         else:
-            return render_template("bank/bank_atm.html", form=form, data=None)
+            return render_template("bank/bank_atm.html.j2", form=form, data=None)
 
 
 @bank_bp.route("/bank/accounts", methods=["GET", "POST"])
@@ -35,7 +35,7 @@ def bank_accounts():
     form = BankAccountForm()
     
     if request.method == "GET":
-        return render_template("bank/bank_account.html", form=form, data=None)
+        return render_template("bank/bank_account.html.j2", form=form, data=None)
 
     if request.method == "POST":
         if form.validate_on_submit():
@@ -45,8 +45,8 @@ def bank_accounts():
             data = get_bank_accounts(prev_values)
             print("DATA", data)
             return render_template(
-                "bank/bank_account.html",
+                "bank/bank_account.html.j2",
                 form=form, data=data)
         else:
-            return render_template("bank/bank_account.html", form=form, data=None)
+            return render_template("bank/bank_account.html.j2", form=form, data=None)
 

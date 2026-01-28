@@ -1,11 +1,12 @@
-{% extends "telephone.html" %}
+{% extends "telephone.html.j2" %}
+{% from "components/buttons.html.j2" import render_add_clue_button, render_back_button %}
 
 {% block telephone_form %}
   <form action="/telephone" method="POST">
     {{ form.csrf_token }}
     <div class="input-group">
       {{ form.date.label }}
-      {{ form.date(min="2024-07-25", max="2024-07-31") }}
+      {{ form.date(min="2024-07-25", max="2024-07-31", class="pixel-box") }}
       {% if form.date.errors %}
           <ul class="errors">
               {% for error in form.date.errors %}
@@ -16,7 +17,7 @@
     </div>
     <div class="input-group">
       {{ form.caller.label }}
-      {{ form.caller(pattern="\\([0-9]{3}\\) [0-9]{3}-[0-9]{4}", autocomplete="off") }}
+      {{ form.caller(pattern="\\([0-9]{3}\\) [0-9]{3}-[0-9]{4}", autocomplete="off", class="pixel-box") }}
       {% if form.caller.errors %}
           <ul class="errors">
               {% for error in form.caller.errors %}
@@ -27,7 +28,7 @@
     </div>
     <div class="input-group">
       {{ form.receiver.label }}
-      {{ form.receiver(pattern="\\([0-9]{3}\\) [0-9]{3}-[0-9]{4}", autocomplete="off") }}
+      {{ form.receiver(pattern="\\([0-9]{3}\\) [0-9]{3}-[0-9]{4}", autocomplete="off", class="pixel-box") }}
       {% if form.receiver.errors %}
           <ul class="errors">
               {% for error in form.receiver.errors %}
@@ -38,14 +39,7 @@
     </div>
     <button class="pixel-box button-link" type="submit">View Phone Records</button>
   </form>
-  <div class="link-container">
-    <a class="pixel-box button-link" href="/map">
-      <img 
-        src="{{ url_for('static', filename='assets/back-button.png') }}" 
-        alt="a pixelated rounded button indicated return to previous page">
-          Back to the map
-    </a>
-  </div>
+  {{render_back_button()}}
   {% if data != None %}
     {% if data|count > 0 %}
       <h2>Call Records:</h2>
@@ -63,13 +57,10 @@
           <td>{{ row.receiver }}</td>
           <td>{{ row.duration }}</td>
           <td>
-            <button 
-              class="pixel-box icon-button"
-              title="Save clue"
-              data-category="phone calls"
-              data-clue="{{ row.caller }} called {{ row.receiver }} on {{ row.date }} for {{ row.duration }} seconds"
-              onclick="addToClues(this)">
-            +</button>
+            {{render_add_clue_button(
+              "phone calls",
+              row.caller ~ " called " ~ row.receiver ~ " on " ~ row.date ~ " for " ~ row.duration ~ " seconds"
+            )}}
           </td>
         </tr>
         {% endfor %}

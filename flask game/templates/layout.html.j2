@@ -13,6 +13,9 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="{{ url_for('static',filename='style/global.css') }}">
     {% block stylesheet %}{% endblock %}
+    <script>
+        const trashIconGlobalPath = "{{ url_for('static', filename='assets/icon-trash.png') }}";
+    </script>
 </head>
 <body>
     <main>

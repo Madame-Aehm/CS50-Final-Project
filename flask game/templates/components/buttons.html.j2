@@ -1,0 +1,23 @@
+{% macro render_add_clue_button(category, clue) %}
+  <button 
+      class="pixel-box button-icon"
+      title="Save clue"
+      data-category="{{ category }}"
+      data-clue="{{ clue }}"
+      onclick="addToClues(this)">
+      <img src="{{url_for('static', filename='/assets/icon-add+.png')}}" alt="A plus symbol">
+  </button>
+{% endmacro %}
+
+
+
+{% macro render_back_button() %}
+  <div class="link-container">
+    <a class="pixel-box button-link" href="/map">
+      <img 
+        src="{{ url_for('static', filename='assets/icon-back-button.png') }}" 
+        alt="a pixelated rounded button indicated return to previous page">
+      Back to the map
+    </a>
+  </div>
+{% endmacro %}

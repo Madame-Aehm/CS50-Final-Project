@@ -1,4 +1,5 @@
-{% extends "airport.html" %}
+{% extends "airport.html.j2" %}
+{% from "components/buttons.html.j2" import render_back_button %}
 
 
 {% block airport_form %}
@@ -6,7 +7,7 @@
     {{ form.csrf_token }}
     <div class="input-group">
       {{ form.table.label }}
-      {{ form.table }}
+      {{ form.table(class="pixel-box") }}
       {% if form.table.errors %}
           <ul class="errors">
               {% for error in form.table.errors %}
@@ -23,7 +24,10 @@
           Flight Number:
         {% endif %}
       </label>
-      {{ form.string(placeholder=("Passport Number" if form.table.data == "passport" else "Flight Number"), autocomplete="off") }}
+      {{ form.string(
+        placeholder=("Passport Number" if form.table.data == "passport" else "Flight Number"), 
+        autocomplete="off", 
+        class="pixel-box") }}
       {% if form.string.errors %}
           <ul class="errors">
               {% for error in form.string.errors %}
@@ -34,9 +38,7 @@
     </div>
     <button type="submit" class="pixel-box button-link">Search</button>
   </form>
-  <div class="link-container">
-    <a class="pixel-box button-link" href="/map">Back to the map</a>
-  </div>
+  {{render_back_button()}}
   {% block airport_lookup_result %}{% endblock %}
   <script src="{{ url_for('static', filename='js/airport.js') }}"></script>
 {% endblock %}

@@ -1,7 +1,5 @@
 function replaceForm() {
-  console.log("replace form function calls")
   const won = localStorage.getItem("won");
-  console.log(won)
   if (won === "true") {
     const form = document.querySelector("form");
     form.classList.add("hidden")

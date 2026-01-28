@@ -1,4 +1,5 @@
-{% extends "police_station.html" %}
+{% extends "police_station.html.j2" %}
+{% from "components/buttons.html.j2" import render_add_clue_button %}
 
 {% block police_station_results %}
   {% if data != None %}
@@ -7,13 +8,10 @@
         <ul class="extend-bottom">
           {% for row in data %}
             <li class="pixel-box list-item">
-              <button 
-                  class="pixel-box icon-button"
-                  title="Add to clues"
-                  data-category="interviews"
-                  data-clue="{{ row.day }}-{{ row.month }}-{{ row.year }}, {{ row.name }}: {{ row.transcript }}"
-                  onclick="addToClues(this)"
-              >+</button>
+              {{render_add_clue_button(
+                "interviews",
+                row.day ~ "-" ~ row.month ~ "-" ~ row.year ~ ", " ~ row.name ~ ": " ~ row.transcript
+              )}}
               <p>When: {{ row.day }}-{{ row.month }}-{{ row.year }}</p>
               <p>Who: {{ row.name }}</p>
               <p>{{ row.transcript }}</p>

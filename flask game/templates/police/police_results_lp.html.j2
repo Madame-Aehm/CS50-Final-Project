@@ -1,11 +1,11 @@
-{% extends "police_station.html" %}
+{% extends "police_station.html.j2" %}
+{% from "components/buttons.html.j2" import render_add_clue_button %}
 
 {% block police_station_results %}
   {% if data != None %}
     <table>
       <thead>
         <tr>
-          <th>ID</th>
           <th>Name</th>
           <th>Phone Number</th>
           <th>License Plate</th>
@@ -14,19 +14,16 @@
       </thead>
       <tbody>
         <tr>
-          <td>{{ data.id }}</td>
           <td>{{ data.name }}</td>
           <td>{{ data.phone_number }}</td>
           <td>{{ data.license_plate }}</td>
           <td>{{ data.passport_number }}</td>
           <td>
-            <button 
-              class="pixel-box icon-button"
-              title="Add Person of Interest"
-              data-category="People of Interest"
-              data-clue="id: {{ data.id }} | name: {{ data.name }} | ph: {{ data.phone_number }} | license plate: {{ data.license_plate }} | passport: {{ data.passport_number }}"
-              onclick="addToClues(this)">
-            +</button>
+            {{render_add_clue_button(
+              "people of interest",
+              "name: " ~ data.name ~ " | ph: " ~ data.phone_number ~ " | license plate: " ~ 
+                data.license_plate ~ " | passport: " ~ data.passport_number
+            )}}
           </td>
         </tr>
       </tbody>

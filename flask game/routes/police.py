@@ -13,7 +13,7 @@ def police_station():
     
     if request.method == "GET":
         return render_template(
-            "police_station.html",
+            "police_station.html.j2",
             form=form, data=None)
 
     if request.method == "POST":
@@ -28,25 +28,25 @@ def police_station():
                     data = get_police_data("crime_scene_reports", prev_values)
                     print("DATA", data)
                     return render_template(
-                        "police/police_results_reports.html",
+                        "police/police_results_reports.html.j2",
                         form=form, data=data)
                 elif prev_values["table"] == "interviews":
                     data = get_police_data("interviews", prev_values)
                     print("DATA", data)
                     return render_template(
-                        "police/police_results_interviews.html",
+                        "police/police_results_interviews.html.j2",
                         form=form, data=data)
                 else:
                     data = get_license_data(prev_values)
                     print("DATA", data)
                     return render_template(
-                        "police/police_results_lp.html",
+                        "police/police_results_lp.html.j2",
                         form=form, data=data[0] if data else None)
             else:
                 return render_template(
-                    "police_station.html",
+                    "police_station.html.j2",
                     form=form, data=None)
         except Exception as e:
             print("error occurred: ", e)
-            return render_template("error.html", message=e)
+            return render_template("error.html.j2", message=e)
 

@@ -1,4 +1,5 @@
-{% extends "clues_wrapper.html" %}
+{% extends "clues_wrapper.html.j2" %}
+{% from "components/buttons.html.j2" import render_back_button %}
 
 {% block title %}
     Report
@@ -21,7 +22,7 @@
       {{ form.csrf_token }}
       <div class="input-group">
         {{ form.thief_name.label }}
-        {{ form.thief_name(placeholder="Thief Name", autocomplete="off") }}
+        {{ form.thief_name(placeholder="Thief Name", autocomplete="off", class="pixel-box") }}
         {% if form.thief_name.errors %}
             <ul class="errors">
                 {% for error in form.thief_name.errors %}
@@ -32,7 +33,7 @@
       </div>
       <div class="input-group">
         {{ form.city.label }}
-        {{ form.city(placeholder="City", autocomplete="off") }}
+        {{ form.city(placeholder="City", autocomplete="off", class="pixel-box") }}
         {% if form.city.errors %}
             <ul class="errors">
                 {% for error in form.city.errors %}
@@ -43,7 +44,7 @@
       </div>
       <div class="input-group">
         {{ form.accomplice.label }}
-        {{ form.accomplice(placeholder="Accomplice Name", autocomplete="off") }}
+        {{ form.accomplice(placeholder="Accomplice Name", autocomplete="off", class="pixel-box") }}
         {% if form.accomplice.errors %}
             <ul class="errors">
                 {% for error in form.accomplice.errors %}
@@ -54,9 +55,7 @@
       </div>
       <button class="pixel-box" type="submit">Submit Report</button>
     </form>
-    <div class="link-container">
-      <a class="pixel-box button-link" href="/map">Back to the map</a>
-    </div>
+    {{render_back_button()}}
     {% if data != None %}
       <h1>{{ data.message }}</h1>
       {% if data.won %}

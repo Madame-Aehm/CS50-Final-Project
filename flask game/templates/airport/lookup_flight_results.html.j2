@@ -1,4 +1,5 @@
-{% extends "airport/airport_lookup.html" %}
+{% extends "airport/airport_lookup.html.j2" %}
+{% from "components/buttons.html.j2" import render_add_clue_button %}
 
 {% block airport_lookup_result %}
   {% if data != None %}
@@ -19,13 +20,10 @@
               <td>{{ row.passport_number }}</td>
               <td>{{ row.seat }}</td>
               <td>
-                <button 
-                  class="pixel-box icon-button"
-                  title="Save clue"
-                  data-category="flights"
-                  data-clue="Flight {{ row.flight_id }}: {{ row.passport_number }} assigned seat {{ row.seat }}"
-                  onclick="addToClues(this)">
-                +</button>
+                {{render_add_clue_button(
+                  "flight passengers",
+                  "Flight " ~ row.flight_id ~ ": passport " ~ row.passport_number ~ " assigned seat " ~ row.seat
+                )}}
               </td>
             </tr>
           {% endfor %}

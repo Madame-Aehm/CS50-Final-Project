@@ -12,7 +12,7 @@ def bakery():
     form = BakeryForm()
     
     if request.method == "GET":
-        return render_template("bakery.html", form=form, data=None)
+        return render_template("bakery.html.j2", form=form, data=None)
 
     if request.method == "POST":
         if form.validate_on_submit():
@@ -24,8 +24,8 @@ def bakery():
             data = get_security_logs(prev_values)
             print("DATA", data)
             return render_template(
-                "bakery.html",
+                "bakery.html.j2",
                 form=form, data=data)
         else:
-            return render_template("bakery.html", form=form, data=None)
+            return render_template("bakery.html.j2", form=form, data=None)
 

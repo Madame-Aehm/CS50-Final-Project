@@ -1,0 +1,26 @@
+{% extends "police_station.html.j2" %}
+{% from "components/buttons.html.j2" import render_add_clue_button %}
+
+{% block police_station_results %}
+    {% if data != None %}
+        <div class="extend-bottom">
+        {% if data|count > 0 %}
+        <h3>Results:</h3>
+            <ul>
+                {% for row in data %}
+                    <li class="pixel-box list-item">
+                        {{render_add_clue_button(
+                            "crime scene reports",
+                            row.day ~ "-" ~ row.month ~ "-" ~ row.year ~ " on " ~ row.street ~ ": " ~ row.description
+                        )}}
+                        <p><b>{{ row.date }} | {{ row.street }}</b></p>
+                        <p>{{ row.description }}</p>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>No results found - try again!</p>
+        {% endif %}
+        </div>
+    {% endif %}
+{% endblock %}

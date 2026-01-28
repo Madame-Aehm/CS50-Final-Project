@@ -4,6 +4,8 @@
 # cd "flask game"
 # python -m flask --app app run --debug
 
+# TODO: update icons on all icon-button elements + fix bug with broken image on sub routes
+
 from flask import Flask, render_template
 from dotenv import load_dotenv
 from flask_wtf.csrf import CSRFProtect
@@ -28,17 +30,17 @@ def after_request(response):
 
 @app.errorhandler(404)
 def not_found(e):
-    return render_template("error.html", message=e)
+    return render_template("error.html.j2", message=e)
 
 
 @app.route("/")
 def hello_world():
-    return render_template("index.html")
+    return render_template("index.html.j2")
 
 
 @app.route("/map")
 def map():
-    return render_template("map.html")
+    return render_template("map.html.j2")
 
 
 register_blueprints(app)

@@ -45,6 +45,14 @@ The trickiest part was syntax related, when I discovered one of the of the strin
 Writing the filter query for the bakery is when I decided that it was also time to reformat the way dates and times are saved in the table. So consolidated the date and time columns into single timestamps. I've added this value to the police interviews and reports, however I've left that code to use as proof that this step was necessary.
 
 
+timeline:  
+  - starting app using only what i learned through cs50
+  - at a certain scope, i had to introduce blueprints to separate routes
+  - introducing flask-wtf for form validation also simplified form logic
+  - introducing .html.j2 filetypes instead of just regular .html to use extensions with syntax highlighting
+  - introduce macros to reduce some of the repetition
+
+
 resources:
 ## sql
 - https://lua.sqlite.org/home/doc/tip/doc/lsqlite3.wiki

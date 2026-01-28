@@ -3,6 +3,7 @@
     --secondary-bg-colour: #080808;
     --primary-color: #F8F8F8;
     --accent: #FED46F;
+    --saved: #80fe6f;
     --accent-contrast: #080808;
 }
 
@@ -38,8 +39,7 @@ textarea {
     font-family: "Jersey 15", sans-serif;
     font-weight: 400;
     font-style: normal;
-    width: 70vw;
-    height: 200px;
+    min-height: 200px;
 }
 
 label {
@@ -51,20 +51,26 @@ label {
 }
 
 input, select {
-    /* font-family: "Jersey 15", sans-serif;
-    font-weight: 400;
-    font-style: normal; */
     border: none;
     height: 2.5em;
     box-sizing: border-box;
 }
 
-input:focus, select:focus, input:active, select:active {
+input:focus, select:focus, textarea:focus, input:active, select:active, textarea:active {
     outline: var(--accent) 2px solid;
 }
 
 a.button-link:focus, button:focus {
     outline: var(--primary-color) 2px solid;
+}
+
+hr {
+    color: var(--accent);
+    background: var(--accent);
+    height: 2px;
+    border: none;
+    margin-top: 0;
+    margin-bottom: 1em;
 }
 
 .pixel-box {
@@ -112,9 +118,27 @@ a.button-link:focus, button:focus {
     gap: 0.5em;
 }
 
-.button-link img {
+.button-icon {
+    cursor: pointer;
+    background-color: var(--accent);
+    color: var(--accent-contrast);
+    border: none;
+    outline: inherit;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.button-link img, .button-icon img {
     max-width: 2em;
     max-height: 2em;
+}
+
+#user-notes {
+    background-color: var(--primary-color);
+    text-align: left;
+    color: var(--secondary-bg-colour);
 }
 
 .fullscreen-center {
@@ -142,12 +166,18 @@ a.button-link:focus, button:focus {
 
 .model-body {
     max-width: 800px;
-    width: 90vw;
-    max-width: 1000px;
+    margin: 1em;
+    margin-right: 2em;
     height: 90dvh;
     padding: 1em;
     display: flex;
     flex-direction: column;
+    background-color: var(--primary-bg-colour);
+}
+
+.model-content h2 {
+    color: var(--accent);
+    margin-bottom: 0;
 }
 
 .close-model {
@@ -158,8 +188,11 @@ a.button-link:focus, button:focus {
 .model-content {
     overflow-y: auto;
     overscroll-behavior-y: contain;
-    flex-grow: 1;
     text-align: left;
+}
+
+#db-clues {
+    width: 99%;
 }
 
 .model-content ul {
@@ -168,6 +201,21 @@ a.button-link:focus, button:focus {
 
 .model-content li {
     list-style: none;
+}
+
+.list-item {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 2em;
+}
+
+.list-item button {
+    align-self: flex-end;
+}
+
+.list-item p {
+    text-align: left;
+    margin: 0;
 }
 
 .hidden {
@@ -180,16 +228,8 @@ a.button-link:focus, button:focus {
     padding: 5em 5em;
 }
 
-.icon-button {
-    width: 1.5rem;
-}
-
 .clue-button-saved {
-    background-color: #d3d3d3;
-}
-
-.clue-button-saved::before {
-    background-color: #d3d3d3;
+    background-color: var(--saved);
 }
 
 .errors {
@@ -206,8 +246,6 @@ a.button-link:focus, button:focus {
 
 @media (max-width: 600px) {
     .model-body {
-        /* max-width: 90vw; */
-        /* min-width: 90vw; */
         padding: 0.5em;
     }
     

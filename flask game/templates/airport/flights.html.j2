@@ -1,4 +1,5 @@
-{% extends "airport.html" %}
+{% extends "airport.html.j2" %}
+{% from "components/buttons.html.j2" import render_add_clue_button, render_back_button %}
 
 
 {% block airport_form %}
@@ -6,7 +7,7 @@
     {{ form.csrf_token }}
     <div class="input-group">
       {{ form.date.label }}
-      {{ form.date(min="2024-07-26", max="2024-07-30") }}
+      {{ form.date(min="2024-07-26", max="2024-07-30", class="pixel-box") }}
       {% if form.date.errors %}
           <ul class="errors">
               {% for error in form.date.errors %}
@@ -17,7 +18,7 @@
     </div>
     <div class="input-group">
       {{ form.origin.label }}
-      {{ form.origin }}
+      {{ form.origin(class="pixel-box") }}
       {% if form.origin.errors %}
           <ul class="errors">
               {% for error in form.origin.errors %}
@@ -28,7 +29,7 @@
     </div>
     <div class="input-group">
       {{ form.destination.label }}
-      {{ form.destination }}
+      {{ form.destination(class="pixel-box") }}
       {% if form.destination.errors %}
           <ul class="errors">
               {% for error in form.destination.errors %}
@@ -39,9 +40,7 @@
     </div>
     <button type="submit" class="pixel-box button-link">Search</button>
   </form>
-  <div class="link-container">
-    <a class="pixel-box button-link" href="/map">Back to the map</a>
-  </div>
+  {{render_back_button()}}
   {% if data != None %}
     {% if data|length != 0 %}
     <div class="results">
@@ -65,12 +64,11 @@
               <td>{{ flight.origin_airport_id.city }} ({{ flight.origin_airport_id.abbreviation }})</td>
               <td>{{ flight.destination_airport_id.city }} ({{ flight.destination_airport_id.abbreviation }})</td>
               <td>
-                <button class="pixel-box icon-button"
-                  title="Save clue"
-                  data-category="flights"
-                  data-clue="{{ flight.date }} @ {{ flight.time }}: Flight number {{ flight.id }} from {{ flight.origin_airport_id.abbreviation }} to {{ flight.destination_airport_id.abbreviation }}"
-                  onclick="addToClues(this)">
-                +</button>
+                {{render_add_clue_button(
+                  "flights",
+                  flight.date ~ " @ " ~ flight.time ~ ": Flight number " ~ flight.id ~ " from " ~ 
+                    flight.origin_airport_id.abbreviation ~ " to " ~ flight.destination_airport_id.abbreviation
+                )}}
               </td>
             </tr>
           {% endfor %}

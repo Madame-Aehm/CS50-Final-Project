@@ -24,7 +24,7 @@ def airport():
     
     if request.method == "GET":
         return render_template(
-            "airport/flights.html",
+            "airport/flights.html.j2",
             form=form, data=None)
 
     if request.method == "POST":
@@ -37,11 +37,11 @@ def airport():
             data = get_flights(prev_values)
             print("DATA", data)
             return render_template(
-                "airport/flights.html",
+                "airport/flights.html.j2",
                 form=form, data=data)
         else:
             return render_template(
-                "airport/flights.html",
+                "airport/flights.html.j2",
                 form=form,
                 data=None
             )
@@ -52,25 +52,25 @@ def airport_lookup():
     form = AirportLookupForm()
     
     if request.method == "GET":
-        return render_template("airport/airport_lookup.html", form=form, data=None)
+        return render_template("airport/airport_lookup.html.j2", form=form, data=None)
 
     if request.method == "POST":
         if form.validate_on_submit():
             prev_values = {
                 "table": form.table.data,
-                "string": form.string.data.strip(),
+                "string": form.string.data,
             }
             if prev_values["table"] == "flight":
                 data = get_flight_data(prev_values)
                 return render_template(
-                    "airport/lookup_flight_results.html",
+                    "airport/lookup_flight_results.html.j2",
                     form=form, data=data)
             else:
                 data = get_passport_data(prev_values)
                 print("DATA", data)
                 return render_template(
-                    "airport/lookup_passport_results.html",
+                    "airport/lookup_passport_results.html.j2",
                     form=form, data=data)
         else:
-            return render_template("airport/airport_lookup.html", form=form, data=None)
+            return render_template("airport/airport_lookup.html.j2", form=form, data=None)
 

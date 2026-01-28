@@ -12,7 +12,7 @@ def bakery():
     form = ReportForm()
     
     if request.method == "GET":
-        return render_template("report.html", form=form, data=None)
+        return render_template("report.html.j2", form=form, data=None)
 
     if request.method == "POST":
         if form.validate_on_submit():
@@ -23,7 +23,7 @@ def bakery():
             }
             data = identify_culprit(prev_values)
             print("DATA", data)
-            return render_template("report.html", form=form, data=data)
+            return render_template("report.html.j2", form=form, data=data)
         else:
-            return render_template("report.html", form=form, data=None)
+            return render_template("report.html.j2", form=form, data=None)
 

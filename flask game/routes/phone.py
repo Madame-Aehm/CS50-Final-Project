@@ -12,7 +12,7 @@ def telephone():
     form = PhoneRecordsForm()
     
     if request.method == "GET":
-        return render_template("phone/phone_records.html", form=form, data=None)
+        return render_template("phone/phone_records.html.j2", form=form, data=None)
 
     if request.method == "POST":
         if form.validate_on_submit():
@@ -24,10 +24,10 @@ def telephone():
             data = get_call_history(prev_values)
             print("DATA", data)
             return render_template(
-                "phone/phone_records.html",
+                "phone/phone_records.html.j2",
                 form=form, data=data)
         else:
-            return render_template("phone/phone_records.html", form=form, data=None)
+            return render_template("phone/phone_records.html.j2", form=form, data=None)
 
 
 @phone_bp.route("/telephone/book", methods=["GET", "POST"])
@@ -35,7 +35,7 @@ def telephone_book():
     form = PhoneBookForm()
     
     if request.method == "GET":
-        return render_template("phone/phone_book.html", form=form, data=None)
+        return render_template("phone/phone_book.html.j2", form=form, data=None)
 
     if request.method == "POST":
         if form.validate_on_submit():
@@ -46,8 +46,8 @@ def telephone_book():
             data = phonebook_search(prev_values)
             print("DATA", data)
             return render_template(
-                "phone/phone_book.html",
+                "phone/phone_book.html.j2",
                 form=form, data=data)
         else:
-            return render_template("phone/phone_book.html", form=form, data=None)
+            return render_template("phone/phone_book.html.j2", form=form, data=None)
 

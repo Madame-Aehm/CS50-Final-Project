@@ -1,11 +1,12 @@
-{% extends "bank.html" %}
+{% extends "bank.html.j2" %}
+{% from "components/buttons.html.j2" import render_add_clue_button, render_back_button %}
 
 {% block bank_form %}
   <form action="/bank/accounts" method="POST">
     {{ form.csrf_token }}
     <div class="input-group">
       {{ form.account_number.label }}
-      {{ form.account_number(placeholder="Account Number", autocomplete="off") }}
+      {{ form.account_number(placeholder="Account Number", autocomplete="off", class="pixel-box") }}
       {% if form.account_number.errors %}
           <ul class="errors">
               {% for error in form.account_number.errors %}
@@ -16,9 +17,7 @@
     </div>
     <button class="pixel-box button-link" type="submit">Search</button>
   </form>
-  <div class="link-container">
-      <a class="pixel-box button-link" href="/map">Back to the map</a>
-  </div>
+  {{render_back_button()}}
   {% if data != None %}
     {% if data|count > 0 %}
       <table>
@@ -42,13 +41,11 @@
               <td>{{ row.people.license_plate }}</td>
               <td>{{ row.people.passport_number }}</td>
               <td>
-                <button 
-                  class="pixel-box icon-button"
-                  title="Add Person of Interest"
-                  data-category="People of Interest"
-                  data-clue="name: {{ row.people.name }} | ph: {{ row.people.phone_number }} | license plate: {{ row.people.license_plate }} | passport: {{ row.people.passport_number }}"
-                  onclick="addToClues(this)">
-                +</button>
+                {{render_add_clue_button(
+                  "people of interest",
+                  "name: " ~ row.people.name ~ " | ph: " ~ row.people.phone_number ~ " | license plate: " ~ 
+                    row.people.license_plate ~ " | passport: " ~ row.people.passport_number
+                )}}
               </td>
             </tr>
           {% endfor %}

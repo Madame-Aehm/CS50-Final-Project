@@ -1,11 +1,12 @@
-{% extends "bank.html" %}
+{% extends "bank.html.j2" %}
+{% from "components/buttons.html.j2" import render_add_clue_button, render_back_button %}
 
 {% block bank_form %}
   <form action="/bank" method="POST">
     {{ form.csrf_token }}
     <div class="input-group">
       {{ form.date.label }}
-      {{ form.date(min="2024-07-26", max="2024-08-01") }}
+      {{ form.date(min="2024-07-26", max="2024-08-01", class="pixel-box") }}
       {% if form.date.errors %}
           <ul class="errors">
               {% for error in form.date.errors %}
@@ -16,7 +17,7 @@
     </div>
     <div class="input-group">
       {{ form.location.label }}
-      {{ form.location }}
+      {{ form.location(class="pixel-box", autocomplete="off") }}
       {% if form.location.errors %}
           <ul class="errors">
               {% for error in form.location.errors %}
@@ -27,7 +28,7 @@
     </div>
     <div class="input-group">
       {{ form.transaction.label }}
-      {{ form.transaction }}
+      {{ form.transaction(class="pixel-box") }}
       {% if form.transaction.errors %}
           <ul class="errors">
               {% for error in form.transaction.errors %}
@@ -38,9 +39,7 @@
     </div>
     <button class="pixel-box button-link" type="submit">Search</button>
   </form>
-  <div class="link-container">
-      <a class="pixel-box button-link" href="/map">Back to the map</a>
-  </div>
+  {{render_back_button()}}
   {% if data != None %}
     {% if data|count > 0 %}
       <table>
@@ -62,13 +61,10 @@
                 <td>{{ row.atm_location }}</td>
                 <td>{{ row.amount }}</td>
                 <td>
-                  <button 
-                    class="pixel-box icon-button"
-                    title="Save clue"
-                    data-category="atm transactions"
-                    data-clue="{{ row.date }} on {{ row.atm_location }}: {{ row.transaction_type }} of {{ row.amount }} by {{ row.account_number }}"
-                    onclick="addToClues(this)">
-                  +</button>
+                  {{render_add_clue_button(
+                    "atm transactions",
+                    row.date ~ " on " ~ row.atm_location ~ ": " ~ row.transaction_type ~ " of " ~ row.amount ~ " by " ~ row.account_number
+                  )}}
                 </td>
               </tr>
             {% endfor %}

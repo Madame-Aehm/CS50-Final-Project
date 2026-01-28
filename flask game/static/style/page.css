@@ -32,15 +32,15 @@ select {
 }
 
 table, th, td {
-    border: 1px solid black;
+    border: 1px solid var(--primary-color);
     border-collapse: collapse;
 }
 
 table {
-    margin-bottom: 4em;
+    margin-bottom: 6em;
 }
 
-td {
+td, th {
     padding: 0.5em;
 }
 

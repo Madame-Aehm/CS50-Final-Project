@@ -31,7 +31,6 @@ function addToClues(button) {
     if (list) {
         list = JSON.parse(list);
         if (list.find(c => c === clue)) {
-            // Clue already saved, just update button state
             updateClueButtonForClue(category, clue);
             return;
         }
@@ -57,7 +56,7 @@ function removeFromClues(category, clue) {
 
 function buildClueList() {
     const modelContent = document.querySelector("#db-clues");
-    modelContent.innerHTML = `<ul id="clue-list">
+    modelContent.innerHTML = `<ul>
                         <li class="pixel-box list-item">
                             <p>
                                 The theft took place on July 28, 2024 on Humphrey Street.
@@ -70,9 +69,10 @@ function buildClueList() {
     );
     categories.forEach(cat => {
         const ul = document.createElement("ul");
-        const title = document.createElement("h3");
+        const title = document.createElement("h2");
         title.innerHTML = cat;
         const items = JSON.parse(localStorage.getItem(cat));
+        const divider = document.createElement("hr");
         items.forEach(i => {
             const li = document.createElement("li");
             li.classList.add("pixel-box", "list-item");
@@ -80,13 +80,16 @@ function buildClueList() {
             const p = document.createElement("p");
             p.innerHTML = i;
             const button = document.createElement("button");
-            button.classList.add("pixel-box", "icon-button")
-            button.innerHTML = "x";
+            button.classList.add("pixel-box", "button-icon")
             button.title = "Forget clue";
             button.addEventListener("click", () => removeFromClues(cat, i));
+            const icon = document.createElement("img");
+            icon.src = trashIconGlobalPath;
+            icon.alt = "A pixel art image of a trash can";
+            button.appendChild(icon);
             li.append(button, p);
         })
-        modelContent.append(title, ul);
+        modelContent.append(title, divider, ul);
     })
 }
 
@@ -111,14 +114,18 @@ function isClueSaved(category, clue) {
 
 function updateClueButtonState(button, category, clue) {
     if (!button || !category || !clue) return;
-    
     const saved = isClueSaved(category, clue);
+    const icon = button.querySelector("img");
     if (saved) {
         button.classList.add("clue-button-saved");
         button.title = "Clue already saved";
+        icon.src = "/static/assets/icon-search-small.png";
+        icon.alt = "A pixel art image of a magnifying glass";
     } else {
         button.classList.remove("clue-button-saved");
         button.title = "Save clue";
+        icon.src = "/static/assets/icon-add+.png";
+        icon.alt = "A plus symbol"
     }
 }
 
