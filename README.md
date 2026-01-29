@@ -1,6 +1,6 @@
 # CS50 Final Project - Ducknapped!
 
-For the video demo [click here](https://youtu.be/xNdaNFJcj0c).
+For the video demo [click here](https://youtu.be/3HRWF9mpDac).
 
 My idea was to create a gamified UI for the CS50 SQL Challenge. I really enjoyed learning SQL with this challenge, and wanted to attempt to implement those queries into a project of some kind. 
 
