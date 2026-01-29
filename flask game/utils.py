@@ -137,7 +137,7 @@ def identify_culprit(form):
     found = 0
     for key, value in form.items():
         if value.lower() and (value.lower() in correct[key]):
-            if not message:
+            if found == 0:
                 message = "You correctly identified the "
             else:
                 message += " and "

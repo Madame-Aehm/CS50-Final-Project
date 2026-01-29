@@ -65,8 +65,9 @@ function buildClueList() {
                         </li>
                     </ul>`;
     const categories = Object.keys(localStorage).filter(
-        key => key !== "user-notes" && key !== "won"
+        key => key && key !== "user-notes" && key !== "won"
     );
+    console.log(categories)
     categories.forEach(cat => {
         const ul = document.createElement("ul");
         const title = document.createElement("h2");
