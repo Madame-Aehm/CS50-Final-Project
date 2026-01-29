@@ -60,9 +60,7 @@ After completing these routes, my `app.py` was getting very long, and the code f
 
 I worked with it to implement its suggestions and create the next few pages, which work very much the same as the previous pages, with custom forms. I also found a tutorial that suggested using `.html.j2` files, which would mean I could install extensions for syntax highlighting. 
 
-
-resources:
-## sql
+#### resources:
 - https://lua.sqlite.org/home/doc/tip/doc/lsqlite3.wiki
 - https://github.com/CentauriSoldier/SQLite3-for-Lua
 - https://github.com/togfoxy/TacticalGridIron/blob/main/main.lua
